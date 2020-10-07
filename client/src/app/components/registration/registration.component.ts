@@ -53,6 +53,9 @@ export class RegistrationComponent implements OnInit {
       console.log(data)
     })
   }
+
+  
+
   userRegistration = this.formBuilder.group({
     'userName' : ['' , Validators.required],
     'email' : ['' , Validators.required],
@@ -60,9 +63,8 @@ export class RegistrationComponent implements OnInit {
       'password' : ['',Validators.required],
       'confirmPassword' : ['',Validators.required]  
      }, {validator : this.comparePasswords}),
-    'fullName' : ['']
+    
   }
-
 
   )
   ngOnInit(): void {

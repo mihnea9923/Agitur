@@ -1,32 +1,52 @@
-<h1>User registration</h1>
-<form [formGroup]="userRegistration" autocomplete="off" #user="ngForm" (submit)="register()">
-    <div>
-        <label>User Name</label>
-        <input formControlName="userName">
-        <label class="text-danger" *ngIf="userName.invalid && userName.touched">User Name is required</label>
+<div class="register">
+    <div class="register__header">
+        <span class="register__text">Register to Agitur</span>
+        <img src="../../../assets/agitur.png" class="register__logo">
     </div>
-    <div>
-        <label>Email</label>
-        <input formControlName="email">
-        <label *ngIf="email.invalid && email.touched" class="text-danger">Email is required and must be a valid address</label>
-    </div>
-    <div formGroupName="passwords">
-    <div>
-        <label>Password</label>
-        <input formControlName="password" type="password">
-        <label class="text-danger" *ngIf="password.errors?.required && password.touched">Password must have 1 capital letter,1 digit and 1 special character</label>
-    </div>
-    <div>
-        <label>Confirm Password</label>
-        <input type="password" formControlName="confirmPassword">
-        <label class="text-danger" *ngIf="confirmPassword.errors?.required && confirmPassword.touched">Password must have 1 capital letter,1 digit and 1 special character</label>
-        <label  class="text-danger" *ngIf="confirmPassword.errors?.passwordMismatch && confirmPassword.touched">This field is different from the Password</label>
-    </div>
+    <form [formGroup]="userRegistration" autocomplete="off" #user="ngForm" (submit)="register()">
+        <div class="register__data">
+            <input class="register__input" formControlName="userName" placeholder="User Name">
+            <label class="register__label" *ngIf="userName.valid || userName.untouched">User Name</label>
+            <label class="text-danger" *ngIf="userName.invalid && userName.dirty">User Name is required</label>
+        </div>
+        <div class="register__data">
+            <input class="register__input" formControlName="email" placeholder="Email">
+            <label class="register__label" *ngIf="email.valid || email.untouched">Email</label>
+            <label *ngIf="email.invalid && email.dirty" class="text-danger">Email is required and must be a valid
+                address</label>
+        </div>
+        <div formGroupName="passwords">
+            <div class="register__data">
+                <input class="register__input" formControlName="password" type="password" placeholder="Password">
+                <label class="register__label" *ngIf="password.valid">Password</label>
+                <label class="text-danger" *ngIf="password.errors?.required && password.dirty">Password must have 1
+                    capital letter,1 digit and 1 special character</label>
+            </div>
+            <div class="register__data">
+                <input class="register__input" type="password" formControlName="confirmPassword"
+                    placeholder="Confirm Password">
+                <label class="register__label" *ngIf="confirmPassword.valid">Confirm
+                    Password</label>
+                <label class="text-danger" *ngIf="confirmPassword.errors?.required && confirmPassword.dirty">Password
+                    must have 1 capital letter,1 digit and 1 special character</label>
+                <label class="text-danger"
+                    *ngIf="confirmPassword.errors?.passwordMismatch && confirmPassword.dirty">This field is different
+                    from the Password</label>
+            </div>
+        </div>
+        <!-- <div class="register__data">
+            <label>Full Name</label>
+            <input class="register__input" formControlName="fullName">
+        </div> -->
+        <!-- <div class="register__data">
+            <input class="register__profile" type="file" id="profile" (change)="logPhoto($event)">
+            <label for="profile" class="register__profile-label">
+                <svg class="register__profile-icon">
+                    <use xlink:href="../../../assets/photo.svg#icon-images"></use>
+                </svg>
+                Profile Photo</label>
+        </div> -->
+        <button [disabled]="!userRegistration.valid" class="register__submit"
+            [class.register__submit--disable]="!userRegistration.valid">Submit</button>
+    </form>
 </div>
-    <div>
-        <label>Full Name</label>
-        <input formControlName="fullName">
-    </div>
-    <button [disabled]="!userRegistration.valid">Submit</button>
-</form>
-{{ user.value | json }}
