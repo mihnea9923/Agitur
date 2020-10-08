@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar, MatSnackBarConfig, _SnackBarContainer } from '@angular/material/snack-bar';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -9,7 +10,8 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor(private formBuilder : FormBuilder , private userService : UserService) { }
+  constructor(private formBuilder : FormBuilder , private userService : UserService , private snackBar : MatSnackBar) { }
+  
   //add regex for password  
   get userName()
   {
@@ -51,7 +53,22 @@ export class RegistrationComponent implements OnInit {
     }
     this.userService.register(userForm).subscribe(data => {
       console.log(data)
+      let configSnackBar = new MatSnackBarConfig()
+      configSnackBar.panelClass = "snackbar-danger"
+      configSnackBar.duration = 10000;
+
+      if(data.succeeded == true)
+      this.snackBar.open('The account was created.You can login now!' , "" , {duration : 3000 , panelClass : 'snackbar-success'})
+      else{
+        let errors = ''
+        data.errors.forEach(element => {
+          errors += element.description 
+          this.snackBar.open(errors , "" , configSnackBar)
+        });
+        
+      }
     })
+    
   }
 
   
@@ -60,7 +77,7 @@ export class RegistrationComponent implements OnInit {
     'userName' : ['' , Validators.required],
     'email' : ['' , Validators.required],
      'passwords' : this.formBuilder.group({
-      'password' : ['',Validators.required],
+      'password' : ['',[Validators.required ]],
       'confirmPassword' : ['',Validators.required]  
      }, {validator : this.comparePasswords}),
     

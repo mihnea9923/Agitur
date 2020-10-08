@@ -32,8 +32,9 @@ namespace Agitur.Controllers
                 UserName = model.UserName,
                 Email = model.Email,
                 FullName = model.FullName
-            };
 
+            };
+          
             try
             {
                 var result = await userManager.CreateAsync(user, model.Password);

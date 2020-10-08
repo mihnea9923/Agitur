@@ -17,9 +17,9 @@
         </div>
         <div formGroupName="passwords">
             <div class="register__data">
-                <input class="register__input" formControlName="password" type="password" placeholder="Password">
+                <input class="register__input" formControlName="password" type="password" placeholder="Password" pattern="^(?=.{8,}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?\W).*$">
                 <label class="register__label" *ngIf="password.valid">Password</label>
-                <label class="text-danger" *ngIf="password.errors?.required && password.dirty">Password must have 1
+                <label class="text-danger" *ngIf="password.invalid && password.dirty">Password must have 1
                     capital letter,1 digit and 1 special character</label>
             </div>
             <div class="register__data">
@@ -27,8 +27,6 @@
                     placeholder="Confirm Password">
                 <label class="register__label" *ngIf="confirmPassword.valid">Confirm
                     Password</label>
-                <label class="text-danger" *ngIf="confirmPassword.errors?.required && confirmPassword.dirty">Password
-                    must have 1 capital letter,1 digit and 1 special character</label>
                 <label class="text-danger"
                     *ngIf="confirmPassword.errors?.passwordMismatch && confirmPassword.dirty">This field is different
                     from the Password</label>

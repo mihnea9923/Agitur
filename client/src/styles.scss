@@ -26,3 +26,13 @@ body{
     margin-top : 2rem;
     background-color : #40b0ff;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.snackbar-danger{
+    color: red;
+}
+.snackbar-success{
+    color: greenyellow;
+}
