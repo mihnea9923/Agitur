@@ -31,7 +31,7 @@ namespace Agitur
             services.AddDbContext<AuthenticationDbContext>(options =>
                  options.UseSqlServer(
                      Configuration.GetConnectionString("Identity")));
-            services.AddDefaultIdentity<AgiturUser>().AddEntityFrameworkStores<AuthenticationDbContext>();
+            services.AddDefaultIdentity<AgiturUser>(options => options.User.RequireUniqueEmail = true).AddEntityFrameworkStores<AuthenticationDbContext>();
             services.AddCors();
         }
 

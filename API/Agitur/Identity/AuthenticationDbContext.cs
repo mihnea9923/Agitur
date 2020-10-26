@@ -14,5 +14,14 @@ namespace Agitur.Identity
 
         }
         public DbSet<AgiturUser> AgiturUsers { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<AgiturUser>(entity =>
+            {
+                entity.HasIndex(e => e.Email).IsUnique(true);
+            });
+        }
     }
 }

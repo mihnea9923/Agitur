@@ -7,6 +7,7 @@ using Agitur.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Agitur.Controllers
 {
@@ -42,7 +43,7 @@ namespace Agitur.Controllers
             }
             catch(Exception ex)
             {
-                throw ex;
+                return Ok(ex.Message);
             }
         }
     }

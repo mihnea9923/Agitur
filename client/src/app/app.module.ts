@@ -6,17 +6,19 @@ import { AppComponent } from './app.component';
 import { UserComponent } from './components/user/user.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { UserService } from './services/user.service';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialsModule } from './materials/materials/materials.module';
+import { LoginComponent } from './components/login/login.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     RegistrationComponent,
-    UserComponent
+    UserComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +26,8 @@ import { MaterialsModule } from './materials/materials/materials.module';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MaterialsModule
+    MaterialsModule,
+    FormsModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
