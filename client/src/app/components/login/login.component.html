@@ -1,0 +1,15 @@
+<form #form="ngForm">
+    <div class="register__data">
+        <input class="register__input" #email="ngModel" name="email" [(ngModel)]="formModel.email" required  placeholder="Email">
+        <label class="register__label" *ngIf="email.valid">Email</label>
+        <label class="text-danger" *ngIf="email.invalid && email.dirty">Email is required</label>
+    </div>
+    <div class="register__data">
+        <input class="register__input" #password="ngModel" name="password" [(ngModel)]="formModel.password" required placeholder="password">
+        <label class="register__label" *ngIf="password.valid">Password</label>
+        <label class="text-danger" *ngIf="password.invalid && password.dirty">Password is required</label>
+    </div>
+    <button class="register__submit" [class.register__submit--disable]="!form.valid">Submit</button>
+</form>
+
+{{form.valid | json}}

@@ -1,17 +1,18 @@
+<div class="register-container">
 <div class="register">
     <div class="register__header">
         <span class="register__text">Register to Agitur</span>
         <img src="../../../assets/agitur.png" class="register__logo">
     </div>
-    <form [formGroup]="userRegistration" autocomplete="off" #user="ngForm" (submit)="register()">
+    <form [formGroup]="userRegistration" autocomplete="off" #user="ngForm" (submit)="register(user)">
         <div class="register__data">
             <input class="register__input" formControlName="userName" placeholder="User Name">
-            <label class="register__label" *ngIf="userName.valid || userName.untouched">User Name</label>
+            <label class="register__label" *ngIf="userName.valid">User Name</label>
             <label class="text-danger" *ngIf="userName.invalid && userName.dirty">User Name is required</label>
         </div>
         <div class="register__data">
             <input class="register__input" formControlName="email" placeholder="Email">
-            <label class="register__label" *ngIf="email.valid || email.untouched">Email</label>
+            <label class="register__label" *ngIf="email.valid">Email</label>
             <label *ngIf="email.invalid && email.dirty" class="text-danger">Email is required and must be a valid
                 address</label>
         </div>
@@ -47,4 +48,5 @@
         <button [disabled]="!userRegistration.valid" class="register__submit"
             [class.register__submit--disable]="!userRegistration.valid">Submit</button>
     </form>
+</div>
 </div>

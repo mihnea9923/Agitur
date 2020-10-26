@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Form, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig, _SnackBarContainer } from '@angular/material/snack-bar';
 import { UserService } from 'src/app/services/user.service';
 
@@ -43,7 +43,7 @@ export class RegistrationComponent implements OnInit {
       }
     }
   }
-  register()
+  register(form : NgForm)
   {
     var userForm = {
       'userName' : this.userRegistration.value.userName,
@@ -58,7 +58,10 @@ export class RegistrationComponent implements OnInit {
       configSnackBar.duration = 10000;
 
       if(data.succeeded == true)
-      this.snackBar.open('The account was created.You can login now!' , "" , {duration : 3000 , panelClass : 'snackbar-success'})
+      {
+        this.snackBar.open('The account was created.You can login now!' , "" , {duration : 3000 , panelClass : 'snackbar-success'})
+        form.reset();
+      }
       else{
         let errors = ''
         data.errors.forEach(element => {
