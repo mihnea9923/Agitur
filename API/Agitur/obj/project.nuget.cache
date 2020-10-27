@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "k+ik39qTNTttZ2K+sqNmmjefG8CkwaYtddTIszJXAhbLqDMhoxPdsLwm+Yq+eZg4tFOKMT2bdOdmUCd/WmMxJQ==",
+  "dgSpecHash": "F3x/Z9o++emg1wV9nI5awaEW62rddIl7KP1IofK9wXxgGEfa0T6WIrj9aaIbPx6p4G/R5aLTW66cS4CNL9Kinw==",
   "success": true,
   "projectFilePath": "C:\\Users\\menta\\source\\repos\\Agitur\\API\\Agitur\\Agitur.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\menta\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\menta\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",
     "C:\\Users\\menta\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.2.0\\microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",
+    "C:\\Users\\menta\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.9\\microsoft.aspnetcore.authentication.jwtbearer.3.1.9.nupkg.sha512",
     "C:\\Users\\menta\\.nuget\\packages\\microsoft.aspnetcore.cors\\2.2.0\\microsoft.aspnetcore.cors.2.2.0.nupkg.sha512",
     "C:\\Users\\menta\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.8\\microsoft.aspnetcore.cryptography.internal.3.1.8.nupkg.sha512",
     "C:\\Users\\menta\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.1.8\\microsoft.aspnetcore.cryptography.keyderivation.3.1.8.nupkg.sha512",

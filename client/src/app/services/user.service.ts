@@ -6,9 +6,18 @@ import { API } from 'src/environments/environment';
 })
 export class UserService {
 
-  constructor(private httpService : HttpClient) { }
+  constructor(private httpClient : HttpClient) { }
   register(user)
   {
-    return this.httpService.post<any>(API + 'user/Register' , user)
+    return this.httpClient.post<any>(API + 'user/Register' , user)
+  }
+  login(user)
+  {
+    return this.httpClient.post<any>(API + 'user/Login' , user)
+  }
+  getUserProfile()
+  {
+    var tokenHeader = new HttpHeaders({'Authorization' : 'Bearer ' + localStorage.getItem('token')})
+    return this.httpClient.get<any>(API + 'userprofile' , {headers : tokenHeader})
   }
 }
