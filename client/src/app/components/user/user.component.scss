@@ -1,0 +1,22 @@
+.button {
+  display: inline-block;
+  flex : 0 0 10%;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  text-transform: uppercase;
+  border: none;
+  outline: none;
+  padding: 1.5rem;
+  font-size: 1.3rem;
+//   background-image: linear-gradient(to right, #91fd91, #91fd91);
+  background-color: #003399;
+  &-login{
+      margin-left: 1rem;
+  }
+}
+.buttons{
+    display: flex;
+    justify-content: flex-end;
+    padding : 2rem 2rem;
+}

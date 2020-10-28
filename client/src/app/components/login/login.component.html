@@ -1,13 +1,20 @@
-<form #form="ngForm" (submit)="logIn(form)">
+<div class="register">
+<form #form="ngForm" (submit)="logIn(form)" class="login-form">
     <div class="register__data">
         <input class="register__input" #email="ngModel" name="email" [(ngModel)]="formModel.email" required  placeholder="Email">
         <label class="register__label" *ngIf="email.valid">Email</label>
         <label class="text-danger" *ngIf="email.invalid && email.dirty">Email is required</label>
     </div>
     <div class="register__data">
-        <input class="register__input" #password="ngModel" name="password" [(ngModel)]="formModel.password" required placeholder="password">
+        <input type="password" class="register__input" #password="ngModel" name="password" [(ngModel)]="formModel.password" required placeholder="Password">
         <label class="register__label" *ngIf="password.valid">Password</label>
         <label class="text-danger" *ngIf="password.invalid && password.dirty">Password is required</label>
     </div>
-    <button class="register__submit" [class.register__submit--disable]="form.invalid">Submit</button>
+    <div class="register_data register__data-password">
+        <span class="register__password">Forgott password?</span>
+    </div>
+    <button class="register__submit" [disabled]="form.invalid">Sign in</button>
+    <div class="register__user">
+    </div>
 </form>
+</div>

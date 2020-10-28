@@ -5,6 +5,14 @@ VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agitur", "Agitur\Agitur.csproj", "{8AEAC522-8EE8-4839-8C23-95BE26753122}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agitur.Model", "Agitur.Model\Agitur.Model.csproj", "{297DD5A7-5E95-486F-9F8A-D9BC21067ADF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agitur.ApplicationLogic", "Agitur.ApplicationLogic\Agitur.ApplicationLogic.csproj", "{F6308BB9-DC73-4538-BB0C-F2ABF981B6A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agitur.DataAccess.Abstractions", "Agitur.DataAccess.Abstractions\Agitur.DataAccess.Abstractions.csproj", "{69FEA1D7-8FD8-463A-97F9-DB845A958C9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agitur.EFDataAccess", "Agitur.EFDataAccess\Agitur.EFDataAccess.csproj", "{86DA5C6C-A68D-40DD-94C0-E91B962E7924}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +23,22 @@ Global
 		{8AEAC522-8EE8-4839-8C23-95BE26753122}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AEAC522-8EE8-4839-8C23-95BE26753122}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AEAC522-8EE8-4839-8C23-95BE26753122}.Release|Any CPU.Build.0 = Release|Any CPU
+		{297DD5A7-5E95-486F-9F8A-D9BC21067ADF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{297DD5A7-5E95-486F-9F8A-D9BC21067ADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{297DD5A7-5E95-486F-9F8A-D9BC21067ADF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{297DD5A7-5E95-486F-9F8A-D9BC21067ADF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6308BB9-DC73-4538-BB0C-F2ABF981B6A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6308BB9-DC73-4538-BB0C-F2ABF981B6A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6308BB9-DC73-4538-BB0C-F2ABF981B6A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6308BB9-DC73-4538-BB0C-F2ABF981B6A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69FEA1D7-8FD8-463A-97F9-DB845A958C9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69FEA1D7-8FD8-463A-97F9-DB845A958C9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69FEA1D7-8FD8-463A-97F9-DB845A958C9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69FEA1D7-8FD8-463A-97F9-DB845A958C9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86DA5C6C-A68D-40DD-94C0-E91B962E7924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86DA5C6C-A68D-40DD-94C0-E91B962E7924}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86DA5C6C-A68D-40DD-94C0-E91B962E7924}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86DA5C6C-A68D-40DD-94C0-E91B962E7924}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Agitur.Utilities;
+using Agitur.EFDataAccess;
 
 namespace Agitur
 {
@@ -36,7 +37,10 @@ namespace Agitur
             services.AddDbContext<AuthenticationDbContext>(options =>
                  options.UseSqlServer(
                      Configuration.GetConnectionString("Identity")));
-            services.AddDefaultIdentity<AgiturUser>(options => options.User.RequireUniqueEmail = true).AddEntityFrameworkStores<AuthenticationDbContext>();
+            services.AddDefaultIdentity<AgiturUser>(options => options.User.RequireUniqueEmail = true).
+                AddEntityFrameworkStores<AuthenticationDbContext>();
+            services.AddDbContext<AgiturDbContext>(options => options. UseSqlServer(Configuration.GetConnectionString("Agitur")));
+            
             services.AddCors();
 
             //JWT Authentication

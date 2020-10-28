@@ -16,4 +16,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Agitur.EFDataAccess\Agitur.EFDataAccess.csproj" />
+  </ItemGroup>
 </Project>
