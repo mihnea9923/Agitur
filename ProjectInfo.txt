@@ -1,0 +1,1 @@
+EntityFrameworkCore\add-migration message-read -context AgiturDbContext

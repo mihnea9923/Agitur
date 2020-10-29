@@ -83,5 +83,12 @@ namespace Agitur.Controllers
                 return BadRequest(new { message = "Email or password is incorrect" });
             }
         }
+        [HttpGet]
+        [Route("findFriends/{email}")]
+        public IEnumerable<AgiturUser> FindFriends(string email)
+        {
+            var users = userManager.Users.Where(user => user.Email.ToLower().Contains(email.ToLower()));
+            return users;
+        }
     }
 }
