@@ -13,4 +13,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Agitur.Model\Agitur.Model.csproj" />
+  </ItemGroup>
+
 </Project>

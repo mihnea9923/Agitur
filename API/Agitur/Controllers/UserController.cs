@@ -6,7 +6,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Agitur.APIModel;
+using Agitur.ApplicationLogic;
+using Agitur.DataAccess.Abstractions;
 using Agitur.Identity;
+using Agitur.Model;
 using Agitur.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -22,15 +25,17 @@ namespace Agitur.Controllers
     {
         private readonly UserManager<AgiturUser> userManager;
         private readonly SignInManager<AgiturUser> signInManager;
+        private readonly UserServices userServices;
         private readonly ApplicationSettings appSettings;
 
         public UserController(UserManager<AgiturUser> userManager , SignInManager<AgiturUser> signInManager,
-            IOptions<ApplicationSettings> appSettings)
+            IOptions<ApplicationSettings> appSettings , UserServices userServices)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.userServices = userServices;
             this.appSettings = appSettings.Value;
-        } 
+        }
 
         [HttpPost]
         [Route("Register")]
@@ -43,10 +48,17 @@ namespace Agitur.Controllers
                 FullName = model.FullName
 
             };
-          
+            User myUser = new User()
+            {
+                AgiturUser = user.Id,
+                Email = user.Email,
+                Name = user.UserName
+                };
             try
             {
                 var result = await userManager.CreateAsync(user, model.Password);
+                if(result.Succeeded == true)
+                userServices.CreateUser(myUser);
                 return Ok(result);
             }
             catch(Exception ex)

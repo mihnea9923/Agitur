@@ -17,6 +17,8 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Agitur.Utilities;
 using Agitur.EFDataAccess;
+using Agitur.DataAccess.Abstractions;
+using Agitur.ApplicationLogic;
 
 namespace Agitur
 {
@@ -32,12 +34,15 @@ namespace Agitur
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string allowedChars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890 ";
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
             services.AddControllers();
             services.AddDbContext<AuthenticationDbContext>(options =>
                  options.UseSqlServer(
                      Configuration.GetConnectionString("Identity")));
-            services.AddDefaultIdentity<AgiturUser>(options => options.User.RequireUniqueEmail = true).
+            services.AddDefaultIdentity<AgiturUser>(options => {
+                options.User.RequireUniqueEmail = true;
+                options.User.AllowedUserNameCharacters=allowedChars; }).
                 AddEntityFrameworkStores<AuthenticationDbContext>();
             services.AddDbContext<AgiturDbContext>(options => options. UseSqlServer(Configuration.GetConnectionString("Agitur")));
             
@@ -63,6 +68,8 @@ namespace Agitur
                     ClockSkew = TimeSpan.Zero
                 };
             });
+            services.AddScoped<IUserRepository, EFUserRepository>();
+            services.AddScoped<UserServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,7 +82,8 @@ namespace Agitur
             //FIX CORS BEFORE PUBLISHING
             app.UseCors(builder =>
             {
-                builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString()).AllowAnyHeader().AllowAnyMethod();
+                builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+                //builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString()).AllowAnyHeader().AllowAnyMethod();
             });
             app.UseAuthentication();
             app.UseHttpsRedirection();

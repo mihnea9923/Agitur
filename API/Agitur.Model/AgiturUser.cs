@@ -9,5 +9,6 @@ namespace Agitur.Identity
     public class AgiturUser : IdentityUser
     {
         public string FullName { get; set; }
+       
     }
 }

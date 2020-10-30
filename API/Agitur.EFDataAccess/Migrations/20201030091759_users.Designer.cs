@@ -4,14 +4,16 @@ using Agitur.EFDataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Agitur.EFDataAccess.Migrations
 {
     [DbContext(typeof(AgiturDbContext))]
-    partial class AgiturDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201030091759_users")]
+    partial class users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,50 +56,21 @@ namespace Agitur.EFDataAccess.Migrations
                     b.Property<string>("AgiturUser")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Agitur.Model.UserContacts", b =>
+            modelBuilder.Entity("Agitur.Model.User", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("User1Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("User2Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("User1Id");
-
-                    b.HasIndex("User2Id");
-
-                    b.ToTable("UserContacts");
-                });
-
-            modelBuilder.Entity("Agitur.Model.UserContacts", b =>
-                {
-                    b.HasOne("Agitur.Model.User", "User1")
-                        .WithMany()
-                        .HasForeignKey("User1Id");
-
-                    b.HasOne("Agitur.Model.User", "User2")
-                        .WithMany()
-                        .HasForeignKey("User2Id");
+                    b.HasOne("Agitur.Model.User", null)
+                        .WithMany("Contacts")
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

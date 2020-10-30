@@ -2554,10 +2554,41 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "Agitur.ApplicationLogic/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "Agitur.DataAccess.Abstractions": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "3.1.9",
+          "Microsoft.EntityFrameworkCore.Proxies": "3.1.9"
+        },
+        "compile": {
+          "bin/placeholder/Agitur.ApplicationLogic.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Agitur.ApplicationLogic.dll": {}
+        }
+      },
+      "Agitur.DataAccess.Abstractions/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "Agitur.Model": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "3.1.9",
+          "Microsoft.EntityFrameworkCore.Proxies": "3.1.9"
+        },
+        "compile": {
+          "bin/placeholder/Agitur.DataAccess.Abstractions.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Agitur.DataAccess.Abstractions.dll": {}
+        }
+      },
       "Agitur.EFDataAccess/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "Agitur.DataAccess.Abstractions": "1.0.0",
           "Agitur.Model": "1.0.0",
           "Microsoft.EntityFrameworkCore": "3.1.9",
           "Microsoft.EntityFrameworkCore.Proxies": "3.1.9",
@@ -8361,6 +8392,16 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
+    "Agitur.ApplicationLogic/1.0.0": {
+      "type": "project",
+      "path": "../Agitur.ApplicationLogic/Agitur.ApplicationLogic.csproj",
+      "msbuildProject": "../Agitur.ApplicationLogic/Agitur.ApplicationLogic.csproj"
+    },
+    "Agitur.DataAccess.Abstractions/1.0.0": {
+      "type": "project",
+      "path": "../Agitur.DataAccess.Abstractions/Agitur.DataAccess.Abstractions.csproj",
+      "msbuildProject": "../Agitur.DataAccess.Abstractions/Agitur.DataAccess.Abstractions.csproj"
+    },
     "Agitur.EFDataAccess/1.0.0": {
       "type": "project",
       "path": "../Agitur.EFDataAccess/Agitur.EFDataAccess.csproj",
@@ -8374,6 +8415,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "Agitur.ApplicationLogic >= 1.0.0",
       "Agitur.EFDataAccess >= 1.0.0",
       "Agitur.Model >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 3.1.9",
@@ -8418,6 +8460,9 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
+            "C:\\Users\\menta\\source\\repos\\Agitur\\API\\Agitur.ApplicationLogic\\Agitur.ApplicationLogic.csproj": {
+              "projectPath": "C:\\Users\\menta\\source\\repos\\Agitur\\API\\Agitur.ApplicationLogic\\Agitur.ApplicationLogic.csproj"
+            },
             "C:\\Users\\menta\\source\\repos\\Agitur\\API\\Agitur.EFDataAccess\\Agitur.EFDataAccess.csproj": {
               "projectPath": "C:\\Users\\menta\\source\\repos\\Agitur\\API\\Agitur.EFDataAccess\\Agitur.EFDataAccess.csproj"
             },

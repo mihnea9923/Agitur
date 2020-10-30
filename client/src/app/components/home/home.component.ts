@@ -18,5 +18,6 @@ export class HomeComponent implements OnInit {
       console.log(error)
     }
   }
+  searchIcon = '<i class="fa  fa-search"></i>'
 
 }

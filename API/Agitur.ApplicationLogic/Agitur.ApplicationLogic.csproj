@@ -13,4 +13,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Agitur.DataAccess.Abstractions\Agitur.DataAccess.Abstractions.csproj" />
+  </ItemGroup>
+
 </Project>

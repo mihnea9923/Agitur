@@ -35,9 +35,27 @@
     background-color: #fff;
     height: 55rem;
     padding : 0 1rem;
-    
-    &__search{
+
+    &__input{
         border-radius: 20px;
+        padding : 1rem 1rem;
+        border : 1px solid #eee;
+        outline: none;
+        margin-top: .5rem;
+        width: 100%;
+        margin-bottom: .5rem;
+    }
+
+    &__div{
+        border-top: 1px solid #eee;
+        padding : 1.5rem 1rem;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        &:hover{
+            background-color: #eee;
+        }
     }
 
     >*{
@@ -53,4 +71,37 @@
     width : 70%;
     background-color: red;
     height: 55rem;
+}
+
+.profile{
+    padding : 0rem 1.5rem;
+    padding-left: 0rem;
+    &__photo{
+        width : 4rem;
+        border-radius: 50%;
+    }
+}
+
+.user{
+    display: flex;
+    flex-direction: column;
+    
+    &__name{
+        margin-bottom: .5rem;
+        color : #000;
+    }
+
+    &__message,&__time{
+        color : rgba(0 , 0  , 0 , .8);
+        font-size: 1.3rem;
+    }
+
+    &__time{
+        margin-left: auto;
+    }
+}
+
+
+.last-message-time{
+    margin-left: auto;
 }
