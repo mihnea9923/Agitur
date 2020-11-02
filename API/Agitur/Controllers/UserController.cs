@@ -85,6 +85,7 @@ namespace Agitur.Controllers
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(appSettings.JWT_Secret)),SecurityAlgorithms.HmacSha256Signature)
                 };
+                
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserContactsService } from 'src/app/services/user-contacts.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -8,8 +9,8 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
- 
+  constructor(private userService: UserService , private userContactsService : UserContactsService) { }
+  userContacts
   ngOnInit(): void {
     this.userService.getUserProfile().subscribe(data => {
       console.log(data)
@@ -17,7 +18,11 @@ export class HomeComponent implements OnInit {
     ,error => {
       console.log(error)
     }
+    this.userContactsService.getUserContacts().subscribe(data => {
+      this.userContacts = data
+      console.log(this.userContacts)
+    })
   }
-  searchIcon = '<i class="fa  fa-search"></i>'
+  
 
 }

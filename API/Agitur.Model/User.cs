@@ -11,5 +11,14 @@ namespace Agitur.Model
         public string Email { get; set; }
         public string Name { get; set; }
         
+        public int ContactsNumber { get; set; }
+        public User()
+        {
+            ContactsNumber = 0;
+        }
+        public void IncreaseContactsNumber()
+        {
+            ContactsNumber++;
+        }
     }
 }

@@ -16,5 +16,9 @@ namespace Agitur.ApplicationLogic
         {
             userRepository.Add(user);
         }
+        public User GetByUserId(string userId)
+        {
+            return userRepository.GetByUserId(userId);
+        }
     }
 }

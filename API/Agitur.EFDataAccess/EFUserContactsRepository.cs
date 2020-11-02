@@ -2,6 +2,7 @@
 using Agitur.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Agitur.EFDataAccess
@@ -17,12 +18,13 @@ namespace Agitur.EFDataAccess
 
         public void Add(UserContacts userContacts)
         {
-            throw new NotImplementedException();
+            context.UserContacts.Add(userContacts);
+            context.SaveChanges();
         }
 
         public IEnumerable<UserContacts> GetUserContacts(Guid userId)
         {
-            throw new NotImplementedException();
+            return context.UserContacts.Where(o => o.User1.Id == userId);
         }
     }
 }

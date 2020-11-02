@@ -15,6 +15,7 @@ export class UserService {
   {
     return this.httpClient.post<any>(API + 'user/Login' , user)
   }
+  
   getUserProfile()
   {
     var tokenHeader = new HttpHeaders({'Authorization' : 'Bearer ' + localStorage.getItem('token')})

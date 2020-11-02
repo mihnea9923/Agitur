@@ -69,7 +69,11 @@ namespace Agitur
                 };
             });
             services.AddScoped<IUserRepository, EFUserRepository>();
+            services.AddScoped<IUserContactsRepository, EFUserContactsRepository>();
+            services.AddScoped<IMessageRepository, EFMessageRepository>();
             services.AddScoped<UserServices>();
+            services.AddScoped<UserContactsServices>();
+            services.AddScoped<MessageServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

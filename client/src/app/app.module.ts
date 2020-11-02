@@ -12,7 +12,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialsModule } from './materials/materials/materials.module';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
-import { ContactsComponent } from './components/contacts/contacts.component';
+import { UserContactsService } from './services/user-contacts.service';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { UploadPhotoFormComponent } from './components/upload-photo-form/upload-photo-form.component';
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import { ContactsComponent } from './components/contacts/contacts.component';
     RegistrationComponent,
     UserComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    NavbarComponent,
+    UploadPhotoFormComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +36,7 @@ import { ContactsComponent } from './components/contacts/contacts.component';
     MaterialsModule,
     FormsModule
   ],
-  providers: [UserService],
+  providers: [UserService , UserContactsService],
   bootstrap: [AppComponent]
 
 })

@@ -1,18 +1,5 @@
 <div class="home__container">
-    <div class="navbar">
-        <div class="navbar__item">
-            Profile
-        </div>
-        <div class="navbar__item">
-            <i class="fa fa-comments icon"></i> Message
-        </div>
-        <div class="navbar__item">
-            <i class="fa fa-users icon"></i> Group
-        </div>
-        <div class="navbar__item navbar__item-logout">
-            <i class="fa fa-sign-out navbar__icon"></i> Logout
-        </div>
-    </div>
+   <app-navbar></app-navbar>
     <div class="main">
         <div class="contacts">
             <input type="text" class="contacts__input" placeholder="Search in conversations...">
@@ -96,7 +83,22 @@
                     12:33
                 </span>
             </div>
-           
+            <div class="contacts__div" *ngFor="let userContact of userContacts">
+                <div class="profile">
+                    <img src="../../../assets/user-4.jpg" alt="" class="profile__photo">
+                </div>
+                <div class="user">
+                    <div class="user__name">
+                       {{ userContact.name }}
+                    </div>
+                    <div class="user__message">
+                        Ce faci??????????????
+                    </div>
+                </div>
+                <div class="user__time">
+                    10:44
+                </div>
+            </div>
         </div>
         <div class="messages">
             <div class="">5</div>

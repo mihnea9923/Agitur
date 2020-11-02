@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
       console.log(jwt_decode(data.token).Email)
     }),
     error => {
-      
+      //add snackBar
       alert(error.status)
       console.log(error)
     }

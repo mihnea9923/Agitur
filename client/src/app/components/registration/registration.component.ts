@@ -10,80 +10,72 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor(private formBuilder : FormBuilder , private userService : UserService , private snackBar : MatSnackBar) { }
-  
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private snackBar: MatSnackBar) { }
+
   //add regex for password  
-  get userName()
-  {
+  get userName() {
     return this.userRegistration.get('userName')
   }
-  get email()
-  {
+  get email() {
     return this.userRegistration.get('email')
   }
-  get password()
-  {
+  get password() {
     return this.userRegistration.get('passwords').get('password')
   }
-  get confirmPassword()
-  {
+  get confirmPassword() {
     return this.userRegistration.get('passwords').get('confirmPassword')
   }
-  comparePasswords(formBuilder : FormGroup)
-  {
+  comparePasswords(formBuilder: FormGroup) {
     let confirmPasswordControl = formBuilder.get('confirmPassword')
-    if(confirmPasswordControl.errors == null || 'passwordMismatch' in confirmPasswordControl.errors){
-      if(formBuilder.get('password').value != confirmPasswordControl.value)
-      {
-        confirmPasswordControl.setErrors({passwordMismatch : true})
+    if (confirmPasswordControl.errors == null || 'passwordMismatch' in confirmPasswordControl.errors) {
+      if (formBuilder.get('password').value != confirmPasswordControl.value) {
+        confirmPasswordControl.setErrors({ passwordMismatch: true })
       }
-      else
-      {
+      else {
         confirmPasswordControl.setErrors(null)
       }
     }
   }
-  register(form : NgForm)
-  {
+  register(form: NgForm) {
     var userForm = {
-      'userName' : this.userRegistration.value.userName,
-      'email' : this.userRegistration.value.email , 
-      'password' : this.userRegistration.value.passwords.password,
-      'fullName' : this.userRegistration.value.fullName
+      'userName': this.userRegistration.value.userName,
+      'email': this.userRegistration.value.email,
+      'password': this.userRegistration.value.passwords.password,
+      'fullName': this.userRegistration.value.fullName
     }
     this.userService.register(userForm).subscribe(data => {
       console.log(data)
-      let configSnackBar = new MatSnackBarConfig()
-      configSnackBar.panelClass = "snackbar-danger"
-      configSnackBar.duration = 10000;
 
-      if(data.succeeded == true)
-      {
-        this.snackBar.open('The account was created.You can login now!' , "" , {duration : 3000 , panelClass : 'snackbar-success'})
+
+      if (data.succeeded == true) {
+        this.snackBar.open('The account was created.You can login now!', "", { duration: 3000, panelClass: 'snackbar-success' })
         form.reset();
       }
-      else{
+      else {
+        let configSnackBar = new MatSnackBarConfig()
+        configSnackBar.panelClass = "snackbar-danger"
+        configSnackBar.duration = 10000;
         let errors = ''
         data.errors.forEach(element => {
-          errors += element.description 
-          this.snackBar.open(errors , "" , configSnackBar)
+          errors += element.description
+          this.snackBar.open(errors, "", configSnackBar)
         });
-        
+
       }
     })
-    
+
   }
 
-  
+
 
   userRegistration = this.formBuilder.group({
-    'userName' : ['' , Validators.required],
-    'email' : ['' , Validators.required],
-     'passwords' : this.formBuilder.group({
-      'password' : ['',[Validators.required ]],
-      'confirmPassword' : ['',Validators.required]  
-     }, {validator : this.comparePasswords}),
-    
+    'userName': ['', Validators.required],
+    'email': ['', Validators.required],
+    'passwords': this.formBuilder.group({
+      'password': ['', [Validators.required]],
+      'confirmPassword': ['', Validators.required]
+    }, { validator: this.comparePasswords }),
+
   }
 
   )
