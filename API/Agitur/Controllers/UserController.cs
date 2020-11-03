@@ -11,6 +11,7 @@ using Agitur.DataAccess.Abstractions;
 using Agitur.Identity;
 using Agitur.Model;
 using Agitur.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -74,12 +75,14 @@ namespace Agitur.Controllers
             var user = await userManager.FindByEmailAsync(model.Email);
             if(user != null && await userManager.CheckPasswordAsync(user ,model.Password))
             {
+                var agiturUser = userServices.GetByUserId(user.Id);
                 var tokenDescriptor = new SecurityTokenDescriptor()
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("UserId", user.Id.ToString()),
-                        new Claim("Email" , user.Email)
+                        new Claim("AgiturId", user.Id.ToString()),
+                        new Claim("Email" , user.Email),
+                        new Claim("UserId" , agiturUser.Id.ToString())
                     }),
                     Expires = DateTime.UtcNow.AddDays(30),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(
@@ -98,6 +101,7 @@ namespace Agitur.Controllers
         }
         [HttpGet]
         [Route("findFriends/{email}")]
+        [Authorize]
         public IEnumerable<AgiturUser> FindFriends(string email)
         {
             var users = userManager.Users.Where(user => user.Email.ToLower().Contains(email.ToLower()));

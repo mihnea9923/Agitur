@@ -19,6 +19,7 @@ using Agitur.Utilities;
 using Agitur.EFDataAccess;
 using Agitur.DataAccess.Abstractions;
 using Agitur.ApplicationLogic;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Agitur
 {
@@ -46,7 +47,10 @@ namespace Agitur
                 AddEntityFrameworkStores<AuthenticationDbContext>();
             services.AddDbContext<AgiturDbContext>(options => options. UseSqlServer(Configuration.GetConnectionString("Agitur")));
             
+
+
             services.AddCors();
+            services.AddHttpContextAccessor();
 
             //JWT Authentication
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());

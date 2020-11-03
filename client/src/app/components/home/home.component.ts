@@ -12,15 +12,9 @@ export class HomeComponent implements OnInit {
   constructor(private userService: UserService , private userContactsService : UserContactsService) { }
   userContacts
   ngOnInit(): void {
-    this.userService.getUserProfile().subscribe(data => {
-      console.log(data)
-    })
-    ,error => {
-      console.log(error)
-    }
+    
     this.userContactsService.getUserContacts().subscribe(data => {
       this.userContacts = data
-      console.log(this.userContacts)
     })
   }
   

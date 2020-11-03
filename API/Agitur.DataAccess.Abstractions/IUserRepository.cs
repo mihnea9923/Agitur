@@ -9,5 +9,7 @@ namespace Agitur.DataAccess.Abstractions
     {
         void Add(User user);
         User GetByUserId(string userId);
+        User GetById(Guid userId);
+        void Update(User user);
     }
 }

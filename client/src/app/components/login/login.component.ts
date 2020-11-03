@@ -27,10 +27,10 @@ export class LoginComponent implements OnInit {
     this.userService.login(this.formModel).subscribe(data => {
       localStorage.setItem('token' , data.token)
       this.router.navigateByUrl('home')
-      console.log(data)
-      console.log(jwt_decode(data.token))
-      console.log(jwt_decode(data.token).UserId)
-      console.log(jwt_decode(data.token).Email)
+      //console.log(data)
+      //console.log(jwt_decode(data.token))
+      //console.log(jwt_decode(data.token).UserId)
+      //console.log(jwt_decode(data.token).Email)
     }),
     error => {
       //add snackBar

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { UploadPhotoFormComponent } from '../upload-photo-form/upload-photo-form.component';
 
 @Component({
@@ -9,7 +10,7 @@ import { UploadPhotoFormComponent } from '../upload-photo-form/upload-photo-form
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private matDialog : MatDialog) { }
+  constructor(private matDialog : MatDialog , private router : Router) { }
 
   ngOnInit(): void {
   }
@@ -19,6 +20,11 @@ export class NavbarComponent implements OnInit {
     
     var dialog = this.matDialog.open(UploadPhotoFormComponent)
     
+  }
+  logOut()
+  {
+    localStorage.removeItem('token')
+    this.router.navigateByUrl('/user/login')
   }
 
 }

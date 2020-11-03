@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Agitur.ApplicationLogic;
 using Agitur.Identity;
 using Agitur.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -28,12 +29,13 @@ namespace Agitur.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IEnumerable<User> GetUserContacts()
         {
             //get the user who issued the request
             string userId = User.Claims.First(o => o.Type == "UserId").Value;
-            var agiturUser = userManager.FindByIdAsync(userId).GetAwaiter().GetResult();
-            var user = userServices.GetByUserId(userId);
+            //var agiturUser = userManager.FindByIdAsync(userId).GetAwaiter().GetResult();
+            var user = userServices.GetById(Guid.Parse(userId));
             return userContactsServices.GetUserConctacts(user.Id);
         }
     }

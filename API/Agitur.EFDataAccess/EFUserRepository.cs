@@ -22,9 +22,20 @@ namespace Agitur.EFDataAccess
             context.SaveChanges();
         }
 
+        public User GetById(Guid userId)
+        {
+            return context.Users.Where(o => o.Id == userId).FirstOrDefault();
+        }
+
         public User GetByUserId(string userId)
         {
             return context.Users.Where(o => o.AgiturUser == userId).FirstOrDefault();
+        }
+
+        public void Update(User user)
+        {
+            context.Users.Update(user);
+            context.SaveChanges();
         }
     }
 }

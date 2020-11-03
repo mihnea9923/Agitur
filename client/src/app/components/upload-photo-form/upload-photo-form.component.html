@@ -1,3 +1,13 @@
-<input type="file" id="photo" (onchange)="setPhoto()">
-<label for="#photo">Upload File</label>
-<button (click)="sendPhoto()">Submit</button>
+<div style="padding : 3rem 3rem">
+    <input type="file" id="photo" (change)="setPhoto($event)"  style="display: none;" accept="image/*">
+<div class="upload__photo">
+<label for="photo" class="upload__photo-label">Upload Photo
+<svg class="upload__photo-icon">
+<use xlink:href="../../assets/icons/symbol-defs.svg#icon-camera"></use>
+</svg>
+</label>
+
+</div>
+<button (click)="sendPhoto()" class="submit-photo">Submit</button>
+<button (click)="closeDialog()" class="close-dialog">Cancel</button>
+</div>

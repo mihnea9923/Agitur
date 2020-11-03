@@ -5,7 +5,7 @@ import { API } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class UserService {
-
+ 
   constructor(private httpClient : HttpClient) { }
   register(user)
   {
@@ -21,4 +21,10 @@ export class UserService {
     var tokenHeader = new HttpHeaders({'Authorization' : 'Bearer ' + localStorage.getItem('token')})
     return this.httpClient.get<any>(API + 'userprofile' , {headers : tokenHeader})
   }
+  updateUserProfilePhoto(photoForm: FormData)
+  {
+    var tokenHeader = new HttpHeaders({'Authorization' : 'Bearer ' + localStorage.getItem('token')})
+    return this.httpClient.post<any>(API + 'userProfile/uploadProfilePhoto' , photoForm ,{headers : tokenHeader})
+  }
+
 }

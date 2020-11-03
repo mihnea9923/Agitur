@@ -1,0 +1,51 @@
+.upload__photo{
+    display: flex;
+    align-items: center;
+    color : rgba(0 , 0 , 0 , .8);
+    padding : 3rem 3rem;
+    font-size: 2rem;
+    &-icon{
+        width : 5rem;
+        height : 5rem;
+        fill : rgba(0 , 0 , 0 , .5);
+        margin-left: 1rem;
+    }
+    &-label{
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+}
+
+.submit-photo{
+    border-radius: 4px;
+    border-color: #40b0ff;
+    outline: none;
+    display: inline-block;
+    color : #eee;
+    background-image: linear-gradient(to right , #73c5ff , #40b0ff);;
+    padding : 1rem 1rem;
+    font-size: 1.8rem;
+    font-weight: 500;
+    width : 45%;
+    cursor: pointer;
+}
+
+.close-dialog{
+    padding : 1rem 1rem;
+    color : #666;
+    outline: none;
+    background-color: #fff;
+    border-color: #40b0ff;
+    font-size: 1.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    width: 45%;
+    border-radius: 4px;
+    margin-left: 1rem;
+
+    &:hover{
+        background-color: #eee;
+    }
+}

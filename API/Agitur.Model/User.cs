@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace Agitur.Model
@@ -12,6 +13,7 @@ namespace Agitur.Model
         public string Name { get; set; }
         
         public int ContactsNumber { get; set; }
+        public byte[] ProfilePhoto { get; set; }
         public User()
         {
             ContactsNumber = 0;
@@ -20,5 +22,7 @@ namespace Agitur.Model
         {
             ContactsNumber++;
         }
+
+       
     }
 }
