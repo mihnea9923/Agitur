@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agitur.APIModel.UserProfile;
 using Agitur.ApplicationLogic;
 using Agitur.Identity;
+using Agitur.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace Agitur.Controllers
 {
@@ -47,17 +50,30 @@ namespace Agitur.Controllers
         {
             //get agitur id from the user who issues the request
             string userId = User.Claims.First(o => o.Type == "UserId").Value;
-            try
+
+            var photo = Request.Form.Files[0];
+            if (photo != null)
             {
-                var photo = Request.Form.Files[0];
-                userServices.UpdateProfilePhoto(Guid.Parse(userId) , photo);
+                userServices.UpdateProfilePhoto(Guid.Parse(userId), photo);
                 return Ok("Photo updated");
             }
-            catch(Exception e)
-            {
-                return BadRequest("Something went wrong on the server");
-            }
 
+            return BadRequest("Something went wrong on the server");
+
+        }
+        [HttpGet]
+        [Route("profilePhoto")]
+        [Authorize]
+        public UserProfilePhotoModel GetUserProfilePhoto()
+        {
+            string userId = User.Claims.First(o => o.Type == "UserId").Value;
+            User user = userServices.GetById(Guid.Parse(userId));
+            UserProfilePhotoModel result = new UserProfilePhotoModel();
+            if(user.ProfilePhoto != null)
+            {
+                result.ProfilePhoto = user.ConvertPhotoToBase64();
+            }
+            return result;
         }
     }
 }

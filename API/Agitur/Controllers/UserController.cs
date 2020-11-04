@@ -81,8 +81,9 @@ namespace Agitur.Controllers
                     Subject = new ClaimsIdentity(new Claim[]
                     {
                         new Claim("AgiturId", user.Id.ToString()),
-                        new Claim("Email" , user.Email),
-                        new Claim("UserId" , agiturUser.Id.ToString())
+                        new Claim("Email", user.Email),
+                        new Claim("UserId", agiturUser.Id.ToString()),
+                        
                     }),
                     Expires = DateTime.UtcNow.AddDays(30),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(
@@ -92,6 +93,7 @@ namespace Agitur.Controllers
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);
+                
                 return Ok(new {token });
             }
             else
@@ -107,5 +109,6 @@ namespace Agitur.Controllers
             var users = userManager.Users.Where(user => user.Email.ToLower().Contains(email.ToLower()));
             return users;
         }
+        
     }
 }

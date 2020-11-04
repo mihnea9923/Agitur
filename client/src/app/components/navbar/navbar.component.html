@@ -1,6 +1,9 @@
 <div class="navbar">
-    <div class="navbar__item" (click)="openPhotoDialog()">
+    <div class="navbar__item navbar__item-flex" (click)="openPhotoDialog()">
+       <img *ngIf="photoExists" [src]="profilePhoto.profilePhoto" alt="" class="profile-photo">
+      <span>
         Profile
+      </span> 
     </div>
     <div class="navbar__item">
         <i class="fa fa-comments icon"></i> Message

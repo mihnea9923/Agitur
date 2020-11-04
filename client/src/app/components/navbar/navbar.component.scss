@@ -19,9 +19,20 @@
             margin-left: auto ;
             margin-right: 2rem;
         }
-        
+
+        &-flex{
+            display: flex;
+            align-items: center;
+        }
+       
     }
     &__icon{
         font-size: 2rem;
     }
+}
+
+.profile-photo{
+    width: 3rem;
+    border-radius: 50%;
+    margin-right: .5rem;
 }

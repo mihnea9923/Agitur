@@ -30,5 +30,5 @@ export class UploadPhotoFormComponent implements OnInit {
       {
         console.log(data)
       })
-  }
+    }
 }
