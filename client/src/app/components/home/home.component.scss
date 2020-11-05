@@ -7,9 +7,10 @@
     display: inline-block;
     width : 30%;
     background-color: #fff;
-    height: 55rem;
+    min-height: 55rem;
     padding : 0 1rem;
-
+    overflow-y: scroll;
+    
     &__input{
         border-radius: 20px;
         padding : 1rem 1rem;

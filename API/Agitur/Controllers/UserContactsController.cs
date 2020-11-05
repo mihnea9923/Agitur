@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agitur.APIModel.Contacts;
 using Agitur.ApplicationLogic;
 using Agitur.Identity;
 using Agitur.Model;
@@ -30,13 +31,29 @@ namespace Agitur.Controllers
 
         [HttpGet]
         [Authorize]
-        public IEnumerable<User> GetUserContacts()
+        public IEnumerable<UserContact> GetUserContacts()
         {
             //get the user who issued the request
             string userId = User.Claims.First(o => o.Type == "UserId").Value;
             //var agiturUser = userManager.FindByIdAsync(userId).GetAwaiter().GetResult();
-            var user = userServices.GetById(Guid.Parse(userId));
-            return userContactsServices.GetUserConctacts(user.Id);
+            User user = userServices.GetById(Guid.Parse(userId));
+            IEnumerable<User> userContacts = userContactsServices.GetUserConctacts(user.Id);
+            List<UserContact> model = new List<UserContact>();
+            foreach(var userContact in userContacts)
+            {
+                UserContact temp = new UserContact()
+                {
+                    Id = userContact.Id,
+                    ProfilePhoto = userContact.ConvertPhotoToBase64(),
+                    Message = "",
+                    MessageRead = true,
+                    MessageTime = "12:33",
+                    Name = userContact.Name
+                };
+                model.Add(temp);
+            }
+            
+            return model.AsEnumerable();
         }
 
     }

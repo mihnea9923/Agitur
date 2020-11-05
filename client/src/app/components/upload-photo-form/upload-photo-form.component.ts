@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UploadPhotoFormComponent implements OnInit {
 
-  constructor(private dialogRef : MatDialogRef<UploadPhotoFormComponent> , private userService : UserService) { }
+  constructor(private dialogRef : MatDialogRef<UploadPhotoFormComponent> , private userService : UserService , private router : Router) { }
   photoForm = new FormData()
   ngOnInit(): void {
   }
@@ -28,7 +29,8 @@ export class UploadPhotoFormComponent implements OnInit {
   {
     this.userService.updateUserProfilePhoto(this.photoForm).subscribe(data =>
       {
-        console.log(data)
+        this.closeDialog()
+        this.router.navigate(['/user/login'])
       })
     }
 }

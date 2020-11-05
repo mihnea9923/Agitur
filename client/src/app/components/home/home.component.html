@@ -1,3 +1,26 @@
+<style>
+    ::-webkit-scrollbar {
+        width: 1rem;
+        border-radius: 10px;
+      }
+      
+      
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: #fff; 
+      }
+       
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: rgb(201, 183, 183); 
+        border-radius: 4px;
+      }
+      
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+      }
+</style>
 <div class="home__container">
    <app-navbar></app-navbar>
     <div class="main">
@@ -84,7 +107,7 @@
                 </span>
             </div>
             <div class="contacts__div" *ngFor="let userContact of userContacts">
-                <img [src]="profilePhoto.profilePhoto" class="profile__photo">
+                <img [src]="userContact.profilePhoto" class="profile__photo">
                 <div class="profile">
                 </div>
                 <div class="user">
@@ -96,7 +119,7 @@
                     </div>
                 </div>
                 <div class="user__time">
-                    10:44
+                    {{ userContact.messageTime}}
                 </div>
             </div>
         </div>
