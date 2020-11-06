@@ -1,0 +1,14 @@
+<div class="dialog">
+
+    <div class="dialog__close" (click)="closeDialog()">
+        <i class="fa fa-times-circle fa-2x"></i>
+    </div>
+    <span class="dialog__header">
+        Find New Friends
+    </span>
+    <div class="dialog__search">
+        <input type="text" class="dialog__input" placeholder="Search by email" tabindex="-1" [(ngModel)]="email" #input>
+        <span class="dialog__input-find" (click)="findFriends(input)"><i class="fa fa-search"></i></span>
+    </div>
+    
+</div>

@@ -15,6 +15,7 @@ import { HomeComponent } from './components/home/home.component';
 import { UserContactsService } from './services/user-contacts.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { UploadPhotoFormComponent } from './components/upload-photo-form/upload-photo-form.component';
+import { NewMessageComponent } from './components/new-message/new-message.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { UploadPhotoFormComponent } from './components/upload-photo-form/upload-
     LoginComponent,
     HomeComponent,
     NavbarComponent,
-    UploadPhotoFormComponent
+    UploadPhotoFormComponent,
+    NewMessageComponent
   ],
   imports: [
     BrowserModule,

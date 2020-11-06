@@ -31,7 +31,7 @@ namespace Agitur.Controllers
 
             try
             {
-                message.Date = DateTime.UtcNow;
+                message.Date = DateTime.Now;
                 message.SenderId = Guid.Parse(userId);
                 message.Read = false;
                 messageServices.Create(message);

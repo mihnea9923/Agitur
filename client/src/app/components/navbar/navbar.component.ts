@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import { NewMessageComponent } from '../new-message/new-message.component';
 import { UploadPhotoFormComponent } from '../upload-photo-form/upload-photo-form.component';
 
 @Component({
@@ -25,7 +26,6 @@ export class NavbarComponent implements OnInit {
   
   openPhotoDialog()
   {
-    
     var dialog = this.matDialog.open(UploadPhotoFormComponent)
     
   }
@@ -33,6 +33,10 @@ export class NavbarComponent implements OnInit {
   {
     localStorage.removeItem('token')
     this.router.navigateByUrl('/user/login')
+  }
+  openNewMessageDialog()
+  {
+    var dialog = this.matDialog.open(NewMessageComponent)
   }
 
 }

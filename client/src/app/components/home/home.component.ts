@@ -16,7 +16,6 @@ export class HomeComponent implements OnInit {
     
     this.userContactsService.getUserContacts().subscribe(data => {
       this.userContacts = data
-      console.log(data)
     })
     
     this.userService.getUserProfilePhoto().subscribe(data => {

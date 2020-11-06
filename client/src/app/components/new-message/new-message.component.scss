@@ -1,0 +1,62 @@
+.dialog {
+  width: 50rem;
+  height: 30rem;
+  padding: 2rem 2rem;
+  position: relative;
+  text-align: center;
+  overflow-y: scroll;
+
+  &__close {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+  }
+
+  &__header {
+    font-size: 2.5rem;
+    color: rgba(0, 0, 0, .7);
+    font-weight: 400;
+    display: block;
+    margin-top: 2rem;
+    font-family: 'Niconne', cursive;
+    font-weight: 700;
+    text-shadow: 2px 2px rgba(0 , 0 , 0 , .2);
+    // text-transform: uppercase;
+  text-shadow: 1px 1px #999,
+               2px 2px #999,
+               3px 3px #999,
+               4px 4px #999,
+               5px 5px #999,
+               7px 7px #999,
+               8px 8px #eee,
+               6px 6px #eee,
+  }
+  &__search{
+      display: flex;
+      justify-content: center;
+      position: relative;
+      align-items: center;
+  }
+  &__input{
+      display: block;
+      outline: none;
+      margin-top: 4.5rem;
+      padding : .5rem 1rem;
+      border-radius: 10px;
+      border : 1px solid #eee;
+      width : 80%;
+      transition: all .2s;
+      &:hover , &:focus{
+        border: 1px solid #999;
+      }
+
+
+      &-find{
+        margin-top: 4.5rem;
+        font-size: 2rem;
+        margin-left: -2.5rem;
+        cursor: pointer;          
+      }
+  }
+}
