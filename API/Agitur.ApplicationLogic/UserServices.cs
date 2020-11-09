@@ -2,7 +2,9 @@
 using Agitur.Model;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Agitur.ApplicationLogic
 {
@@ -38,6 +40,12 @@ namespace Agitur.ApplicationLogic
             photo.CopyTo(memoryStream);
             user.ProfilePhoto = memoryStream.ToArray();
             userRepository.Update(user);
+        }
+
+        public IEnumerable<User> GetAllByEmail(string email)
+        {
+            IEnumerable<User> users = userRepository.getAll();
+            return users.Where(o => o.Email.ToLower().Contains(email.ToLower()));
         }
     }
 }

@@ -10,5 +10,13 @@
         <input type="text" class="dialog__input" placeholder="Search by email" tabindex="-1" [(ngModel)]="email" #input>
         <span class="dialog__input-find" (click)="findFriends(input)"><i class="fa fa-search"></i></span>
     </div>
-    
+    <div class="dialog__interlocutors">
+        <div class="dialog__interlocutor" *ngFor="let interlocutor of interlocutors">
+            <img [src]="interlocutor.profilePhoto" *ngIf="interlocutor.profilePhoto" class="dialog__interlocutor-photo">
+            <p class="dialog__interlocutor-name">{{ interlocutor.user.name }}</p>
+        </div>
+    </div>
+    <div class="dialog__interlocutors-empty" *ngIf="!interlocutorsFound">
+        <h3>Nobody found.Try another email!</h3>
+    </div>
 </div>

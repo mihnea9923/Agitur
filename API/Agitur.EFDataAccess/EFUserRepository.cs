@@ -22,6 +22,11 @@ namespace Agitur.EFDataAccess
             context.SaveChanges();
         }
 
+        public IEnumerable<User> getAll()
+        {
+            return context.Users;
+        }
+
         public User GetById(Guid userId)
         {
             return context.Users.Where(o => o.Id == userId).FirstOrDefault();

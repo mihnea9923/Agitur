@@ -11,15 +11,15 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   constructor(private userService : UserService , private router : Router) { }
+  formModel = {
+    email : '',
+    password : ''
+  }
   ngOnInit(): void {
     if(localStorage.getItem('token') != null)
     {
       this.router.navigateByUrl('/home')
     }
-  }
-  formModel = {
-    email : '',
-    password : ''
   }
 
   logIn(form)
@@ -27,14 +27,14 @@ export class LoginComponent implements OnInit {
     this.userService.login(this.formModel).subscribe(data => {
       localStorage.setItem('token' , data.token)
       this.router.navigateByUrl('home')
-      //console.log(data)
+      // console.log(data)
       //console.log(jwt_decode(data.token))
       //console.log(jwt_decode(data.token).UserId)
       //console.log(jwt_decode(data.token).Email)
     }),
     error => {
       //add snackBar
-      alert(error.status)
+      //alert(error.status)
       console.log(error)
     }
   }

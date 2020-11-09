@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-new-message',
@@ -8,8 +9,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class NewMessageComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<NewMessageComponent>) { }
+  constructor(private dialogRef: MatDialogRef<NewMessageComponent> , private messageService : MessageService) { }
   email = ''
+  interlocutors = []
+  interlocutorsFound = true
   ngOnInit(): void {
   }
   closeDialog()
@@ -21,7 +24,18 @@ export class NewMessageComponent implements OnInit {
     
     if(this.email != '')
     {
-      
+       this.messageService.messageNewInterlocutor(this.email).subscribe(data  => {
+           
+           this.interlocutors = data
+           if(data.length == 0)
+           {
+             this.interlocutorsFound = false
+           }
+           else
+           {
+             this.interlocutorsFound = true
+           }
+       })    
     }
   }
 }

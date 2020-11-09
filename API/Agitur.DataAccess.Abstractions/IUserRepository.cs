@@ -11,5 +11,6 @@ namespace Agitur.DataAccess.Abstractions
         User GetByUserId(string userId);
         User GetById(Guid userId);
         void Update(User user);
+        IEnumerable<User> getAll();
     }
 }

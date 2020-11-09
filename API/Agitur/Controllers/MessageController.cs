@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agitur.APIModel.Users;
 using Agitur.ApplicationLogic;
 using Agitur.Model;
 using Microsoft.AspNetCore.Authorization;
@@ -82,6 +83,23 @@ namespace Agitur.Controllers
             {
                 return BadRequest("Message can t be marked as read");
             }
+        }
+        [HttpGet]
+        [Route("findInterlocutors/{email}")]
+        public IEnumerable<UserWithPhotoViewModel> FindInterlocutors(string email)
+        {
+            IEnumerable<User> users = userServices.GetAllByEmail(email);
+            List<UserWithPhotoViewModel> usersWithPhoto = new List<UserWithPhotoViewModel>();
+            foreach(var user in users)
+            {
+                UserWithPhotoViewModel temp = new UserWithPhotoViewModel()
+                {
+                    user = user,
+                    ProfilePhoto = user.ConvertPhotoToBase64()
+                };
+                usersWithPhoto.Add(temp);
+            }
+            return usersWithPhoto;
         }
 
     }

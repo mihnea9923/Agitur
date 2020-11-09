@@ -59,4 +59,13 @@
         cursor: pointer;          
       }
   }
+
+  &__interlocutors{
+    padding : 1rem 0rem;
+    display: flex;
+  }
+  &__interlocutor{
+    display: flex;
+    align-items: center;
+  }
 }

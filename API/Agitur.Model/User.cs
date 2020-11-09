@@ -24,9 +24,13 @@ namespace Agitur.Model
         }
         public string ConvertPhotoToBase64()
         {
-            string imageBase64 = Convert.ToBase64String(ProfilePhoto);
-            string imageDataURL = string.Format("data:image/jpg;base64,{0}",imageBase64);
-            return imageDataURL;
+            if (ProfilePhoto != null)
+            {
+                string imageBase64 = Convert.ToBase64String(ProfilePhoto);
+                string imageDataURL = string.Format("data:image/jpg;base64,{0}", imageBase64);
+                return imageDataURL;
+            }
+            return null;
         }
 
        
