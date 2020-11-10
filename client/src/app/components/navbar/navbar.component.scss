@@ -35,4 +35,9 @@
     width: 3rem;
     border-radius: 50%;
     margin-right: .5rem;
+
+    &-empty{
+        height : 3rem;
+        background-color: #eee;
+    }
 }

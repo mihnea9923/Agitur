@@ -1,6 +1,9 @@
 <div class="navbar">
     <div class="navbar__item navbar__item-flex" (click)="openPhotoDialog()">
        <img *ngIf="photoExists" [src]="profilePhoto.profilePhoto" alt="" class="profile-photo">
+       <svg *ngIf="!photoExists" class="profile-photo profile-photo-empty">
+        <use  xlink:href="../../../assets/icons/symbol-defs.svg#icon-user"></use>
+    </svg>
       <span>
         Profile
       </span> 

@@ -54,6 +54,11 @@
     &__photo{
         width : 4rem;
         border-radius: 50%;
+
+        &-empty{
+            height : 4rem;
+            background-color: #eee;
+        }
     }
 }
 

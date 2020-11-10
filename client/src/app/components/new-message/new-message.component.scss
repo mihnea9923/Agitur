@@ -62,10 +62,45 @@
 
   &__interlocutors{
     padding : 1rem 0rem;
-    display: flex;
+    //display: flex;
   }
   &__interlocutor{
     display: flex;
     align-items: center;
+    margin-top: 2rem;
+
+    &-info{
+      display: flex;
+      align-items: center;
+
+      &-name{
+        margin-left: 1rem;
+        font-size: 1.8rem;
+        color : rgba(0, 0, 0, .8);
+      }
+
+      &-photo{
+        width : 4rem;
+        border-radius: 50%;
+
+        &-empty{
+          height: 4rem;
+        }
+      }
+
+    }
+
+    &-message{
+      display: inline-block;
+      padding : 1rem 1rem;
+      font-size: 1.5rem;
+      outline: none;
+      color : #eee;
+      cursor: pointer;
+      border : none;
+      border-radius: 10rem;
+      background-image: linear-gradient(to right , #73c5ff , #40b0ff);
+      margin-left: auto;
+    }
   }
 }

@@ -12,8 +12,15 @@
     </div>
     <div class="dialog__interlocutors">
         <div class="dialog__interlocutor" *ngFor="let interlocutor of interlocutors">
-            <img [src]="interlocutor.profilePhoto" *ngIf="interlocutor.profilePhoto" class="dialog__interlocutor-photo">
-            <p class="dialog__interlocutor-name">{{ interlocutor.user.name }}</p>
+            <div class="dialog__interlocutor-info">
+                <img [src]="interlocutor.profilePhoto" *ngIf="interlocutor.profilePhoto"
+                    class="dialog__interlocutor-info-photo">
+                    <svg *ngIf="!interlocutor.profilePhoto" class="dialog__interlocutor-info-photo-empty dialog__interlocutor-info-photo">
+                        <use  xlink:href="../../../assets/icons/symbol-defs.svg#icon-user"></use>
+                    </svg>
+                <span class="dialog__interlocutor-info-name">{{ interlocutor.user.name }}</span>
+            </div>
+            <button class="dialog__interlocutor-message">Send Message</button>
         </div>
     </div>
     <div class="dialog__interlocutors-empty" *ngIf="!interlocutorsFound">

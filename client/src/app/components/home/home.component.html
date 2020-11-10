@@ -85,7 +85,10 @@
                 </span>
             </div>
             <div class="contacts__div" *ngFor="let userContact of userContacts">
-                <img [src]="userContact.profilePhoto" class="profile__photo">
+                <img [src]="userContact.profilePhoto" class="profile__photo" *ngIf="userContact.profilePhoto">
+                <svg *ngIf="!userContact.profilePhoto" class="profile__photo profile__photo-empty">
+                    <use  xlink:href="../../../assets/icons/symbol-defs.svg#icon-user"></use>
+                </svg>
                 <div class="profile">
                 </div>
                 <div class="user">
