@@ -10,7 +10,10 @@
     min-height: 55rem;
     padding : 0 1rem;
     overflow-y: scroll;
-    
+    border: 1px solid #999;
+    border-top: none;
+    border-right: none;
+
     &__input{
         border-radius: 20px;
         padding : 1rem 1rem;
@@ -42,10 +45,81 @@
  display: flex;   
 }
 .messages{
-    display: inline-block;
     width : 70%;
-    background-color: red;
     height: 55rem;
+}
+.message{
+    display: flex;
+    flex-direction: column;
+    width : 100%;
+    background-color: rgba(0 , 0  , 0 , .03);
+    height: 80%;
+    padding : 2rem 8rem;
+    position: relative;
+    overflow-y: scroll;
+    
+    &__received,&__sent{
+        display: inline-block;
+        padding : .5rem 1rem;
+        font-size: 1.6rem;
+        border-radius: 30px;
+        margin-top: 1rem;
+        max-width: 65%;
+        
+    }
+    &__received:first-child
+    {
+        margin-top: 0;
+    }
+    &__received{
+        background-color: #fff;
+        color : #777;
+        margin-right: auto;
+
+        &__time{
+            color : #999;
+            font-size: 1rem ;
+            margin-left: 3rem;
+        }
+    }
+
+
+    &__sent{
+        background-image: linear-gradient(to right , #73c5ff , #40b0ff);
+        color : #fff;
+        margin-left: auto;
+
+        &__time{
+            color : #eee;
+            font-size: 1rem;
+            margin-left: 3rem;
+        }
+    }
+
+    &__interlocutor{
+        background-color: #f0eee6;
+        display: flex;
+        align-items: center;
+        padding: 1rem 3rem;
+        height: 12%;
+        &__name{
+            margin-left: .8rem;
+        }
+        &:hover{
+            background-color: #edeadd;
+        }
+
+        &__icon{
+            width : 2.5rem;
+            height: 2.5rem;
+            margin-left: auto;
+            cursor: pointer;
+            fill: #777;
+        }
+    }
+
+   
+
 }
 
 .profile{
@@ -84,4 +158,29 @@
 
 .last-message-time{
     margin-left: auto;
+}
+
+
+.new__mesage{
+    outline: none;
+    width : 90%;
+    height : 90%;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    border: 1px solid #eee;
+    margin-left: 2rem;
+}
+
+.comunicate{
+    height : 8%;
+    width: calc(100% - .5rem);
+    background-color: #f0eee6;
+    display: flex;
+    align-items: center;
+    &__icon{
+        width : 3.5rem;
+        height : 3.5rem;
+        cursor: pointer;
+        fill: #555;
+    }
 }
