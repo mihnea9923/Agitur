@@ -5,7 +5,8 @@
         <div class="contacts">
             <input type="text" class="contacts__input" placeholder="Search in conversations...">
            
-            <div class="contacts__div" *ngFor="let userContact of userContacts">
+            <div class="contacts__div" *ngFor="let userContact of userContacts;index as i" (click)="messages.getMessages(userContact.id);
+            resetNewMessage(input);updateInterlocutor(userContact)" >
                 <img [src]="userContact.profilePhoto" class="profile__photo" *ngIf="userContact.profilePhoto">
                 <svg *ngIf="!userContact.profilePhoto" class="profile__photo profile__photo-empty">
                     <use  xlink:href="../../../assets/icons/symbol-defs.svg#icon-user"></use>
@@ -35,74 +36,17 @@
                     <use xlink:href="../../../assets/icons/message.svg#icon-dots-three-vertical"></use>
                 </svg>
             </div>
+
+
         <div class="message">
-           
-            <div class="message__received">
-                salut
-                <span class="message__received__time">12:04</span>
-            </div>
-            <div class="message__sent">
-                salut
-                <span class="message__sent__time">12:04</span>
-            </div>
-            <div class="message__sent">
-                la ce ora mergem?
-                <span class="message__sent__time">12:04</span>
-            </div>
-            <div class="message__sent">
-                ne vedem acolo
-                <span class="message__sent__time">12:04</span>
-            </div>
-            <div class="message__received">
-                vin eu si te iau de acasa
-                <span class="message__received__time">12:04</span>
-            </div>
-            <div class="message__received">
-                vin eu si te iau de acasa
-                <span class="message__received__time">12:04</span>
-            </div>
-            <div class="message__received">
-                vin eu si te iau de acasa
-                <span class="message__received__time">12:04</span>
-            </div>
-            <div class="message__received">
-                vin eu si te iau de acasa
-                <span class="message__received__time">12:04</span>
-            </div>
-            <div class="message__received">
-                vin eu si te iau de acasa
-                <span class="message__received__time">12:04</span>
-            </div>
-            <div class="message__received">
-                vin eu si te iau de acasa
-                <span class="message__received__time">12:04</span>
-            </div>
-            <div class="message__received">
-                vin eu si te iau de acasa
-                <span class="message__received__time">12:04</span>
-            </div>
-            <div class="message__received">
-                vin eu si te iau de acasa
-                <span class="message__received__time">12:04</span>
-            </div>
-            <div class="message__received">
-                vin eu si te iau de acasa
-                <span class="message__received__time">12:04</span>
-            </div>
-            <div class="message__received">
-                vin eu si te iau de acasa
-                <span class="message__received__time">12:04</span>
-            </div>
-            <div class="message__received">
-                vin eu si te iau de acasa
-                <span class="message__received__time">12:04</span>
-            </div>
+        <app-messages #messages></app-messages>
+            
 
         </div>
         <div class="comunicate">
 
-            <input type="text" class="new__mesage" >
-            <svg class="comunicate__icon">
+            <input type="text" class="new__mesage" (keyup)="updateNewMessage(input.value)" #input>
+            <svg class="comunicate__icon" (click)="sendMessage(input , messages)">
                 <use xlink:href="../../../assets/icons/message.svg#icon-triangle-right"></use>
             </svg>
         </div>

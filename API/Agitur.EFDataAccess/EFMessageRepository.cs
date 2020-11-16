@@ -28,7 +28,8 @@ namespace Agitur.EFDataAccess
 
         public IEnumerable<Message> GetUserMessages(Guid userId , Guid recipientId)
         {
-            return context.Messages.Where(o => o.SenderId == userId && o.RecipientId == recipientId);
+            return context.Messages.Where(o => o.SenderId == userId && o.RecipientId == recipientId
+            || (o.SenderId == recipientId && o.RecipientId == userId));
         }
 
         public void Update(Message message)

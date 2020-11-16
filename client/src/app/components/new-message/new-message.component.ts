@@ -24,7 +24,7 @@ export class NewMessageComponent implements OnInit {
     
     if(this.email != '')
     {
-       this.messageService.messageNewInterlocutor(this.email).subscribe(data  => {
+       this.messageService.findNewInterlocutors(this.email).subscribe(data  => {
            
            this.interlocutors = data
            if(data.length == 0)

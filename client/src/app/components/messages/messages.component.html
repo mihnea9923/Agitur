@@ -1,0 +1,15 @@
+<div class="message">
+
+<div *ngFor="let message of messages" [ngClass]="{'message__received' : message.senderId != userId ,
+ 'message_sent' : message.senderId == userId }">
+  
+    <!-- <div *ngIf="message.senderId != userId" class="message__received" > -->
+        <!-- {{ message.text }} -->
+        <!-- </div> -->
+        <!-- <div *ngIf="message.senderId == userId" class="message_sent" > -->
+            {{ message.text }}
+       <span *ngIf="message.senderId != userId" class="message__received__time">{{ message.date | date : "shortTime" }}</span>
+        <span *ngIf="message.senderId == userId" class="message__sent__time">{{ message.date | date : "shortTime" }}</span>
+    <!-- </div> -->
+</div>
+</div>

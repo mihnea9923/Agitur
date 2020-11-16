@@ -49,54 +49,13 @@
     height: 55rem;
 }
 .message{
-    display: flex;
-    flex-direction: column;
-    width : 100%;
-    background-color: rgba(0 , 0  , 0 , .03);
-    height: 80%;
-    padding : 2rem 8rem;
-    position: relative;
-    overflow-y: scroll;
+   width: 100%;
+   height: 80%;
     
-    &__received,&__sent{
-        display: inline-block;
-        padding : .5rem 1rem;
-        font-size: 1.6rem;
-        border-radius: 30px;
-        margin-top: 1rem;
-        max-width: 65%;
-        
-    }
-    &__received:first-child
-    {
-        margin-top: 0;
-    }
-    &__received{
-        background-color: #fff;
-        color : #777;
-        margin-right: auto;
-
-        &__time{
-            color : #999;
-            font-size: 1rem ;
-            margin-left: 3rem;
-        }
-    }
-
-
-    &__sent{
-        background-image: linear-gradient(to right , #73c5ff , #40b0ff);
-        color : #fff;
-        margin-left: auto;
-
-        &__time{
-            color : #eee;
-            font-size: 1rem;
-            margin-left: 3rem;
-        }
-    }
+    
 
     &__interlocutor{
+        width: calc(100% - .5rem);
         background-color: #f0eee6;
         display: flex;
         align-items: center;

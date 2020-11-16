@@ -65,7 +65,10 @@ namespace Agitur.Controllers
         {
 
             string userId = User.Claims.First(o => o.Type == "UserId").Value;
-            return messageServices.GetMessages(Guid.Parse(userId), interlocutorId);
+            List<Message> messages = messageServices.GetMessages(Guid.Parse(userId), interlocutorId).ToList();
+            messages.OrderBy(o => o.Date);
+            return messages;
+               
         }
         //mark message as read
         [HttpPut]

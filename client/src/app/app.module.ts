@@ -16,6 +16,7 @@ import { UserContactsService } from './services/user-contacts.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { UploadPhotoFormComponent } from './components/upload-photo-form/upload-photo-form.component';
 import { NewMessageComponent } from './components/new-message/new-message.component';
+import { MessagesComponent } from './components/messages/messages.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { NewMessageComponent } from './components/new-message/new-message.compon
     HomeComponent,
     NavbarComponent,
     UploadPhotoFormComponent,
-    NewMessageComponent
+    NewMessageComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,

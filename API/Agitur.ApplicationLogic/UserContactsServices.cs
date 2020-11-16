@@ -9,10 +9,12 @@ namespace Agitur.ApplicationLogic
     public class UserContactsServices
     {
         private readonly IUserContactsRepository userContactsRepository;
+        private readonly IUserRepository userRepository;
 
-        public UserContactsServices(IUserContactsRepository userContactsRepository)
+        public UserContactsServices(IUserContactsRepository userContactsRepository , IUserRepository userRepository)
         {
             this.userContactsRepository = userContactsRepository;
+            this.userRepository = userRepository;
         }
 
         public IEnumerable<User> GetUserConctacts(Guid userId)
@@ -28,6 +30,15 @@ namespace Agitur.ApplicationLogic
             }
             return users;
             
+        }
+
+        public void AddContact(UserContacts userContact)
+        {
+            userContactsRepository.Add(userContact);
+            userContact.User1.ContactsNumber++;
+            userContact.User2.ContactsNumber++;
+            userRepository.Update(userContact.User1);
+            userRepository.Update(userContact.User2);
         }
     }
 }
