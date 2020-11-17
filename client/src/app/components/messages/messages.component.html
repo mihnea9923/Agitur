@@ -1,4 +1,4 @@
-<div class="message">
+<div class="message" id="messages" #messagesContainer>
 
 <div *ngFor="let message of messages" [ngClass]="{'message__received' : message.senderId != userId ,
  'message_sent' : message.senderId == userId }">

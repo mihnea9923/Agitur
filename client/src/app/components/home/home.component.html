@@ -6,7 +6,7 @@
             <input type="text" class="contacts__input" placeholder="Search in conversations...">
            
             <div class="contacts__div" *ngFor="let userContact of userContacts;index as i" (click)="messages.getMessages(userContact.id);
-            resetNewMessage(input);updateInterlocutor(userContact)" >
+            resetNewMessage(input);updateInterlocutor(userContact);markMessageAsRead()" >
                 <img [src]="userContact.profilePhoto" class="profile__photo" *ngIf="userContact.profilePhoto">
                 <svg *ngIf="!userContact.profilePhoto" class="profile__photo profile__photo-empty">
                     <use  xlink:href="../../../assets/icons/symbol-defs.svg#icon-user"></use>
@@ -17,20 +17,23 @@
                     <div class="user__name">
                        {{ userContact.name }}
                     </div>
-                    <div class="user__message">
-                        Ce faci??????????????
+                    <div class="user__message" [ngClass]="{'unread' : userContact.received && userContact.messageRead == false }">
+                        {{ userContact.message }}
                     </div>
                 </div>
                 <div class="user__time">
-                    {{ userContact.messageTime}}
+                    {{ userContact.messageTime | date : 'shortTime'}}
                 </div>
             </div>
         </div>
         <div class="messages">
             <div class="message__interlocutor">
-                <img src="../../../assets/images/user-4.jpg" alt="" class="profile__photo">
+                <img *ngIf="interlocutor.profilePhoto" [src]="interlocutor.profilePhoto" alt="" class="profile__photo">
+                <svg *ngIf="!interlocutor.profilePhoto" class="profile__photo profile__photo-empty">
+                    <use  xlink:href="../../../assets/icons/symbol-defs.svg#icon-user"></use>
+                </svg>
                 <span class="message__interlocutor__name">
-                    Mihnea
+                    {{ interlocutor.name }}
                 </span>
                 <svg class="message__interlocutor__icon">
                     <use xlink:href="../../../assets/icons/message.svg#icon-dots-three-vertical"></use>
@@ -46,7 +49,7 @@
         <div class="comunicate">
 
             <input type="text" class="new__mesage" (keyup)="updateNewMessage(input.value)" #input>
-            <svg class="comunicate__icon" (click)="sendMessage(input , messages)">
+            <svg class="comunicate__icon" (click)="sendMessage(input)">
                 <use xlink:href="../../../assets/icons/message.svg#icon-triangle-right"></use>
             </svg>
         </div>

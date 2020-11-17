@@ -1,25 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'src/app/services/message.service';
 import { UserContactsService } from 'src/app/services/user-contacts.service';
 import { UserService } from 'src/app/services/user.service';
-import jwt_decode from 'jwt-decode';
+import { MessagesComponent } from '../messages/messages.component';
+import jwt_decode from 'jwt-decode'
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit,AfterViewInit {
 
   constructor(private userService: UserService, private userContactsService: UserContactsService, private messageService: MessageService) { }
+  ngAfterViewInit(): void {
+    this.messagesComponent.scrollDown()
+  }
   userContacts
-  userId = jwt_decode(localStorage.getItem('token')).UserId
   profilePhoto
   newMessage = ''
-  interlocutor
+  interlocutor : any
+  userId = jwt_decode(localStorage.getItem('token')).UserId
+  @ViewChild(MessagesComponent) messagesComponent
   ngOnInit(): void {
     this.userContactsService.getUserContacts().subscribe(data => {
+      this.interlocutor = data[0]
       this.userContacts = data
-      console.log(this.userId)
+      // console.log(this.userContacts)
+      // console.log(this.userId)
     })
     this.userService.getUserProfilePhoto().subscribe(data => {
       this.profilePhoto = data
@@ -37,13 +44,47 @@ export class HomeComponent implements OnInit {
   updateNewMessage(newValue) {
     this.newMessage = newValue
   }
-  sendMessage(input , messages) {
+  sendMessage(input ) {
+    if(this.newMessage != '')
      this.messageService.sendMessage(this.newMessage , this.interlocutor.id).subscribe(data => {
        this.resetNewMessage(input)
-       messages.getMessages(this.interlocutor.id)
+       this.putContactFirst()
+       this.messagesComponent.getMessages(this.interlocutor.id)
+       this.userContactsService.getUserContactById(this.interlocutor.id).subscribe(data => {
+         this.interlocutor = data
+         this.updateLastMessage()
+       })
        input.focus()
      })
   }
-
+  
+  updateLastMessage()
+  {
+    for(let i = 0 ; i < this.userContacts.length ; i++)
+    {
+        if(this.userContacts[i].id == this.interlocutor.id)
+        {
+          this.userContacts[i] = this.interlocutor
+          break;
+        }
+    }
+  }
+  putContactFirst()
+  {
+      for(let i = 0 ; i < this.userContacts.length ; i++)
+      {
+        if(this.userContacts[i] == this.interlocutor)
+        {
+             for(let j = i - 1 ; j >= 0 ; j--)
+             {
+               [this.userContacts[j ] , this.userContacts[j + 1]] = [this.userContacts[j + 1] , this.userContacts[j]]
+             }
+        }
+      }
+  }
+  markMessageAsRead()
+  {
+    
+  }
 
 }

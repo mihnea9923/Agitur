@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MessageService } from 'src/app/services/message.service';
 import jwt_decode from 'jwt-decode';
 
@@ -7,14 +7,20 @@ import jwt_decode from 'jwt-decode';
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.scss']
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent implements OnInit,AfterViewChecked {
 
   messages = []
   userId = jwt_decode(localStorage.getItem('token')).UserId
+  @ViewChild('messagesContainer') messagesContainer
   constructor(private messageServices : MessageService) 
   { 
     
   }
+  //this hook is called each time a change of component data is made  
+  ngAfterViewChecked(): void {
+    this.scrollDown()
+  }
+  
   getMessages(interlocutorId)
   {
     this.messageServices.getMessages(interlocutorId).subscribe(data => {
@@ -22,6 +28,14 @@ export class MessagesComponent implements OnInit {
     })
   }
   ngOnInit(): void {
+  }
+
+  scrollDown()
+  {
+    this.messagesContainer.nativeElement.scrollTop = 10000000
+    //this also works
+    // document.getElementById('messages').scrollTop = 10000000
+
   }
 
 }

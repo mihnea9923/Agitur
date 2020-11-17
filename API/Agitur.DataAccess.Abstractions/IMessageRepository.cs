@@ -12,5 +12,6 @@ namespace Agitur.DataAccess.Abstractions
 
         //returns the messages between 2 users
         IEnumerable<Message> GetUserMessages(Guid senderId , Guid recipientId);
+        Message FindLastMessage(Guid senderId , Guid recipientId);
     }
 }

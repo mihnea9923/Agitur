@@ -21,6 +21,17 @@ namespace Agitur.EFDataAccess
             context.SaveChanges();
         }
 
+        public Message FindLastMessage(Guid senderId, Guid recipientId)
+        {
+            //return context.Messages.Where(o => (o.SenderId == senderId && o.RecipientId == recipientId) ||
+            //(o.SenderId == recipientId && o.RecipientId == senderId)).
+            //OrderByDescending(o => o.Date).ElementAt(0);
+
+           var messages = context.Messages.Where(o => (o.SenderId == senderId && o.RecipientId == recipientId) ||
+            (o.SenderId == recipientId && o.RecipientId == senderId)).AsEnumerable();
+           return messages.Aggregate((agg, next) => next.Date > agg.Date ? next : agg);
+        }
+
         public Message GetById(Guid id)
         {
             return context.Messages.Where(o => o.Id == id).FirstOrDefault();

@@ -18,11 +18,14 @@ namespace Agitur.Controllers
     {
         private readonly MessageServices messageServices;
         private readonly UserServices userServices;
+        private readonly UserContactsServices userContactsServices;
 
-        public MessageController(MessageServices messageServices, UserServices userServices)
+        public MessageController(MessageServices messageServices, UserServices userServices , 
+            UserContactsServices userContactsServices)
         {
             this.messageServices = messageServices;
             this.userServices = userServices;
+            this.userContactsServices = userContactsServices;
         }
         [HttpPost]
 
@@ -36,6 +39,8 @@ namespace Agitur.Controllers
                 message.SenderId = Guid.Parse(userId);
                 message.Read = false;
                 messageServices.Create(message);
+                userContactsServices.PutContactFirst(Guid.Parse(userId), message.RecipientId);
+                userContactsServices.PutContactFirst(message.RecipientId, Guid.Parse(userId));
                 return Ok("Message was created");
             }
             catch (Exception e)

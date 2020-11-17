@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Agitur.APIModel.Contacts
 {
-    public class NewUserContactViewModel
+    public class ContactId
     {
         public Guid User2Id { get; set; }
     }

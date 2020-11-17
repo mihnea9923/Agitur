@@ -8,7 +8,7 @@ using System.Text;
 namespace Agitur.EFDataAccess
 {
     public class EFUserContactsRepository : IUserContactsRepository
-     {
+    {
         private readonly AgiturDbContext context;
 
         public EFUserContactsRepository(AgiturDbContext context)
@@ -20,10 +20,6 @@ namespace Agitur.EFDataAccess
         {
             context.UserContacts.Add(userContacts);
             context.SaveChanges();
-            //User user = new User();
-            //user = userContacts.User1;
-            //userContacts.User1 = userContacts.User2;
-            //userContacts.User1 = user;
             UserContacts userContacts2 = new UserContacts()
             {
                 Position = userContacts.User2.ContactsNumber,
@@ -36,7 +32,23 @@ namespace Agitur.EFDataAccess
 
         public IEnumerable<UserContacts> GetUserContacts(Guid userId)
         {
-            return context.UserContacts.Where(o => o.User1.Id == userId);
+            return context.UserContacts.Where(o => o.User1.Id == userId).OrderBy(o => o.Position);
+        }
+
+        public void Update(UserContacts userContact)
+        {
+            context.Update(userContact);
+            context.SaveChanges();
+        }
+        public UserContacts GetUserContact(User user1, User user2)
+        {
+            return context.UserContacts.Where(o => o.User1 == user1 && o.User2 == user2).FirstOrDefault();
+        }
+
+
+        void IUserContactsRepository.SaveChanges()
+        {
+            context.SaveChanges();
         }
     }
 }

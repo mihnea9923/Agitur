@@ -19,7 +19,8 @@ namespace Agitur.ApplicationLogic
 
         public IEnumerable<User> GetUserConctacts(Guid userId)
         {
-            var userContacts = userContactsRepository.GetUserContacts(userId);
+            IEnumerable<UserContacts> userContacts = userContactsRepository.GetUserContacts(userId);
+            
             List<User> users = new List<User>();
             if(userContacts != null)
             {
@@ -28,6 +29,7 @@ namespace Agitur.ApplicationLogic
                     users.Add(iterator.User2);
                 }
             }
+            
             return users;
             
         }
@@ -39,6 +41,44 @@ namespace Agitur.ApplicationLogic
             userContact.User2.ContactsNumber++;
             userRepository.Update(userContact.User1);
             userRepository.Update(userContact.User2);
+        }
+
+        //when sending or receiving a message,the interlocutor must be put first in the list of contacts
+        public void PutContactFirst(Guid user1Id , Guid user2Id)
+        {
+            User user1 = userRepository.GetById(user1Id);
+            User user2 = userRepository.GetById(user2Id);
+            UserContacts contact = GetUserContact(user1, user2);
+            IEnumerable<UserContacts> userContacts = userContactsRepository.GetUserContacts(user1Id);
+            
+            foreach(var userContact in userContacts)
+            {
+                if (userContact.User1 == user1 && userContact.User2 == user2)
+                {
+                    userContact.Position = 0;
+                    //update won't work because iterating on ienumerable returned by EF keeps connection to DB
+                    //open and we can not open another one to update
+                    //Update(userContact);
+                }
+                else if(userContact.Position < contact.Position)
+                {
+                    userContact.Position++;
+                    //Update(userContact);
+                }
+            }
+            //this works without updating because EF keeps track of objects
+            userContactsRepository.SaveChanges();
+
+        }
+
+        private UserContacts GetUserContact(User user1, User user2)
+        {
+            return userContactsRepository.GetUserContact(user1, user2);
+        }
+
+        public void Update(UserContacts userContact)
+        {
+            userContactsRepository.Update(userContact);
         }
     }
 }

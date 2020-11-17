@@ -31,5 +31,9 @@ namespace Agitur.ApplicationLogic
         {
             return messageRepository.GetUserMessages(senderId, recipientId);
         }
+        public Message GetLastMessage(Guid senderId , Guid recipentId)
+        {
+            return messageRepository.FindLastMessage(senderId, recipentId);
+        }
     }
 }
