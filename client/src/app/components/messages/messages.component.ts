@@ -25,6 +25,7 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
   {
     this.messageServices.getMessages(interlocutorId).subscribe(data => {
       this.messages = data;
+      this.markMessageAsRead()
     })
   }
   ngOnInit(): void {
@@ -35,7 +36,18 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
     this.messagesContainer.nativeElement.scrollTop = 10000000
     //this also works
     // document.getElementById('messages').scrollTop = 10000000
+  }
 
+  markMessageAsRead()
+  {
+    var lastMessage = this.messages[this.messages.length - 1]
+
+    if(lastMessage.read == false && lastMessage.senderId != this.userId)
+    {
+      this.messageServices.markMessageAsRead(lastMessage.id).subscribe(data => {
+        
+      })
+    }
   }
 
 }

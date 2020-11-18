@@ -6,6 +6,7 @@ import { API } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class MessageService {
+  
   constructor(private httpClient : HttpClient) { }
 
   sendMessage(newMessage: string, id: any) {
@@ -17,10 +18,9 @@ export class MessageService {
     return this.httpClient.get<any>(API + 'message/conversation/' + interlocutorId , {headers : tokenHeader})
   }
 
-  //this method find 
-  findNewInterlocutors(email)
-  {
-    var tokenHeader = new HttpHeaders({'Authorization' : 'Bearer ' + localStorage.getItem('token')}) 
-    return this.httpClient.get<any>(API + 'message/findInterlocutors/' + email , {headers : tokenHeader})
+   
+  
+  markMessageAsRead(id: any) {
+    return this.httpClient.put(API + 'message/' + id , {} , {headers : {'Authorization' : 'Bearer ' + localStorage.getItem('token')} , responseType : 'text'})
   }
 }

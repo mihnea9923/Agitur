@@ -20,6 +20,7 @@ using Agitur.EFDataAccess;
 using Agitur.DataAccess.Abstractions;
 using Agitur.ApplicationLogic;
 using Microsoft.AspNetCore.Http.Features;
+using Agitur.SignalR;
 
 namespace Agitur
 {
@@ -35,6 +36,15 @@ namespace Agitur
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
             string allowedChars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890 ";
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
             services.AddControllers();
@@ -46,11 +56,13 @@ namespace Agitur
                 options.User.AllowedUserNameCharacters=allowedChars; }).
                 AddEntityFrameworkStores<AuthenticationDbContext>();
             services.AddDbContext<AgiturDbContext>(options => options. UseSqlServer(Configuration.GetConnectionString("Agitur")));
+
             
-
-
-            services.AddCors();
-            services.AddHttpContextAccessor();
+            services.AddSignalR().AddHubOptions<ChatHub>(options => options.EnableDetailedErrors = true)
+                 .AddJsonProtocol(options =>
+                 {
+                     options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+                 });
 
             //JWT Authentication
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
@@ -88,21 +100,20 @@ namespace Agitur
                 app.UseDeveloperExceptionPage();
             }
             //FIX CORS BEFORE PUBLISHING
-            app.UseCors(builder =>
-            {
-                builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
-                //builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString()).AllowAnyHeader().AllowAnyMethod();
-            });
             app.UseAuthentication();
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors("CorsPolicy");
+
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
+
             });
         }
     }

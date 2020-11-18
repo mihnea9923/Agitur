@@ -38,7 +38,6 @@ namespace Agitur.Controllers
             //get the user who issued the request
             string userId = User.Claims.First(o => o.Type == "UserId").Value;
             Guid userIdGuid = Guid.Parse(userId);
-            //var agiturUser = userManager.FindByIdAsync(userId).GetAwaiter().GetResult();
             User user = userServices.GetById(userIdGuid);
             IEnumerable<User> userContacts = userContactsServices.GetUserConctacts(user.Id);
             List<UserContactViewModel> model = new List<UserContactViewModel>();

@@ -6,7 +6,7 @@
             <input type="text" class="contacts__input" placeholder="Search in conversations...">
            
             <div class="contacts__div" *ngFor="let userContact of userContacts;index as i" (click)="messages.getMessages(userContact.id);
-            resetNewMessage(input);updateInterlocutor(userContact);markMessageAsRead()" >
+            resetNewMessage(input);updateInterlocutor(userContact)" >
                 <img [src]="userContact.profilePhoto" class="profile__photo" *ngIf="userContact.profilePhoto">
                 <svg *ngIf="!userContact.profilePhoto" class="profile__photo profile__photo-empty">
                     <use  xlink:href="../../../assets/icons/symbol-defs.svg#icon-user"></use>
@@ -28,7 +28,7 @@
         </div>
         <div class="messages">
             <div class="message__interlocutor">
-                <img *ngIf="interlocutor.profilePhoto" [src]="interlocutor.profilePhoto" alt="" class="profile__photo">
+                <img *ngIf="interlocutor.profilePhoto" #profilePhoto [src]="interlocutor.profilePhoto" alt="" class="profile__photo">
                 <svg *ngIf="!interlocutor.profilePhoto" class="profile__photo profile__photo-empty">
                     <use  xlink:href="../../../assets/icons/symbol-defs.svg#icon-user"></use>
                 </svg>

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API } from 'src/environments/environment';
 
@@ -16,4 +16,9 @@ export class UserContactsService {
   {
     return this.httpClient.get(API + 'userContacts/getContact/' + id , {headers : {'Authorization' : 'Bearer ' + localStorage.getItem('token')}})
   } 
+  findNewInterlocutors(email)
+  {
+    var tokenHeader = new HttpHeaders({'Authorization' : 'Bearer ' + localStorage.getItem('token')}) 
+    return this.httpClient.get<any>(API + 'message/findInterlocutors/' + email , {headers : tokenHeader})
+  }
 }

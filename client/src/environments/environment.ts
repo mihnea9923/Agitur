@@ -6,6 +6,7 @@ export const environment = {
   production: false
 };
 export let API = "https://localhost:44328/api/"
+export let hubURL = "https://localhost:44328/"
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

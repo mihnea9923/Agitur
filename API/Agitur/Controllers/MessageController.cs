@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Agitur.APIModel.Users;
 using Agitur.ApplicationLogic;
 using Agitur.Model;
+using Agitur.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Agitur.Controllers
 {
@@ -19,17 +21,19 @@ namespace Agitur.Controllers
         private readonly MessageServices messageServices;
         private readonly UserServices userServices;
         private readonly UserContactsServices userContactsServices;
+        private readonly IHubContext<ChatHub> chatHub;
 
         public MessageController(MessageServices messageServices, UserServices userServices , 
-            UserContactsServices userContactsServices)
+            UserContactsServices userContactsServices , IHubContext<ChatHub> chatHub)
         {
             this.messageServices = messageServices;
             this.userServices = userServices;
             this.userContactsServices = userContactsServices;
+            this.chatHub = chatHub;
         }
         [HttpPost]
 
-        public IActionResult Create(Message message)
+        public async Task<IActionResult> Create(Message message)
         {
             string userId = User.Claims.First(c => c.Type == "UserId").Value;
 
@@ -41,6 +45,7 @@ namespace Agitur.Controllers
                 messageServices.Create(message);
                 userContactsServices.PutContactFirst(Guid.Parse(userId), message.RecipientId);
                 userContactsServices.PutContactFirst(message.RecipientId, Guid.Parse(userId));
+                await chatHub.Clients.All.SendAsync("refreshMessages" , message.RecipientId , message.SenderId);
                 return Ok("Message was created");
             }
             catch (Exception e)

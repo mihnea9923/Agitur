@@ -26,5 +26,6 @@
     <ProjectReference Include="..\Agitur.ApplicationLogic\Agitur.ApplicationLogic.csproj" />
     <ProjectReference Include="..\Agitur.EFDataAccess\Agitur.EFDataAccess.csproj" />
     <ProjectReference Include="..\Agitur.Model\Agitur.Model.csproj" />
+    <ProjectReference Include="..\Agitur.SignalR\Agitur.SignalR.csproj" />
   </ItemGroup>
 </Project>
