@@ -10,6 +10,7 @@ import jwt_decode from 'jwt-decode';
 export class MessagesComponent implements OnInit,AfterViewChecked {
 
   messages = []
+  messagesLoaded 
   userId = jwt_decode(localStorage.getItem('token')).UserId
   @ViewChild('messagesContainer') messagesContainer
   constructor(private messageServices : MessageService) 
@@ -48,6 +49,12 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
         
       })
     }
+  }
+  getLastMessage()
+  {
+    
+    console.log(this.messages[this.messages.length - 1])
+    return this.messages[this.messages.length - 1].text
   }
 
 }

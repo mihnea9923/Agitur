@@ -45,7 +45,7 @@ namespace Agitur.Controllers
                 messageServices.Create(message);
                 userContactsServices.PutContactFirst(Guid.Parse(userId), message.RecipientId);
                 userContactsServices.PutContactFirst(message.RecipientId, Guid.Parse(userId));
-                await chatHub.Clients.All.SendAsync("refreshMessages" , message.RecipientId , message.SenderId);
+                await chatHub.Clients.All.SendAsync("refreshMessages" , message.RecipientId , message.SenderId , message.Text);
                 return Ok("Message was created");
             }
             catch (Exception e)

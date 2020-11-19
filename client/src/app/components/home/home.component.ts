@@ -27,9 +27,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
   userId = jwt_decode(localStorage.getItem('token')).UserId
   @ViewChild(MessagesComponent) messagesComponent
   ngOnInit(): void {
-    this.hubService.connection.on("refreshMessages", (recipientId, senderId) => {
+    this.hubService.connection.on("refreshMessages", (recipientId, senderId , message) => {
       if (this.userId == recipientId) {
         this.messagesComponent.getMessages(senderId)
+        this.putContactFirst(senderId)
+        this.userContacts[0].message = message
+        if(this.interlocutor.id != senderId)
+          this.userContacts[0].messageRead = false
+
       }
     })
     this.userContactsService.getUserContacts().subscribe(data => {
@@ -56,7 +61,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     if (this.newMessage != '')
       this.messageService.sendMessage(this.newMessage, this.interlocutor.id).subscribe(data => {
         this.resetNewMessage(input)
-        this.putContactFirst()
+        this.putContactFirst(this.interlocutor.id)
         this.messagesComponent.getMessages(this.interlocutor.id)
         this.userContactsService.getUserContactById(this.interlocutor.id).subscribe(data => {
           this.interlocutor = data
@@ -74,9 +79,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
       }
     }
   }
-  putContactFirst() {
+  putContactFirst(id) {
     for (let i = 0; i < this.userContacts.length; i++) {
-      if (this.userContacts[i] == this.interlocutor) {
+      if (this.userContacts[i].id == id) {
         for (let j = i - 1; j >= 0; j--) {
           [this.userContacts[j], this.userContacts[j + 1]] = [this.userContacts[j + 1], this.userContacts[j]]
         }
