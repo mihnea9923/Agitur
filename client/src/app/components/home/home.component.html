@@ -1,11 +1,11 @@
 
 <div class="home__container">
-   <app-navbar></app-navbar>
+   <app-navbar (sendInterlocutor)="sendFirstMessage($event)"></app-navbar>
     <div class="main">
         <div class="contacts">
-            <input type="text" class="contacts__input" placeholder="Search in conversations...">
+            <input type="text" class="contacts__input" placeholder="Search in conversations..." (keyup)="filterContacts(searchConversations.value)" #searchConversations>
            
-            <div class="contacts__div" *ngFor="let userContact of userContacts;index as i" (click)="messages.getMessages(userContact.id);
+            <div class="contacts__div" *ngFor="let userContact of filteredContacts;index as i" (click)="messages.getMessages(userContact.id);
             resetNewMessage(input);updateInterlocutor(userContact)" >
                 <img [src]="userContact.profilePhoto" class="profile__photo" *ngIf="userContact.profilePhoto">
                 <svg *ngIf="!userContact.profilePhoto" class="profile__photo profile__photo-empty">
@@ -18,7 +18,7 @@
                        {{ userContact.name }}
                     </div>
                     <div class="user__message" [ngClass]="{'unread' : userContact.received && userContact.messageRead == false }">
-                        {{ userContact.message }}
+                        {{ userContact.message.substring(0 , 40)  }} 
                     </div>
                 </div>
                 <div class="user__time">
@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="messages">
-            <div class="message__interlocutor">
+            <div class="message__interlocutor" *ngIf="interlocutor">
                 <img *ngIf="interlocutor.profilePhoto" #profilePhoto [src]="interlocutor.profilePhoto" alt="" class="profile__photo">
                 <svg *ngIf="!interlocutor.profilePhoto" class="profile__photo profile__photo-empty">
                     <use  xlink:href="../../../assets/icons/symbol-defs.svg#icon-user"></use>
@@ -48,8 +48,8 @@
         </div>
         <div class="comunicate">
 
-            <input type="text" class="new__mesage" (keyup)="updateNewMessage(input.value)" #input>
-            <svg class="comunicate__icon" (click)="sendMessage(input)">
+            <input type="text" class="new__mesage" (keyup)="updateNewMessage(input.value)" #input (keyup.enter)="sendMessage()">
+            <svg class="comunicate__icon" (click)="sendMessage()">
                 <use xlink:href="../../../assets/icons/message.svg#icon-triangle-right"></use>
             </svg>
         </div>

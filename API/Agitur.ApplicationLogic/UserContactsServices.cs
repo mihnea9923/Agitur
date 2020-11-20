@@ -71,6 +71,11 @@ namespace Agitur.ApplicationLogic
 
         }
 
+        public bool Exists(Guid user1, Guid user2)
+        {
+            return userContactsRepository.Exists(user1, user2);
+        }
+
         private UserContacts GetUserContact(User user1, User user2)
         {
             return userContactsRepository.GetUserContact(user1, user2);

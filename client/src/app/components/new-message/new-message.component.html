@@ -20,7 +20,7 @@
                     </svg>
                 <span class="dialog__interlocutor-info-name">{{ interlocutor.user.name }}</span>
             </div>
-            <button class="dialog__interlocutor-message">Send Message</button>
+            <button class="dialog__interlocutor-message" (click)="chatWithNewPerson(interlocutor)">Send Message</button>
         </div>
     </div>
     <div class="dialog__interlocutors-empty" *ngIf="!interlocutorsFound">

@@ -56,5 +56,9 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
     console.log(this.messages[this.messages.length - 1])
     return this.messages[this.messages.length - 1].text
   }
+  deleteMessages()
+  {
+    this.messages = []
+  }
 
 }

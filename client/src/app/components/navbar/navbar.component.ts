@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
@@ -12,31 +12,36 @@ import { UploadPhotoFormComponent } from '../upload-photo-form/upload-photo-form
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private matDialog : MatDialog , private router : Router , private userService : UserService) { }
+  constructor(private matDialog: MatDialog, private router: Router, private userService: UserService) { }
+
   profilePhoto
   photoExists = false
+  @Output() sendInterlocutor = new EventEmitter<any>()
   ngOnInit(): void {
     this.userService.getUserProfilePhoto().subscribe(data => {
       this.profilePhoto = data
-      if(this.profilePhoto.profilePhoto != null)
-      this.photoExists = true
-      
+      if (this.profilePhoto.profilePhoto != null)
+        this.photoExists = true
+
     })
+
   }
-  
-  openPhotoDialog()
-  {
+
+  openPhotoDialog() {
     var dialog = this.matDialog.open(UploadPhotoFormComponent)
-    
+
   }
-  logOut()
-  {
+  logOut() {
     localStorage.removeItem('token')
     this.router.navigateByUrl('/user/login')
   }
-  openNewMessageDialog()
-  {
+  openNewMessageDialog() {
     var dialog = this.matDialog.open(NewMessageComponent)
+    dialog.afterClosed().subscribe(data => {
+      console.log(data)
+      if (data != null)
+        this.sendInterlocutor.emit(data)
+    })
   }
 
 }

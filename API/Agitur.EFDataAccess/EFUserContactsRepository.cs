@@ -50,5 +50,10 @@ namespace Agitur.EFDataAccess
         {
             context.SaveChanges();
         }
+
+        public bool Exists(Guid user1, Guid user2)
+        {
+            return context.UserContacts.Where(o => o.User1.Id == user1 && o.User2.Id == user2).Count() > 0;
+        }
     }
 }

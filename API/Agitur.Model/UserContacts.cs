@@ -9,7 +9,7 @@ namespace Agitur.Model
         public Guid Id { get; set; }
         public virtual User User1 { get; set; }
         public virtual User User2 { get; set; }
-        //represents the position of user2 in the contacts list of user1
+        //represents the position of user2 in  contacts list of user1
         public int Position { get; set; }
          
     }

@@ -39,4 +39,8 @@ export class NewMessageComponent implements OnInit {
        })    
     }
   }
+  chatWithNewPerson(intelocutor)
+  {
+    this.dialogRef.close(intelocutor)
+  }
 }

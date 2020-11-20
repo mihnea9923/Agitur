@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agitur.APIModel.Contacts;
 using Agitur.APIModel.Users;
 using Agitur.ApplicationLogic;
 using Agitur.Model;
@@ -43,9 +44,48 @@ namespace Agitur.Controllers
                 message.SenderId = Guid.Parse(userId);
                 message.Read = false;
                 messageServices.Create(message);
+                User user1 = userServices.GetById(Guid.Parse(userId));
+                User user2 = userServices.GetById(message.RecipientId);
+                bool contactExists = userContactsServices.Exists(Guid.Parse(userId), message.RecipientId);
+                if (contactExists == false)
+                {
+                    UserContacts userContacts = new UserContacts()
+                    {
+                        User1 = user1,
+                        User2 = user2
+                    };
+                    userContacts.Position = userContacts.User1.ContactsNumber;
+                    userContactsServices.AddContact(userContacts);
+                }
                 userContactsServices.PutContactFirst(Guid.Parse(userId), message.RecipientId);
                 userContactsServices.PutContactFirst(message.RecipientId, Guid.Parse(userId));
-                await chatHub.Clients.All.SendAsync("refreshMessages" , message.RecipientId , message.SenderId , message.Text);
+                if (contactExists == false)
+                {
+                    UserContactViewModel userContactViewModel1 = new UserContactViewModel()
+                    {
+                        Id = user1.Id,
+                        Message = message.Text,
+                        MessageRead = false,
+                        MessageTime = message.Date,
+                        Name = user1.Name,
+                        Position = user1.ContactsNumber - 1,
+                        Received = true ,
+                        ProfilePhoto = user1.ConvertPhotoToBase64()
+                    };
+                    UserContactViewModel userContactViewModel2 = new UserContactViewModel()
+                    {
+                        Id = user2.Id,
+                        Message = message.Text,
+                        MessageRead = true,
+                        MessageTime = message.Date,
+                        Name = user2.Name,
+                        Position = user2.ContactsNumber - 1,
+                        Received = false,
+                        ProfilePhoto = user2.ConvertPhotoToBase64()
+                    };
+                    await chatHub.Clients.All.SendAsync("refreshContacts", userContactViewModel1, userContactViewModel2);
+                }
+                await chatHub.Clients.All.SendAsync("refreshMessages", message.RecipientId , message.SenderId , message.Text);
                 return Ok("Message was created");
             }
             catch (Exception e)
