@@ -6,12 +6,12 @@ namespace Agitur.DataAccess.Abstractions
 {
     public interface IMessageRepository
     {
-        void Add(Message message);
-        Message GetById(Guid id);
-        void Update(Message message);
+        void Add(UserMessage message);
+        UserMessage GetById(Guid id);
+        void Update(UserMessage message);
 
         //returns the messages between 2 users
-        IEnumerable<Message> GetUserMessages(Guid senderId , Guid recipientId);
-        Message FindLastMessage(Guid senderId , Guid recipientId);
+        IEnumerable<UserMessage> GetUserMessages(Guid senderId , Guid recipientId);
+        UserMessage FindLastMessage(Guid senderId , Guid recipientId);
     }
 }

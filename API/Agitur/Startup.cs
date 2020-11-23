@@ -87,6 +87,10 @@ namespace Agitur
             services.AddScoped<IUserRepository, EFUserRepository>();
             services.AddScoped<IUserContactsRepository, EFUserContactsRepository>();
             services.AddScoped<IMessageRepository, EFMessageRepository>();
+            services.AddScoped<IGroupRepository, EFGroupRepository>();
+            services.AddScoped<IUserGroupRepository, EFUserGroupRepository>();
+            services.AddScoped<UserGroupServices>();
+            services.AddScoped<GroupServices>();
             services.AddScoped<UserServices>();
             services.AddScoped<UserContactsServices>();
             services.AddScoped<MessageServices>();

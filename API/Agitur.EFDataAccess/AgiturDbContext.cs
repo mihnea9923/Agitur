@@ -10,12 +10,15 @@ namespace Agitur.EFDataAccess
         {
 
         }
-        public DbSet<Message> Messages { get; set; }
+        public DbSet<UserMessage> Messages { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserContacts> UserContacts { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<UserGroup> UserGroups { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();
+            
         }
     }
 }

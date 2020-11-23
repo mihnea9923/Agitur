@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { NewGroupComponent } from 'src/app/new-group/new-group.component';
 import { UserService } from 'src/app/services/user.service';
 import { NewMessageComponent } from '../new-message/new-message.component';
 import { UploadPhotoFormComponent } from '../upload-photo-form/upload-photo-form.component';
@@ -38,10 +39,14 @@ export class NavbarComponent implements OnInit {
   openNewMessageDialog() {
     var dialog = this.matDialog.open(NewMessageComponent)
     dialog.afterClosed().subscribe(data => {
-      console.log(data)
       if (data != null)
         this.sendInterlocutor.emit(data)
     })
   }
+  openNewGroupDialog()
+  {
+    var dialog = this.matDialog.open(NewGroupComponent , {panelClass : 'custom-dialog-container'})
+  }
+
 
 }

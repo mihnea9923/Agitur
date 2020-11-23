@@ -44,7 +44,7 @@ namespace Agitur.Controllers
             int position = 0;
             foreach (var userContact in userContacts)
             {
-                Message lastMessage = messageServices.GetLastMessage(userIdGuid, userContact.Id);
+                UserMessage lastMessage = messageServices.GetLastMessage(userIdGuid, userContact.Id);
                 UserContactViewModel temp = new UserContactViewModel()
                 {
                     Id = userContact.Id,
@@ -84,7 +84,7 @@ namespace Agitur.Controllers
         {
             Guid userId = Guid.Parse(User.Claims.First(o => o.Type == "UserId").Value);
             User contact = userServices.GetById(id);
-            Message lastMessage = messageServices.GetLastMessage(userId, id);
+            UserMessage lastMessage = messageServices.GetLastMessage(userId, id);
             UserContactViewModel userContactViewModel = new UserContactViewModel()
             {
                 Id = id,

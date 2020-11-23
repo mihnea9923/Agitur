@@ -34,7 +34,7 @@ namespace Agitur.Controllers
         }
         [HttpPost]
 
-        public async Task<IActionResult> Create(Message message)
+        public async Task<IActionResult> Create(UserMessage message)
         {
             string userId = User.Claims.First(c => c.Type == "UserId").Value;
 
@@ -99,7 +99,7 @@ namespace Agitur.Controllers
         {
             try
             {
-                Message message = messageServices.GetById(id);
+                UserMessage message = messageServices.GetById(id);
                 return Ok(message);
             }
             catch (Exception e)
@@ -111,11 +111,11 @@ namespace Agitur.Controllers
         //passed/transmitted as action parameter
         [HttpGet]
         [Route("conversation/{interlocutorId}")]
-        public IEnumerable<Message> GetMessages(Guid interlocutorId)
+        public IEnumerable<UserMessage> GetMessages(Guid interlocutorId)
         {
 
             string userId = User.Claims.First(o => o.Type == "UserId").Value;
-            List<Message> messages = messageServices.GetMessages(Guid.Parse(userId), interlocutorId).ToList();
+            List<UserMessage> messages = messageServices.GetMessages(Guid.Parse(userId), interlocutorId).ToList();
             messages.OrderBy(o => o.Date);
             return messages;
                
@@ -127,7 +127,7 @@ namespace Agitur.Controllers
         {
             try
             {
-                Message message = messageServices.GetById(id);
+                UserMessage message = messageServices.GetById(id);
                 message.Read = true;
                 messageServices.Update(message);
                 return Ok("Message marked as read");

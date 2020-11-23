@@ -15,23 +15,23 @@ namespace Agitur.ApplicationLogic
         {
             this.messageRepository = messageRepository;
         }
-        public void Create(Message message)
+        public void Create(UserMessage message)
         {
             messageRepository.Add(message);
         }
-        public void Update(Message message)
+        public void Update(UserMessage message)
         {
             messageRepository.Update(message);
         }
-        public Message GetById(Guid id)
+        public UserMessage GetById(Guid id)
         {
             return messageRepository.GetById(id);
         }
-        public IEnumerable<Message> GetMessages(Guid senderId , Guid recipientId)
+        public IEnumerable<UserMessage> GetMessages(Guid senderId , Guid recipientId)
         {
             return messageRepository.GetUserMessages(senderId, recipientId);
         }
-        public Message GetLastMessage(Guid senderId , Guid recipentId)
+        public UserMessage GetLastMessage(Guid senderId , Guid recipentId)
         {
             return messageRepository.FindLastMessage(senderId, recipentId);
         }

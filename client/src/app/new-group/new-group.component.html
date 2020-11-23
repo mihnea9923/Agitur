@@ -1,0 +1,30 @@
+<div class="container" #container [class.large-container]="slide2">
+    <div *ngIf="slide1">
+        <div class="header">
+            <label for="#groupInput" class="header__label">Enter group name</label>
+            <input type="text" id="groupInput" class="header__input" required [(ngModel)]="groupName">
+        </div>
+        <div class="next">
+            <button class="next__button button" (click)="loadNextSlide()">Next</button>
+        </div>
+    </div>
+    <div *ngIf="slide2">
+        <div class="search">
+
+            <input type="text" class="search-contacts" placeholder="Search contact...">
+        </div>
+        <div class="dialog__interlocutor" *ngFor="let userContact of userContacts">
+            <div class="dialog__interlocutor-info">
+                <img [src]="userContact.profilePhoto" *ngIf="userContact.profilePhoto"
+                    class="dialog__interlocutor-info-photo">
+                    <svg *ngIf="!userContact.profilePhoto" class="dialog__interlocutor-info-photo-empty dialog__interlocutor-info-photo">
+                        <use  xlink:href="../../../assets/icons/symbol-defs.svg#icon-user"></use>
+                    </svg>
+                <span class="dialog__interlocutor-info-name">{{ userContact.name }}</span>
+            </div>
+            <button class="dialog__interlocutor-message" (click)="updateMember(userContact , addButton)" #addButton>Add</button>
+        </div>
+        
+        <button class="button button-create">Create</button>
+    </div>
+</div>

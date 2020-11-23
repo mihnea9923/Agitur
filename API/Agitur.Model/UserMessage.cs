@@ -3,7 +3,7 @@ using System;
 
 namespace Agitur.Model
 {
-    public class Message
+    public class UserMessage
     {
         public Guid Id { get; set; }
         public Guid SenderId { get; set; }

@@ -15,13 +15,13 @@ namespace Agitur.EFDataAccess
         {
             this.context = context;
         }
-        public void Add(Message message)
+        public void Add(UserMessage message)
         {
             context.Messages.Add(message);
             context.SaveChanges();
         }
 
-        public Message FindLastMessage(Guid senderId, Guid recipientId)
+        public UserMessage FindLastMessage(Guid senderId, Guid recipientId)
         {
 
            var messages = context.Messages.Where(o => (o.SenderId == senderId && o.RecipientId == recipientId) ||
@@ -29,18 +29,18 @@ namespace Agitur.EFDataAccess
            return messages.Aggregate((agg, next) => next.Date > agg.Date ? next : agg);
         }
 
-        public Message GetById(Guid id)
+        public UserMessage GetById(Guid id)
         {
             return context.Messages.Where(o => o.Id == id).FirstOrDefault();
         }
 
-        public IEnumerable<Message> GetUserMessages(Guid userId , Guid recipientId)
+        public IEnumerable<UserMessage> GetUserMessages(Guid userId , Guid recipientId)
         {
             return context.Messages.Where(o => o.SenderId == userId && o.RecipientId == recipientId
             || (o.SenderId == recipientId && o.RecipientId == userId));
         }
 
-        public void Update(Message message)
+        public void Update(UserMessage message)
         {
             context.Update(message);
             context.SaveChanges();
