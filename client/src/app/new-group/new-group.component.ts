@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { GroupService } from '../services/group.service';
 import { UserContactsService } from '../services/user-contacts.service';
 
 @Component({
@@ -9,7 +11,8 @@ import { UserContactsService } from '../services/user-contacts.service';
 })
 export class NewGroupComponent implements OnInit {
 
-  constructor(private dialogRef : MatDialogRef<NewGroupComponent> , private userContactsServices : UserContactsService ) { }
+  constructor(private dialogRef : MatDialogRef<NewGroupComponent> , private userContactsServices : UserContactsService ,
+    private groupService : GroupService , private snackBar: MatSnackBar ) { }
   slide1 = true
   slide2 = false
   userContacts
@@ -19,6 +22,15 @@ export class NewGroupComponent implements OnInit {
   ngOnInit(): void {
     this.userContactsServices.getUserContacts().subscribe(data => {
       this.userContacts = data
+    })
+  }
+
+  createGroup()
+  {
+    this.groupService.create(this.groupMembers , this.groupName).subscribe(data => {
+      this.dialogRef.close()
+      this.snackBar.open('Group was created', "", { duration: 3000, panelClass: 'snackbar-success' })
+
     })
   }
 

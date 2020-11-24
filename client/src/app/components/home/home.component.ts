@@ -27,6 +27,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   userId = jwt_decode(localStorage.getItem('token')).UserId
   @ViewChild(MessagesComponent) messagesComponent
   @ViewChild('input') input
+  @ViewChild('conversations') conversations
+  
   ngOnInit(): void {
     this.hubService.connection.on("refreshMessages", (recipientId, senderId, message) => {
       if (this.userId == recipientId) {

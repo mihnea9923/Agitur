@@ -4,7 +4,9 @@
     <div class="main">
         <div class="contacts">
             <input type="text" class="contacts__input" placeholder="Search in conversations..." (keyup)="filterContacts(searchConversations.value)" #searchConversations>
-           
+           <div class="conversations" #conversations>
+                   Groups
+           </div>
             <div class="contacts__div" *ngFor="let userContact of filteredContacts;index as i" (click)="messages.getMessages(userContact.id);
             resetNewMessage(input);updateInterlocutor(userContact)" >
                 <img [src]="userContact.profilePhoto" class="profile__photo" *ngIf="userContact.profilePhoto">
