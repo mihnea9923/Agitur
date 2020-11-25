@@ -18,6 +18,8 @@ export class NewGroupComponent implements OnInit {
   userContacts
   groupMembers = []
   groupName = ''
+  groupPhoto
+  formData = new FormData()
   @ViewChild('container') container
   ngOnInit(): void {
     this.userContactsServices.getUserContacts().subscribe(data => {
@@ -27,13 +29,21 @@ export class NewGroupComponent implements OnInit {
 
   createGroup()
   {
+    this.formData.append('photo' , this.groupPhoto)
+    
     this.groupService.create(this.groupMembers , this.groupName).subscribe(data => {
+      console.log(data)
+      this.groupService.setPhoto(this.formData , data).subscribe(data => {})
       this.dialogRef.close()
       this.snackBar.open('Group was created', "", { duration: 3000, panelClass: 'snackbar-success' })
 
     })
   }
-
+  uploadPhoto(photo)
+  {
+    
+    this.groupPhoto = photo.files[0]
+  }
   loadNextSlide()
   {
     if(this.groupName != '')

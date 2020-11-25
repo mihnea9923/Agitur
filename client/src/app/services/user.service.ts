@@ -25,7 +25,7 @@ export class UserService {
   updateUserProfilePhoto(photoForm: FormData)
   {
     var tokenHeader = new HttpHeaders({'Authorization' : 'Bearer ' + localStorage.getItem('token') })
-    return this.httpClient.post(API + 'userProfile/uploadProfilePhoto' , photoForm ,{headers : tokenHeader , responseType: 'text'} )
+    return this.httpClient.post(API + 'userProfile/uploadProfilePhoto' , photoForm  ,{headers : tokenHeader , responseType: 'text'} )
   }
 
 }

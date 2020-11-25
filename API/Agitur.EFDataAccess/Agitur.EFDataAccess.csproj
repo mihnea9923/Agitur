@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20201029091635_update-message.Designer.cs" />
     <Compile Remove="Migrations\20201030091645_users.cs" />
     <Compile Remove="Migrations\20201030091645_users.Designer.cs" />
+    <Compile Remove="Migrations\20201125172347_groupss.cs" />
+    <Compile Remove="Migrations\20201125172347_groupss.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

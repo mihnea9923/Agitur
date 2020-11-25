@@ -150,11 +150,15 @@
 }
 
 .conversations{
+    outline: none;
+    border: none;
+    background-color: #fff;
     margin-top: 1rem;
     margin-bottom: 1rem;
     text-align: center;
     color: #777;
     cursor: pointer;
     font-size: 1.7rem;
+    padding-top : 1rem;
     
 }

@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
   }
-
+  initial = true
   userContacts
   profilePhoto
   newMessage = ''
@@ -44,14 +44,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
       }
     })
     this.hubService.connection.on("refreshContacts", (user1, user2) => {
-      console.log(user1)
       if (this.userId == user1.Id) {
         this.userContacts.unshift(this.convertToJson(user2))
       }
       else if (this.userId == user2.Id) {
         this.userContacts.unshift(this.convertToJson(user1))
       }
-      console.log(user2)
     })
     this.userContactsService.getUserContacts().subscribe(data => {
       this.interlocutor = data[0]
@@ -110,6 +108,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       }
     }
   }
+
   putContactFirst(id) {
     for (let i = 0; i < this.userContacts.length; i++) {
       if (this.userContacts[i].id == id) {
@@ -146,5 +145,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.interlocutor = newInterlocutor
 
   }
-
+  toggleConversations()
+  {
+    this.initial = this.initial == true ? false : true
+  }
 }

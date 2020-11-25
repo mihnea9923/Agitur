@@ -1,8 +1,11 @@
 <div class="container" #container [class.large-container]="slide2">
     <div *ngIf="slide1">
         <div class="header">
-            <label for="#groupInput" class="header__label">Enter group name</label>
+            <label for="groupInput" class="header__label">Group Name</label>
             <input type="text" id="groupInput" class="header__input" required [(ngModel)]="groupName">
+            <label for="photo" class="header__label-photo" >Group Photo</label>
+            <span *ngIf="groupPhoto" class="header__photo__name">{{groupPhoto.name}}</span>
+            <input type="file" id="photo" style="display: none;" #photo (change)=uploadPhoto(photo)>
         </div>
         <div class="next">
             <button class="next__button button" (click)="loadNextSlide()">Next</button>

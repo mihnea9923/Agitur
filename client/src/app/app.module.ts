@@ -18,6 +18,7 @@ import { UploadPhotoFormComponent } from './components/upload-photo-form/upload-
 import { NewMessageComponent } from './components/new-message/new-message.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { NewGroupComponent } from './new-group/new-group.component';
+import { GroupsComponent } from './components/groups/groups.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { NewGroupComponent } from './new-group/new-group.component';
     UploadPhotoFormComponent,
     NewMessageComponent,
     MessagesComponent,
-    NewGroupComponent
+    NewGroupComponent,
+    GroupsComponent
   ],
   imports: [
     BrowserModule,

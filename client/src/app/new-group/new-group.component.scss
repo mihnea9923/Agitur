@@ -3,7 +3,6 @@
   box-sizing: content-box !important;
   background-clip: border-box;
   padding: 7rem 7rem;
-  text-align: center;
   height: auto;
   max-height: 30rem;
   overflow-y: scroll;
@@ -16,6 +15,20 @@
     color: #777;
     display: block;
     margin-bottom: 2rem;
+
+    &-photo{
+      background-color: #3863ff;
+      color: #eee;
+      border-radius: 3px;
+      padding : 1rem 1rem;
+      cursor: pointer;
+    }
+  }
+
+  &__photo__name
+  {
+    display: block;  
+    margin-top: 2rem;  
   }
 
   &__input {
