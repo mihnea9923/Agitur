@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Agitur.DataAccess.Abstractions
 {
-    public interface IMessageRepository
+    public interface IUserMessageRepository
     {
         void Add(UserMessage message);
         UserMessage GetById(Guid id);

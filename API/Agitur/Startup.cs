@@ -86,14 +86,16 @@ namespace Agitur
             });
             services.AddScoped<IUserRepository, EFUserRepository>();
             services.AddScoped<IUserContactsRepository, EFUserContactsRepository>();
-            services.AddScoped<IMessageRepository, EFMessageRepository>();
+            services.AddScoped<IUserMessageRepository, EFUserMessageRepository>();
             services.AddScoped<IGroupRepository, EFGroupRepository>();
             services.AddScoped<IUserGroupRepository, EFUserGroupRepository>();
+            services.AddScoped<IGroupMessageRepository, EFGroupMessageRepository>();
+            services.AddScoped<GroupMessageServices>();
             services.AddScoped<UserGroupServices>();
             services.AddScoped<GroupServices>();
             services.AddScoped<UserServices>();
             services.AddScoped<UserContactsServices>();
-            services.AddScoped<MessageServices>();
+            services.AddScoped<UserMessageServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -12,7 +12,6 @@ export class GroupsComponent implements OnInit {
   {
     this.groupService.getGroups().subscribe(data => {
       this.groups = data
-      console.log(data)
     })
   }
 

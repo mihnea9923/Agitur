@@ -7,11 +7,11 @@ using System.Text;
 
 namespace Agitur.ApplicationLogic
 {
-    public class MessageServices
+    public class UserMessageServices
     {
-        private readonly IMessageRepository messageRepository;
+        private readonly IUserMessageRepository messageRepository;
 
-        public MessageServices(IMessageRepository messageRepository)
+        public UserMessageServices(IUserMessageRepository messageRepository)
         {
             this.messageRepository = messageRepository;
         }

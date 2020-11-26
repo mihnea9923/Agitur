@@ -7,11 +7,11 @@ using System.Text;
 
 namespace Agitur.EFDataAccess
 {
-    public class EFMessageRepository : IMessageRepository
+    public class EFUserMessageRepository : IUserMessageRepository
     {
         private readonly AgiturDbContext context;
 
-        public EFMessageRepository(AgiturDbContext context)
+        public EFUserMessageRepository(AgiturDbContext context)
         {
             this.context = context;
         }

@@ -19,11 +19,14 @@ namespace Agitur.Controllers
     {
         private readonly GroupServices groupServices;
         private readonly UserServices userServices;
+        private readonly GroupMessageServices groupMessageServices;
 
-        public GroupController(GroupServices groupServices , UserServices userServices)
+        public GroupController(GroupServices groupServices , UserServices userServices ,
+            GroupMessageServices groupMessageServices)
         {
             this.groupServices = groupServices;
             this.userServices = userServices;
+            this.groupMessageServices = groupMessageServices;
         }
 
         [HttpPost]
@@ -61,7 +64,8 @@ namespace Agitur.Controllers
             {
                 foreach(var group in groups)
                 {
-                    GroupViewModel temp = new GroupViewModel(group.Name, group.ConvertPhotoToBase64());
+                    GroupMessage lastMessage = groupMessageServices.GetLastMessage(group.Id);
+                    GroupViewModel temp = new GroupViewModel(group.Name, group.ConvertPhotoToBase64() , lastMessage.Text , lastMessage.Time);
                     groupsWithPhoto.Add(temp);
                 }
             }

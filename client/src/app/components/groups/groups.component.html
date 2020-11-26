@@ -1,3 +1,20 @@
-<div *ngFor="let group of groups">
-    <img [src]="group.photo">
+<div *ngFor="let group of groups" class="group">
+    <img *ngIf="group.photo" [src]="group.photo" class="group__info__photo">
+    <svg *ngIf="!group.photo" class="group__info__photo group__info__photo-empty">
+        <use xlink:href="../../../assets/icons/symbol-defs.svg#icon-user"></use>
+    </svg>
+    <div class="group__info">
+        <div class="group__info__name">
+
+            {{ group.name }}
+        </div>
+        <div class="group__info__message">
+            {{ group.lastMessage }}
+        </div>
+
+    </div>
+    <div class="group__info__time">
+        {{ group.lastMessageTime | date : 'shortTime' }}
+    </div>
+
 </div>

@@ -9,10 +9,14 @@ namespace Agitur.APIModel.Groups
     {
         public string Name { get; set; }
         public string Photo { get; set; }
-        public GroupViewModel(string name , string photo)
+        public string LastMessage { get; set; }
+        public DateTime LastMessageTime { get; set; }
+        public GroupViewModel(string name , string photo , string lastMessage , DateTime lastMessageTime)
         {
             Name = name;
             Photo = photo;
+            LastMessage = lastMessage;
+            LastMessageTime = lastMessageTime;
         }
     }
 }

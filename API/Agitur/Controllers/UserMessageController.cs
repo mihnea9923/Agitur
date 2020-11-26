@@ -14,17 +14,17 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Agitur.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/message")]
     [ApiController]
     [Authorize]
-    public class MessageController : ControllerBase
+    public class UserMessageController : ControllerBase
     {
-        private readonly MessageServices messageServices;
+        private readonly UserMessageServices messageServices;
         private readonly UserServices userServices;
         private readonly UserContactsServices userContactsServices;
         private readonly IHubContext<ChatHub> chatHub;
 
-        public MessageController(MessageServices messageServices, UserServices userServices , 
+        public UserMessageController(UserMessageServices messageServices, UserServices userServices , 
             UserContactsServices userContactsServices , IHubContext<ChatHub> chatHub)
         {
             this.messageServices = messageServices;

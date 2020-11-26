@@ -50,12 +50,14 @@ namespace Agitur.ApplicationLogic
             UpdateGroup(group);
         }
 
+       
+
         private void UpdateGroup(Group group)
         {
             groupRepository.Update(group);
         }
 
-        private Group GetById(Guid groupId)
+        public Group GetById(Guid groupId)
         {
             return groupRepository.GetById(groupId);
         }

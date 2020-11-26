@@ -147,6 +147,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
   toggleConversations()
   {
+    if(this.conversations.nativeElement.innerHTML.trim() == 'Groups')
+    this.conversations.nativeElement.innerHTML = 'Friends' 
+    else  this.conversations.nativeElement.innerHTML = 'Groups'
     this.initial = this.initial == true ? false : true
   }
 }

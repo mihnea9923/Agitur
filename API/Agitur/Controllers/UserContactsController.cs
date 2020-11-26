@@ -21,10 +21,10 @@ namespace Agitur.Controllers
         private readonly UserContactsServices userContactsServices;
         private readonly UserServices userServices;
         private readonly UserManager<AgiturUser> userManager;
-        private readonly MessageServices messageServices;
+        private readonly UserMessageServices messageServices;
 
         public UserContactsController(UserContactsServices userContactsServices, UserServices userServices,
-            UserManager<AgiturUser> userManager, MessageServices messageServices)
+            UserManager<AgiturUser> userManager, UserMessageServices messageServices)
         {
             this.userContactsServices = userContactsServices;
             this.userServices = userServices;
