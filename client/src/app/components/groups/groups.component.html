@@ -1,7 +1,7 @@
-<div *ngFor="let group of groups" class="group">
+<div *ngFor="let group of groups" class="group" (click)="sendGroupInfo(group)">
     <img *ngIf="group.photo" [src]="group.photo" class="group__info__photo">
     <svg *ngIf="!group.photo" class="group__info__photo group__info__photo-empty">
-        <use xlink:href="../../../assets/icons/symbol-defs.svg#icon-user"></use>
+        <use xlink:href="../../../assets/icons/group.svg#icon-users"></use>
     </svg>
     <div class="group__info">
         <div class="group__info__name">

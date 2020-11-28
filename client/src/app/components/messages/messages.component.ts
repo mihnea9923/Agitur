@@ -29,6 +29,7 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
       this.markMessageAsRead()
     })
   }
+ 
   ngOnInit(): void {
   }
 
@@ -53,12 +54,19 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
   getLastMessage()
   {
     
-    console.log(this.messages[this.messages.length - 1])
+    //console.log(this.messages[this.messages.length - 1])
     return this.messages[this.messages.length - 1].text
   }
   deleteMessages()
   {
     this.messages = []
   }
+  getGroupMessages(groupId)
+  {
+    this.messageServices.getGroupMessages(groupId).subscribe(data => {
+      console.log(data)
+      this.messages = data
+    })
 
+  }
 }

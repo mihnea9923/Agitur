@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user.service';
 import { MessagesComponent } from '../messages/messages.component';
 import jwt_decode from 'jwt-decode'
 import { HubService } from 'src/app/services/hub.service';
+import { GroupsComponent } from '../groups/groups.component';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,6 +19,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
   }
+  isGroup : boolean = false;
   initial = true
   userContacts
   profilePhoto
@@ -26,9 +28,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   filteredContacts
   userId = jwt_decode(localStorage.getItem('token')).UserId
   @ViewChild(MessagesComponent) messagesComponent
+  @ViewChild(GroupsComponent) groupsComponent
   @ViewChild('input') input
   @ViewChild('conversations') conversations
-  
+
   ngOnInit(): void {
     this.hubService.connection.on("refreshMessages", (recipientId, senderId, message) => {
       if (this.userId == recipientId) {
@@ -63,14 +66,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
   convertToJson(user: any): any {
     let userConverted = {
-      "id" : user.Id,
-      "message" : user.Message,
-      "messageTime" : user.MessageTime,
-      "name" : user.Name,
-      "messageRead" : user.MessageRead,
-      "position" : user.Position,
-      "profilePhoto" : user.ProfilePhoto,
-      "received" : user.Received
+      "id": user.Id,
+      "message": user.Message,
+      "messageTime": user.MessageTime,
+      "name": user.Name,
+      "messageRead": user.MessageRead,
+      "position": user.Position,
+      "profilePhoto": user.ProfilePhoto,
+      "received": user.Received
     }
     return userConverted
   }
@@ -79,6 +82,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     input.value = ''
   }
   updateInterlocutor(interlocutor) {
+    this.isGroup = false
     this.interlocutor = interlocutor
     this.interlocutor.messageRead = true
     this.focusMessageInput()
@@ -87,7 +91,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.newMessage = newValue
   }
   sendMessage() {
-    if (this.newMessage != '')
+    if (this.newMessage != '' && this.isGroup == false)
       this.messageService.sendMessage(this.newMessage, this.interlocutor.id).subscribe(data => {
         this.resetNewMessage(this.input.nativeElement)
         this.putContactFirst(this.interlocutor.id)
@@ -98,6 +102,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
         })
         this.focusMessageInput()
       })
+     else if(this.newMessage != '' && this.isGroup == true)
+     {
+       this.messageService.sendGroupMessage(this.newMessage , this.interlocutor.id).subscribe(data => {
+         this.resetNewMessage(this.input.nativeElement)
+         this.messagesComponent.getGroupMessages(this.interlocutor.id)
+         this.groupsComponent.getGroups()
+         this.focusMessageInput()
+       })
+     } 
   }
 
   updateLastMessage() {
@@ -145,11 +158,23 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.interlocutor = newInterlocutor
 
   }
-  toggleConversations()
-  {
-    if(this.conversations.nativeElement.innerHTML.trim() == 'Groups')
-    this.conversations.nativeElement.innerHTML = 'Friends' 
-    else  this.conversations.nativeElement.innerHTML = 'Groups'
+  toggleConversations() {
+    if (this.conversations.nativeElement.innerHTML.trim() == 'Groups')
+      this.conversations.nativeElement.innerHTML = 'Friends'
+    else this.conversations.nativeElement.innerHTML = 'Groups'
     this.initial = this.initial == true ? false : true
+  }
+  loadGroupMessages(group) {
+    this.messagesComponent.getGroupMessages(group.id)
+    this.setInterlocutorAsGroup(group)
+  }
+  setInterlocutorAsGroup(group) {
+    let newInterlocutor = {
+      'name': group.name,
+      'profilePhoto': group.photo,
+      'id': group.id
+    }
+    this.interlocutor = newInterlocutor
+    this.isGroup = true
   }
 }

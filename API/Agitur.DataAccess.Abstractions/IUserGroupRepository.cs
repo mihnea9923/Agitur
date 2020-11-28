@@ -12,7 +12,10 @@ namespace Agitur.DataAccess.Abstractions
         void Update(UserGroup userGroup);
 
         IEnumerable<Group> GetUserGroups(Guid userId);
-        Dictionary<Group, List<User>> GetGroupMembers(Guid userId);
+        Dictionary<Group, List<User>> GetGroupMembersForUser(Guid userId);
         IEnumerable<User> GetGroupMembers(Group group);
+        IEnumerable<UserGroup> GetUserGroupsInformations(Guid userId);
+        IEnumerable<User> GetGroupMembers(Guid groupId);
+        void SaveChanges();
     }
 }

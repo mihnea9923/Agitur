@@ -32,11 +32,10 @@ export class NewGroupComponent implements OnInit {
     this.formData.append('photo' , this.groupPhoto)
     
     this.groupService.create(this.groupMembers , this.groupName).subscribe(data => {
-      console.log(data)
       this.groupService.setPhoto(this.formData , data).subscribe(data => {})
       this.dialogRef.close()
       this.snackBar.open('Group was created', "", { duration: 3000, panelClass: 'snackbar-success' })
-
+      
     })
   }
   uploadPhoto(photo)

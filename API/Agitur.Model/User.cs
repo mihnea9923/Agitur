@@ -14,13 +14,19 @@ namespace Agitur.Model
         
         public int ContactsNumber { get; set; }
         public byte[] ProfilePhoto { get; set; }
+        public int GroupsNumber { get; set; }
         public User()
         {
             ContactsNumber = 0;
+            GroupsNumber = 0;
         }
         public void IncreaseContactsNumber()
         {
             ContactsNumber++;
+        }
+        public void IncreaaseGroupsNumber()
+        {
+            GroupsNumber++;
         }
         public string ConvertPhotoToBase64()
         {

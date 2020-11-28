@@ -4,14 +4,16 @@ using Agitur.EFDataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Agitur.EFDataAccess.Migrations
 {
     [DbContext(typeof(AgiturDbContext))]
-    partial class AgiturDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201128154419_groups number")]
+    partial class groupsnumber
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

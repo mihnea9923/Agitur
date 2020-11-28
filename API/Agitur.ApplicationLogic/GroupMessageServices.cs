@@ -18,6 +18,7 @@ namespace Agitur.ApplicationLogic
         public void Add(GroupMessage message)
         {
             groupMessageRepository.Add(message);
+            
         }
         public void Update(GroupMessage message)
         {

@@ -1,4 +1,5 @@
 ﻿using Agitur.DataAccess.Abstractions;
+using Agitur.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,10 @@ namespace Agitur.ApplicationLogic
         public UserGroupServices(IUserGroupRepository userGroupRepository)
         {
             this.userGroupRepository = userGroupRepository;
+        }
+        public void Update(UserGroup userGroup)
+        {
+            userGroupRepository.Update(userGroup);
         }
     }
 }

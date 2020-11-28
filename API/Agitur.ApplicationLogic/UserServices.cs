@@ -42,6 +42,11 @@ namespace Agitur.ApplicationLogic
             userRepository.Update(user);
         }
 
+        public void Update(User user)
+        {
+            userRepository.Update(user);
+        }
+
         public IEnumerable<User> GetAllByEmail(string email)
         {
             IEnumerable<User> users = userRepository.getAll();

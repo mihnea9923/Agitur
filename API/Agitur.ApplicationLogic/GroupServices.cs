@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Agitur.ApplicationLogic
@@ -12,15 +13,18 @@ namespace Agitur.ApplicationLogic
     {
         private readonly IGroupRepository groupRepository;
         private readonly IUserGroupRepository userGroupRepository;
+        private readonly UserGroupServices userGroupServices;
 
-        public GroupServices(IGroupRepository groupRepository , IUserGroupRepository userGroupRepository)
+        public GroupServices(IGroupRepository groupRepository, IUserGroupRepository userGroupRepository,
+            UserGroupServices userGroupServices)
         {
             this.groupRepository = groupRepository;
             this.userGroupRepository = userGroupRepository;
+            this.userGroupServices = userGroupServices;
         }
         public Group Add(string name)
         {
-            Group group = new Group() { Name = name , Id = Guid.NewGuid() };
+            Group group = new Group() { Name = name, Id = Guid.NewGuid() };
             groupRepository.Add(group);
             return group;
         }
@@ -31,7 +35,8 @@ namespace Agitur.ApplicationLogic
             {
                 Group = group,
                 User = user,
-                Role = Role.Member
+                Role = Role.Member,
+                Position = user.GroupsNumber
             };
             userGroupRepository.Add(userGroup);
         }
@@ -50,7 +55,7 @@ namespace Agitur.ApplicationLogic
             UpdateGroup(group);
         }
 
-       
+
 
         private void UpdateGroup(Group group)
         {
@@ -60,6 +65,36 @@ namespace Agitur.ApplicationLogic
         public Group GetById(Guid groupId)
         {
             return groupRepository.GetById(groupId);
+        }
+
+        public void PutGroupFirst(Guid groupId)
+        {
+            IEnumerable<User> users = userGroupRepository.GetGroupMembers(groupId).ToList();
+            foreach (var user in users)
+            {
+                int position = 0;
+
+                List<UserGroup> userGroups = userGroupRepository.GetUserGroupsInformations(user.Id).ToList();
+                for (int i = 0; i < userGroups.Count(); i++)
+                {
+                    if (userGroups[i].Group.Id == groupId)
+                    {
+                        position = userGroups[i].Position;
+                        userGroups[i].Position = 0;
+                        userGroupServices.Update(userGroups[i]);
+                        break;
+                    }
+                }
+                foreach (var iterator in userGroups)
+                {
+                    if (iterator.Position < position)
+                    {
+                        iterator.Position++;
+                        userGroupServices.Update(iterator);
+                    }
+                }
+                //userGroupRepository.SaveChanges();
+            }
         }
     }
 }

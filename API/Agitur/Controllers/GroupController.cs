@@ -38,10 +38,22 @@ namespace Agitur.Controllers
             User requestOwner = userServices.GetById(userId);
             Group group = groupServices.Add(groupName);
             groupServices.AddMemberToGroup(requestOwner, group);
+            requestOwner.IncreaaseGroupsNumber();
+            userServices.Update(requestOwner);
+            GroupMessage groupMessage = new GroupMessage()
+            {
+                Sender = requestOwner,
+                Group = group,
+                Text = "Group " + group.Name + " was created",
+                Time = DateTime.Now
+            };
+            groupMessageServices.Add(groupMessage);
             foreach (var iterator in model)
             {
                 User user = userServices.GetById(iterator.Id);
                 groupServices.AddMemberToGroup(user , group);
+                user.IncreaaseGroupsNumber();
+                userServices.Update(user);
             }
             return Ok(group.Id);
         }
@@ -65,7 +77,7 @@ namespace Agitur.Controllers
                 foreach(var group in groups)
                 {
                     GroupMessage lastMessage = groupMessageServices.GetLastMessage(group.Id);
-                    GroupViewModel temp = new GroupViewModel(group.Name, group.ConvertPhotoToBase64() , lastMessage.Text , lastMessage.Time);
+                    GroupViewModel temp = new GroupViewModel(group.Name, group.ConvertPhotoToBase64() , lastMessage.Text , lastMessage.Time , group.Id);
                     groupsWithPhoto.Add(temp);
                 }
             }

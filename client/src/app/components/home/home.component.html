@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div *ngIf="initial == false">
-                <app-groups></app-groups>
+                <app-groups (emitter)="loadGroupMessages($event)"></app-groups>
 
             </div>
         </div>
@@ -40,8 +40,11 @@
             <div class="message__interlocutor" *ngIf="interlocutor">
                 <img *ngIf="interlocutor.profilePhoto" #profilePhoto [src]="interlocutor.profilePhoto" alt=""
                     class="profile__photo">
-                <svg *ngIf="!interlocutor.profilePhoto" class="profile__photo profile__photo-empty">
+                <svg *ngIf="!interlocutor.profilePhoto && isGroup == false" class="profile__photo profile__photo-empty">
                     <use xlink:href="../../../assets/icons/symbol-defs.svg#icon-user"></use>
+                </svg>
+                <svg *ngIf="!interlocutor.profilePhoto && isGroup" class="profile__photo profile__photo-empty">
+                    <use xlink:href="../../../assets/icons/group.svg#icon-users"></use>
                 </svg>
                 <span class="message__interlocutor__name">
                     {{ interlocutor.name }}

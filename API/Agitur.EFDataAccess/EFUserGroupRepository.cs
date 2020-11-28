@@ -28,7 +28,7 @@ namespace Agitur.EFDataAccess
             context.SaveChanges();
         }
 
-        public Dictionary<Group, List<User>> GetGroupMembers(Guid userId)
+        public Dictionary<Group, List<User>> GetGroupMembersForUser(Guid userId)
         {
             IEnumerable<Group> groups = GetUserGroups(userId);
             Dictionary<Group, List<User>> userGroupsMembers = new Dictionary<Group, List<User>>();
@@ -47,13 +47,29 @@ namespace Agitur.EFDataAccess
 
         public IEnumerable<Group> GetUserGroups(Guid userId)
         {
-            return context.UserGroups.Where(o => o.User.Id == userId).Select(o => o.Group);
+            return context.UserGroups.Where(o => o.User.Id == userId).OrderBy(o => o.Position).Select(o => o.Group);
+        }
+
+        public IEnumerable<UserGroup> GetUserGroupsInformations(Guid userId)
+        {
+            return context.UserGroups.Where(o => o.User.Id == userId);
         }
 
         public void Update(UserGroup userGroup)
         {
             context.UserGroups.Update(userGroup);
             context.SaveChanges();
+        }
+        
+
+        void IUserGroupRepository.SaveChanges()
+        {
+            context.SaveChanges();
+        }
+
+        public IEnumerable<User> GetGroupMembers(Guid groupId)
+        {
+            return context.UserGroups.Where(o => o.Group.Id == groupId).Select(o => o.User);
         }
     }
 }

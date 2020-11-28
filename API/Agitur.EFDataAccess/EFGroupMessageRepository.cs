@@ -24,7 +24,7 @@ namespace Agitur.EFDataAccess
 
         public IEnumerable<GroupMessage> GetGroupMessages(Guid groupId)
         {
-            return context.GroupMessages.Where(o => o.Id == groupId);
+            return context.GroupMessages.Where(o => o. Group.Id == groupId);
         }
 
         public GroupMessage GetLastMessage(Guid groupId)
