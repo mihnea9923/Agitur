@@ -35,14 +35,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.hubService.connection.on("refreshMessages", (recipientId, senderId, message) => {
       if (this.userId == recipientId) {
-        if (this.interlocutor.id == senderId)
-          this.messagesComponent.getMessages(senderId)
-        if (this.putContactFirst(senderId) == true) {
+        // if (this.interlocutor.id == senderId)
+        //   this.messagesComponent.getMessages(senderId)
+         this.putContactFirst(senderId)  
 
           this.userContacts[0].message = message
           if (this.interlocutor.id != senderId)
+          {
+
             this.userContacts[0].messageRead = false
-        }
+            this.userContacts[0].received = true
+          }
+        
 
       }
     })
@@ -128,10 +132,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
         for (let j = i - 1; j >= 0; j--) {
           [this.userContacts[j], this.userContacts[j + 1]] = [this.userContacts[j + 1], this.userContacts[j]]
         }
-        return true
+        return i
       }
     }
-    return false
+    return -1
   }
   focusMessageInput() {
     this.input.nativeElement.focus()
