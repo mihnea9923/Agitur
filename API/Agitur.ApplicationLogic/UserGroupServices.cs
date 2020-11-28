@@ -18,5 +18,10 @@ namespace Agitur.ApplicationLogic
         {
             userGroupRepository.Update(userGroup);
         }
+
+        public IEnumerable<User> GetGroupUsers(Guid id)
+        {
+            return userGroupRepository.GetGroupMembers(id);
+        }
     }
 }

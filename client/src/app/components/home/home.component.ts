@@ -58,6 +58,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.userContacts.unshift(this.convertToJson(user1))
       }
     })
+    this.hubService.connection.on("putGroupFirst" , (groupId , groupUsers) => {
+       for(let i = 0 ; i < groupUsers.length ; i++)
+       {
+         if(groupUsers[i] == this.userId)
+          this.groupsComponent.putGroupFirst(groupId)
+       }
+    })
     this.userContactsService.getUserContacts().subscribe(data => {
       this.interlocutor = data[0]
       this.userContacts = data

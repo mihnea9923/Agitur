@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Agitur.APIModel.GroupMessages;
 using Agitur.ApplicationLogic;
 using Agitur.Model;
+using Agitur.SignalR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Agitur.Controllers
 {
@@ -18,14 +20,16 @@ namespace Agitur.Controllers
         private readonly GroupServices groupServices;
         private readonly UserGroupServices userGroupServices;
         private readonly GroupMessageServices groupMessageServices;
+        private readonly IHubContext<ChatHub> hub;
 
         public GroupMessageController(UserServices userServices, GroupServices groupServices,
-            UserGroupServices userGroupServices, GroupMessageServices groupMessageServices)
+            UserGroupServices userGroupServices, GroupMessageServices groupMessageServices , IHubContext<ChatHub> hub)
         {
             this.userServices = userServices;
             this.groupServices = groupServices;
             this.userGroupServices = userGroupServices;
             this.groupMessageServices = groupMessageServices;
+            this.hub = hub;
         }
 
         [HttpGet]
@@ -36,7 +40,8 @@ namespace Agitur.Controllers
             List<GroupMessagesGetViewModel> result = new List<GroupMessagesGetViewModel>();
             foreach (var message in messages)
             {
-                GroupMessagesGetViewModel temp = new GroupMessagesGetViewModel(message.Id , message.Text , message.Time , message.Sender.Id);
+                GroupMessagesGetViewModel temp = new GroupMessagesGetViewModel(message.Id , message.Text , 
+                    message.Time , message.Sender.Id , message.Sender.ConvertPhotoToBase64());
                 result.Add(temp);
             }
             return result;
@@ -44,6 +49,7 @@ namespace Agitur.Controllers
         [HttpPost]
         public IActionResult Create(GroupMessagePostViewModel model)
         {
+            Group group = groupServices.GetById(model.GroupId);
             Guid userId = Guid.Parse(User.Claims.First(o => o.Type == "UserId").Value);
             try
             {
@@ -51,12 +57,19 @@ namespace Agitur.Controllers
 
                 GroupMessage message = new GroupMessage
                 {
-                    Group = groupServices.GetById(model.GroupId),
+                    Group = group,
                     Sender = userServices.GetById(userId),
                     Text = model.Text,
                     Time = DateTime.Now
                 };
                 groupMessageServices.Add(message);
+                List<Guid> usersId = new List<Guid>();
+                IEnumerable<User> users = userGroupServices.GetGroupUsers(group.Id);
+                foreach(var user in users)
+                {
+                    usersId.Add(user.Id);
+                }
+                hub.Clients.All.SendAsync("putGroupFirst", group.Id , usersId);
                 groupServices.PutGroupFirst(message.Group.Id);
                 return Ok("Message created");
             }

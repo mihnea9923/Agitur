@@ -16,9 +16,17 @@ export class GroupsComponent implements OnInit {
   ngOnInit(): void {
   }
   //TO DO
-  putGroupFirst(group)
+  putGroupFirst(id)
   {
-
+      for (let i = 0; i < this.groups.length; i++) {
+        if (this.groups[i].id == id) {
+          for (let j = i - 1; j >= 0; j--) {
+            [this.groups[j], this.groups[j + 1]] = [this.groups[j + 1], this.groups[j]]
+          }
+          return i
+        }
+      }
+      return -1
   }
   sendGroupInfo(group)
   {
