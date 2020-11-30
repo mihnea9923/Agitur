@@ -9,13 +9,13 @@ import { GroupService } from 'src/app/services/group.service';
 export class GroupsComponent implements OnInit {
   groups
   @Output() emitter = new EventEmitter()
+  filteredGroups: any;
   constructor(private groupService : GroupService) 
   {
     this.getGroups()
   }
   ngOnInit(): void {
   }
-  //TO DO
   putGroupFirst(id)
   {
       for (let i = 0; i < this.groups.length; i++) {
@@ -28,6 +28,7 @@ export class GroupsComponent implements OnInit {
       }
       return -1
   }
+
   sendGroupInfo(group)
   {
     this.emitter.emit(group)
@@ -36,7 +37,33 @@ export class GroupsComponent implements OnInit {
   {
     this.groupService.getGroups().subscribe(data => {
       this.groups = data
+      this.filteredGroups = data
+      
     })
+  }
+  updateGroupLastMessage(groupId , text , time)
+  {
+    for(let i = 0 ; i < this.groups.length ; i++)
+    {
+      if(groupId == this.groups[i].id)
+      {
+        this.groups[i].lastMessage = text
+        this.groups[i].lastMessageTime = time
+        break;
+      }
+    }
+  }
+  filterGroups(value: string) {
+    if (value == '') {
+      this.filteredGroups = this.groups
+      return;
+    }
+    this.filteredGroups = []
+    for (let i = 0; i < this.groups.length; i++) {
+      if (this.groups[i].name.toLowerCase().includes(value.toLowerCase())) {
+        this.filteredGroups.push(this.groups[i])
+      }
+    }
   }
 
 }

@@ -47,7 +47,7 @@ namespace Agitur.Controllers
             return result;
         }
         [HttpPost]
-        public IActionResult Create(GroupMessagePostViewModel model)
+        public async Task<IActionResult> Create(GroupMessagePostViewModel model)
         {
             Group group = groupServices.GetById(model.GroupId);
             Guid userId = Guid.Parse(User.Claims.First(o => o.Type == "UserId").Value);
@@ -63,13 +63,9 @@ namespace Agitur.Controllers
                     Time = DateTime.Now
                 };
                 groupMessageServices.Add(message);
-                List<Guid> usersId = new List<Guid>();
-                IEnumerable<User> users = userGroupServices.GetGroupUsers(group.Id);
-                foreach(var user in users)
-                {
-                    usersId.Add(user.Id);
-                }
-                hub.Clients.All.SendAsync("putGroupFirst", group.Id , usersId);
+                IEnumerable<Guid> groupUsersId = userGroupServices.GetGroupUsers(group.Id).Select(o => o.Id);
+                await hub.Clients.All.SendAsync("putGroupFirst", group.Id , groupUsersId);
+                await hub.Clients.All.SendAsync("groupMessage", message.Group.Id , message.Text , message.Time , groupUsersId);
                 groupServices.PutGroupFirst(message.Group.Id);
                 return Ok("Message created");
             }

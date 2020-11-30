@@ -6,9 +6,11 @@ using Agitur.APIModel.Contacts;
 using Agitur.APIModel.Groups;
 using Agitur.ApplicationLogic;
 using Agitur.Model;
+using Agitur.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Agitur.Controllers
 {
@@ -20,13 +22,17 @@ namespace Agitur.Controllers
         private readonly GroupServices groupServices;
         private readonly UserServices userServices;
         private readonly GroupMessageServices groupMessageServices;
+        private readonly IHubContext<ChatHub> hub;
+        private readonly UserGroupServices userGroupServices;
 
         public GroupController(GroupServices groupServices , UserServices userServices ,
-            GroupMessageServices groupMessageServices)
+            GroupMessageServices groupMessageServices , IHubContext<ChatHub> hub , UserGroupServices userGroupServices)
         {
             this.groupServices = groupServices;
             this.userServices = userServices;
             this.groupMessageServices = groupMessageServices;
+            this.hub = hub;
+            this.userGroupServices = userGroupServices;
         }
 
         [HttpPost]
@@ -34,7 +40,6 @@ namespace Agitur.Controllers
         public IActionResult Create(IEnumerable<UserContactViewModel> model, string groupName )
         {
             Guid userId =  Guid.Parse(User.Claims.First(o => o.Type == "UserId").Value);
-            //var photo = Request.Form.Files[0];
             User requestOwner = userServices.GetById(userId);
             Group group = groupServices.Add(groupName);
             groupServices.AddMemberToGroup(requestOwner, group);
@@ -55,14 +60,17 @@ namespace Agitur.Controllers
                 user.IncreaaseGroupsNumber();
                 userServices.Update(user);
             }
+            groupServices.PutGroupFirst(group.Id);
             return Ok(group.Id);
         }
         [HttpPost]
         [Route("photo/{groupId}")]
-        public IActionResult SetPhoto(Guid groupId)
+        public async Task<IActionResult> SetPhoto(Guid groupId)
         {
             IFormFile photo = Request.Form.Files[0];
             groupServices.AddPhoto(groupId, photo);
+            IEnumerable<Guid> groupUsersId = userGroupServices.GetGroupUsers(groupId).Select(o => o.Id);
+            await hub.Clients.All.SendAsync("groupCreated", groupUsersId);
             return Ok("Photo was added");
         }
         [HttpGet]

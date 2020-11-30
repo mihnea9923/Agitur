@@ -19,11 +19,13 @@ export class NewGroupComponent implements OnInit {
   groupMembers = []
   groupName = ''
   groupPhoto
+  filteredContacts
   formData = new FormData()
   @ViewChild('container') container
   ngOnInit(): void {
     this.userContactsServices.getUserContacts().subscribe(data => {
       this.userContacts = data
+      this.filteredContacts = data
     })
   }
 
@@ -37,6 +39,18 @@ export class NewGroupComponent implements OnInit {
       this.snackBar.open('Group was created', "", { duration: 3000, panelClass: 'snackbar-success' })
       
     })
+  }
+  filterContacts(value: string) {
+    if (value == '') {
+      this.filteredContacts = this.userContacts
+      return;
+    }
+    this.filteredContacts = []
+    for (let i = 0; i < this.userContacts.length; i++) {
+      if (this.userContacts[i].name.toLowerCase().includes(value.toLowerCase())) {
+        this.filteredContacts.push(this.userContacts[i])
+      }
+    }
   }
   uploadPhoto(photo)
   {

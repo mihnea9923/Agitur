@@ -1,5 +1,5 @@
 <div class="container" #container [class.large-container]="slide2">
-    <div *ngIf="slide1">
+    <div *ngIf="slide1" class="slide">
         <div class="header">
             <label for="groupInput" class="header__label">Group Name</label>
             <input type="text" id="groupInput" class="header__input" required [(ngModel)]="groupName">
@@ -11,12 +11,12 @@
             <button class="next__button button" (click)="loadNextSlide()">Next</button>
         </div>
     </div>
-    <div *ngIf="slide2">
+    <div *ngIf="slide2" class="slide">
         <div class="search">
 
-            <input type="text" class="search-contacts" placeholder="Search contact...">
+            <input type="text" class="search-contacts" placeholder="Search contact..." #searchContacts (keyup)="filterContacts(searchContacts.value)">
         </div>
-        <div class="dialog__interlocutor" *ngFor="let userContact of userContacts">
+        <div class="dialog__interlocutor" *ngFor="let userContact of filteredContacts">
             <div class="dialog__interlocutor-info">
                 <img [src]="userContact.profilePhoto" *ngIf="userContact.profilePhoto"
                     class="dialog__interlocutor-info-photo">

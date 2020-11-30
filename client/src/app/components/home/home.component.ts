@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
   }
-  isGroup : boolean = false;
+  isGroup: boolean = false;
   initial = true
   userContacts
   profilePhoto
@@ -37,16 +37,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
       if (this.userId == recipientId) {
         // if (this.interlocutor.id == senderId)
         //   this.messagesComponent.getMessages(senderId)
-         this.putContactFirst(senderId)  
+        this.putContactFirst(senderId)
 
-          this.userContacts[0].message = message
-          if (this.interlocutor.id != senderId)
-          {
+        this.userContacts[0].message = message
+        if (this.interlocutor.id != senderId) {
 
-            this.userContacts[0].messageRead = false
-            this.userContacts[0].received = true
-          }
-        
+          this.userContacts[0].messageRead = false
+          this.userContacts[0].received = true
+        }
 
       }
     })
@@ -58,13 +56,28 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.userContacts.unshift(this.convertToJson(user1))
       }
     })
-    this.hubService.connection.on("putGroupFirst" , (groupId , groupUsers) => {
-       for(let i = 0 ; i < groupUsers.length ; i++)
-       {
-         if(groupUsers[i] == this.userId)
+
+    this.hubService.connection.on("putGroupFirst", (groupId, groupUsersId) => {
+      for (let i = 0; i < groupUsersId.length; i++) {
+        if (groupUsersId[i] == this.userId)
           this.groupsComponent.putGroupFirst(groupId)
-       }
+      }
     })
+    this.hubService.connection.on("groupCreated", (groupUsersId) => {
+      for (let i = 0; i < groupUsersId.length; i++) {
+        if (this.userId == groupUsersId[i])
+          this.groupsComponent.getGroups()
+      }
+    })
+
+    this.hubService.connection.on("groupMessage", (groupId, text, time, groupUsersId) => {
+      for (let i = 0; i < groupUsersId.length; i++) {
+        if (this.userId == groupUsersId[i])
+          this.groupsComponent.updateGroupLastMessage(groupId, text, time)
+      }
+      console.log(text)
+    })
+
     this.userContactsService.getUserContacts().subscribe(data => {
       this.interlocutor = data[0]
       this.userContacts = data
@@ -104,24 +117,22 @@ export class HomeComponent implements OnInit, AfterViewInit {
   sendMessage() {
     if (this.newMessage != '' && this.isGroup == false)
       this.messageService.sendMessage(this.newMessage, this.interlocutor.id).subscribe(data => {
-        this.resetNewMessage(this.input.nativeElement)
         this.putContactFirst(this.interlocutor.id)
         this.messagesComponent.getMessages(this.interlocutor.id)
         this.userContactsService.getUserContactById(this.interlocutor.id).subscribe(data => {
           this.interlocutor = data
           this.updateLastMessage()
         })
-        this.focusMessageInput()
       })
-     else if(this.newMessage != '' && this.isGroup == true)
-     {
-       this.messageService.sendGroupMessage(this.newMessage , this.interlocutor.id).subscribe(data => {
-         this.resetNewMessage(this.input.nativeElement)
-         this.messagesComponent.getGroupMessages(this.interlocutor.id)
-         this.groupsComponent.getGroups()
-         this.focusMessageInput()
-       })
-     } 
+    else if (this.newMessage != '' && this.isGroup == true) {
+      this.messageService.sendGroupMessage(this.newMessage, this.interlocutor.id).subscribe(data => {
+        this.messagesComponent.getGroupMessages(this.interlocutor.id)
+        this.groupsComponent.getGroups()
+      })
+    }
+    this.focusMessageInput()
+    this.resetNewMessage(this.input.nativeElement)
+
   }
 
   updateLastMessage() {
@@ -187,5 +198,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
     this.interlocutor = newInterlocutor
     this.isGroup = true
+    this.focusMessageInput()
   }
 }

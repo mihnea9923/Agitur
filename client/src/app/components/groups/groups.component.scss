@@ -4,36 +4,51 @@
   padding: 1.5rem 1rem;
   cursor: pointer;
   border-top: 1px solid #eee;
-  &:hover{
-      background-color: #eee;
+
+  &:hover {
+    background-color: #eee;
   }
+
+  &__input {
+    border-radius: 20px;
+    padding: 1rem 1rem;
+    border: 1px solid #eee;
+    outline: none;
+    margin-top: .5rem;
+    width: 100%;
+    margin-bottom: .5rem;
+  }
+
   &__info {
     display: flex;
     flex-direction: column;
     margin-left: 1.5rem;
+
     &__name {
       margin-bottom: .5rem;
       color: #000;
     }
 
-    &__message , &__time {
+    &__message,
+    &__time {
       color: rgba(0, 0, 0, .8);
       font-size: 1.3rem;
     }
+
     &__time {
-        margin-left: auto;
+      margin-left: auto;
+    }
+
+    &__photo {
+      width: 4rem;
+      border-radius: 50%;
+
+      &-empty {
+        height: 4rem;
+        background-color: #eee;
       }
-
-      &__photo{
-        width : 4rem;
-        border-radius: 50%;
-
-        &-empty{
-            height : 4rem;
-            background-color: #eee;
-        }
     }
   }
 
-  
+
 }
