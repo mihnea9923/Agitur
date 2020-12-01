@@ -7,18 +7,18 @@ import { API } from 'src/environments/environment';
 })
 export class UserContactsService {
 
-  constructor(private httpClient : HttpClient) { }
-  getUserContacts()
-  {
-    return this.httpClient.get<any>(API + 'userContacts' , {headers : {'Authorization' : 'Bearer ' + localStorage.getItem('token')}})
+  constructor(private httpClient: HttpClient) { }
+  getUserContacts() {
+    return this.httpClient.get<any>(API + 'userContacts', { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
   }
-  getUserContactById(id)
-  {
-    return this.httpClient.get(API + 'userContacts/getContact/' + id , {headers : {'Authorization' : 'Bearer ' + localStorage.getItem('token')}})
-  } 
-  findNewInterlocutors(email)
-  {
-    var tokenHeader = new HttpHeaders({'Authorization' : 'Bearer ' + localStorage.getItem('token')}) 
-    return this.httpClient.get<any>(API + 'message/findInterlocutors/' + email , {headers : tokenHeader})
+  getUserContactById(id) {
+    return this.httpClient.get(API + 'userContacts/getContact/' + id, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
+  }
+  findNewInterlocutors(email) {
+    var tokenHeader = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token') })
+    return this.httpClient.get<any>(API + 'message/findInterlocutors/' + email, { headers: tokenHeader })
+  }
+  removeContact(data: any) {
+    return this.httpClient.put(API + 'userContacts/remove/' + data , {} , {headers : {'Authorization' : 'Bearer ' + localStorage.getItem('token') } , responseType : 'text'})
   }
 }

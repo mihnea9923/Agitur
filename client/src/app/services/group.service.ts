@@ -6,6 +6,8 @@ import { API } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class GroupService {
+  constructor(private httpClient: HttpClient) { }
+  
   tokenHeader = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token') })
   getGroups() {
     return this.httpClient.get(API + 'Group', { headers: this.tokenHeader })
@@ -17,6 +19,7 @@ export class GroupService {
   create(groupMembers, name) {
     return this.httpClient.post(API + 'Group/' + name, groupMembers, { headers: this.tokenHeader })
   }
-
-  constructor(private httpClient: HttpClient) { }
+  leaveGroup(id: any) {
+    return this.httpClient.put(API + 'Group/leaveGroup/' + id , {} , {headers : this.tokenHeader , responseType : 'text'})
+  }
 }

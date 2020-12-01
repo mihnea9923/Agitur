@@ -49,18 +49,18 @@
                 <span class="message__interlocutor__name">
                     {{ interlocutor.name }}
                 </span>
-                <svg class="message__interlocutor__icon">
+                <svg class="message__interlocutor__icon" #deleteContact (click)="removeContact(deleteContact)">
                     <use xlink:href="../../../assets/icons/message.svg#icon-dots-three-vertical"></use>
                 </svg>
             </div>
 
 
-            <div class="message">
+            <div class="message" [class.no-contacts]="userContacts != null && userContacts.length == 0">
                 <app-messages #messages></app-messages>
 
 
             </div>
-            <div class="comunicate">
+            <div class="comunicate" >
 
                 <input type="text" class="new__mesage" (keyup)="updateNewMessage(input.value)" #input
                     (keyup.enter)="sendMessage()">

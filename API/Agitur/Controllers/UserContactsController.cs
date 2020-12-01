@@ -98,7 +98,7 @@ namespace Agitur.Controllers
             return userContactViewModel;
         }
         [HttpPut]
-        
+
         public IActionResult PutContactFirst(ContactId contact)
         {
             Guid userId = Guid.Parse(User.Claims.First(o => o.Type == "UserId").Value);
@@ -107,10 +107,28 @@ namespace Agitur.Controllers
                 userContactsServices.PutContactFirst(userId, contact.User2Id);
                 return Ok("Contact set first");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest("A problem occurred");
             }
+        }
+        [HttpPut]
+        [Route("remove/{contactId}")]
+        public IActionResult RemoveContact(Guid contactId)
+        {
+            Guid userId = Guid.Parse(User.Claims.First(o => o.Type == "UserId").Value);
+            try
+            {
+                User requestOwner = userServices.GetById(userId);
+                User contact = userServices.GetById(contactId);
+                userContactsServices.RemoveContact(requestOwner, contact);
+                return Ok("Contact with id {id} removed" + contactId);
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Failed to remove contact with id " + contactId);
+            }
+
         }
     }
 }

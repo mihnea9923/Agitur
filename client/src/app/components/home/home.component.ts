@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { MessageService } from 'src/app/services/message.service';
 import { UserContactsService } from 'src/app/services/user-contacts.service';
 import { UserService } from 'src/app/services/user.service';
@@ -6,6 +6,8 @@ import { MessagesComponent } from '../messages/messages.component';
 import jwt_decode from 'jwt-decode'
 import { HubService } from 'src/app/services/hub.service';
 import { GroupsComponent } from '../groups/groups.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ContactOptionsComponent } from '../contact-options/contact-options.component';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -14,7 +16,7 @@ import { GroupsComponent } from '../groups/groups.component';
 export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(private userService: UserService, private userContactsService: UserContactsService, private messageService: MessageService
-    , private hubService: HubService) {
+    , private hubService: HubService , private renderer : Renderer2 , private matDialog : MatDialog) {
     this.hubService.startConnection()
   }
   ngAfterViewInit(): void {
@@ -31,7 +33,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild(GroupsComponent) groupsComponent
   @ViewChild('input') input
   @ViewChild('conversations') conversations
-
   ngOnInit(): void {
     this.hubService.connection.on("refreshMessages", (recipientId, senderId, message) => {
       if (this.userId == recipientId) {
@@ -75,7 +76,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
         if (this.userId == groupUsersId[i])
           this.groupsComponent.updateGroupLastMessage(groupId, text, time)
       }
-      console.log(text)
     })
 
     this.userContactsService.getUserContacts().subscribe(data => {
@@ -199,5 +199,25 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.interlocutor = newInterlocutor
     this.isGroup = true
     this.focusMessageInput()
+  }
+  removeContact(deleteContact)
+  {
+    var coordinates = deleteContact.getBoundingClientRect()
+
+    let dialog = this.matDialog.open(ContactOptionsComponent  , {position : {left : coordinates.x - 70 + 'px' , top : coordinates.y + 30 + 'px'} , 
+    data :{'id' : this.interlocutor.id , 'isGroup' : this.isGroup}})
+    dialog.afterClosed().subscribe(data => {
+      if(data == 'contact')
+      this.userContactsService.getUserContacts().subscribe(data => {
+        this.filteredContacts = data
+        this.userContacts = data
+        this.interlocutor = this.filteredContacts[0]
+        this.messagesComponent.deleteMessages()
+      })
+      else if(data == 'group')
+      {
+        this.groupsComponent.getGroups()
+      }
+    })
   }
 }

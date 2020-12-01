@@ -19,6 +19,7 @@ import { NewMessageComponent } from './components/new-message/new-message.compon
 import { MessagesComponent } from './components/messages/messages.component';
 import { NewGroupComponent } from './new-group/new-group.component';
 import { GroupsComponent } from './components/groups/groups.component';
+import { ContactOptionsComponent } from './components/contact-options/contact-options.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { GroupsComponent } from './components/groups/groups.component';
     NewMessageComponent,
     MessagesComponent,
     NewGroupComponent,
-    GroupsComponent
+    GroupsComponent,
+    ContactOptionsComponent
   ],
   imports: [
     BrowserModule,

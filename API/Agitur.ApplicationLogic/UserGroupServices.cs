@@ -23,5 +23,10 @@ namespace Agitur.ApplicationLogic
         {
             return userGroupRepository.GetGroupMembers(id);
         }
+
+        public void RemoveUserFromGroup(User user, Group group)
+        {
+            userGroupRepository.RemoveUserFromGroup(user, group);
+        }
     }
 }

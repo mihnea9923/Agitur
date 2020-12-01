@@ -13,5 +13,6 @@ namespace Agitur.DataAccess.Abstractions
         UserContacts GetUserContact(User user1, User user2);
         void SaveChanges();
         bool Exists(Guid user1, Guid user2);
+        void Remove(User requestOwner, User contact);
     }
 }

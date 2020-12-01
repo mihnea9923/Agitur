@@ -71,5 +71,12 @@ namespace Agitur.EFDataAccess
         {
             return context.UserGroups.Where(o => o.Group.Id == groupId).Select(o => o.User);
         }
+        public void RemoveUserFromGroup(User user , Group group)
+        {
+            UserGroup userGroup = context.UserGroups.Where(o => o.User == user && o.Group.Id == group.Id).
+                FirstOrDefault();
+            context.UserGroups.Remove(userGroup);
+            context.SaveChanges();
+        }
     }
 }

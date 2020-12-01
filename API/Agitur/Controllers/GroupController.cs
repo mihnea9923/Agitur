@@ -91,5 +91,22 @@ namespace Agitur.Controllers
             }
             return groupsWithPhoto;
         }
+        [HttpPut]
+        [Route("leaveGroup/{groupId}")]
+        public IActionResult LeaveGroup(Guid groupId)
+        {
+            Guid userId = Guid.Parse(User.Claims.First(o => o.Type == "UserId").Value);
+            try
+            {
+                User user = userServices.GetById(userId);
+                Group group = groupServices.GetById(groupId);
+                userGroupServices.RemoveUserFromGroup(user, group);
+                return Ok("User removed from group");
+            }
+            catch(Exception e)
+            {
+                return BadRequest("Failed to leave group with id " + groupId);
+            }
+        }
     }
 }

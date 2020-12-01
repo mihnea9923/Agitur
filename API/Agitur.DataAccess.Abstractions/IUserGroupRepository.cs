@@ -17,5 +17,6 @@ namespace Agitur.DataAccess.Abstractions
         IEnumerable<UserGroup> GetUserGroupsInformations(Guid userId);
         IEnumerable<User> GetGroupMembers(Guid groupId);
         void SaveChanges();
+        void RemoveUserFromGroup(User user, Group group);
     }
 }

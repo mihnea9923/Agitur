@@ -85,5 +85,10 @@ namespace Agitur.ApplicationLogic
         {
             userContactsRepository.Update(userContact);
         }
+
+        public void RemoveContact(User requestOwner, User contact)
+        {
+            userContactsRepository.Remove(requestOwner, contact);
+        }
     }
 }

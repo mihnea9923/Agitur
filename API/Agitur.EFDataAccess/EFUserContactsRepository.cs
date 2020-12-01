@@ -55,5 +55,12 @@ namespace Agitur.EFDataAccess
         {
             return context.UserContacts.Where(o => o.User1.Id == user1 && o.User2.Id == user2).Count() > 0;
         }
+
+        public void Remove(User requestOwner, User contact)
+        {
+            UserContacts userContact = GetUserContact(requestOwner, contact);
+            context.UserContacts.Remove(userContact);
+            context.SaveChanges();
+        }
     }
 }

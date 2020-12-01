@@ -1,0 +1,12 @@
+.remove__contact{
+    font-size: 1.8rem;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    padding : .5rem .5rem;
+    margin-bottom: 1rem;
+    color : #555;
+    &:hover{
+        background-color: #eee;
+        border-bottom: 1px solid #999;
+    }
+}

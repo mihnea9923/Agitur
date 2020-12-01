@@ -1,0 +1,6 @@
+<div class="remove__contact" (click)="removeContact()" *ngIf="data && !data.isGroup">
+    Remove Contact
+</div>
+<div class="remove__contact" (click)="leaveGroup()" *ngIf="data && data.isGroup">
+    Remove Group
+</div>
