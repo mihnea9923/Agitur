@@ -51,10 +51,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     })
     this.hubService.connection.on("refreshContacts", (user1, user2) => {
       if (this.userId == user1.Id) {
-        this.userContacts.unshift(this.convertToJson(user2))
+        this.userContacts.unshift(this.convertUserToJson(user2))
       }
       else if (this.userId == user2.Id) {
-        this.userContacts.unshift(this.convertToJson(user1))
+        this.userContacts.unshift(this.convertUserToJson(user1))
       }
     })
 
@@ -71,10 +71,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
       }
     })
 
-    this.hubService.connection.on("groupMessage", (groupId, text, time, groupUsersId) => {
+    this.hubService.connection.on("groupMessage", (groupId, text, time, groupUsersId , newGroupMessage) => {
       for (let i = 0; i < groupUsersId.length; i++) {
         if (this.userId == groupUsersId[i])
-          this.groupsComponent.updateGroupLastMessage(groupId, text, time)
+        {
+          this.groupsComponent.updateGroupLastMessage(groupId, text, time , this.interlocutor.id == groupId)
+          if(this.interlocutor.id == groupId)
+          {
+            this.groupsComponent.markGroupLastMessageAsRead(groupId)
+            this.messagesComponent.newGroupMessage(this.convertNewGroupMessageToJson(newGroupMessage))
+          }
+        }
       }
     })
 
@@ -88,7 +95,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
     })
 
   }
-  convertToJson(user: any): any {
+  convertNewGroupMessageToJson(newGroupMessage: any): any {
+    return {
+      'id' : newGroupMessage.Id,
+      'text' : newGroupMessage.Text,
+      'date' : newGroupMessage.Date,
+      'senderId' : newGroupMessage.SenderId,
+      'senderPhoto' : newGroupMessage.SenderPhoto
+    }
+  }
+  convertUserToJson(user: any): any {
     let userConverted = {
       "id": user.Id,
       "message": user.Message,

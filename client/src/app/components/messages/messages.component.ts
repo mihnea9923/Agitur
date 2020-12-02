@@ -64,9 +64,13 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
   getGroupMessages(groupId)
   {
     this.messageServices.getGroupMessages(groupId).subscribe(data => {
-      console.log(data)
+      // console.log(data)
       this.messages = data
     })
 
+  }
+  newGroupMessage(message)
+  {
+    this.messages.push(message)
   }
 }

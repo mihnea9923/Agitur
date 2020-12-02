@@ -23,7 +23,7 @@ namespace Agitur.Controllers
         private readonly IHubContext<ChatHub> hub;
 
         public GroupMessageController(UserServices userServices, GroupServices groupServices,
-            UserGroupServices userGroupServices, GroupMessageServices groupMessageServices , IHubContext<ChatHub> hub)
+            UserGroupServices userGroupServices, GroupMessageServices groupMessageServices, IHubContext<ChatHub> hub)
         {
             this.userServices = userServices;
             this.groupServices = groupServices;
@@ -40,8 +40,8 @@ namespace Agitur.Controllers
             List<GroupMessagesGetViewModel> result = new List<GroupMessagesGetViewModel>();
             foreach (var message in messages)
             {
-                GroupMessagesGetViewModel temp = new GroupMessagesGetViewModel(message.Id , message.Text , 
-                    message.Time , message.Sender.Id , message.Sender.ConvertPhotoToBase64());
+                GroupMessagesGetViewModel temp = new GroupMessagesGetViewModel(message.Id, message.Text,
+                    message.Time, message.Sender.Id, message.Sender.ConvertPhotoToBase64());
                 result.Add(temp);
             }
             return result;
@@ -51,6 +51,7 @@ namespace Agitur.Controllers
         {
             Group group = groupServices.GetById(model.GroupId);
             Guid userId = Guid.Parse(User.Claims.First(o => o.Type == "UserId").Value);
+            List<User> groupUsers = userGroupServices.GetGroupUsers(group.Id).ToList();
             try
             {
 
@@ -62,10 +63,13 @@ namespace Agitur.Controllers
                     Text = model.Text,
                     Time = DateTime.Now
                 };
+                message.SetMessageReaders(groupUsers , userId);
                 groupMessageServices.Add(message);
-                IEnumerable<Guid> groupUsersId = userGroupServices.GetGroupUsers(group.Id).Select(o => o.Id);
-                await hub.Clients.All.SendAsync("putGroupFirst", group.Id , groupUsersId);
-                await hub.Clients.All.SendAsync("groupMessage", message.Group.Id , message.Text , message.Time , groupUsersId);
+                IEnumerable<Guid> groupUsersId = groupUsers.Select(o => o.Id);
+                GroupMessagesGetViewModel groupMessagesGetViewModel = new GroupMessagesGetViewModel(message.Id,
+                    message.Text, message.Time, userId, userServices.GetById(userId).ConvertPhotoToBase64());
+               await hub.Clients.All.SendAsync("putGroupFirst", group.Id, groupUsersId);
+                await hub.Clients.All.SendAsync("groupMessage", message.Group.Id, message.Text, message.Time, groupUsersId , groupMessagesGetViewModel);
                 groupServices.PutGroupFirst(message.Group.Id);
                 return Ok("Message created");
             }
@@ -74,6 +78,24 @@ namespace Agitur.Controllers
                 return BadRequest("Message Not created");
             }
         }
+        [HttpPut]
+        [Route("markLastMessageAsRead/{groupId}")]
+        public IActionResult MarkLastMessageAsReadByUser(Guid groupId)
+        {
+            Guid userId = Guid.Parse(User.Claims.First(o => o.Type == "UserId").Value);
+            try
+            {
+                GroupMessage lastMessage = groupMessageServices.GetLastMessage(groupId);
+                lastMessage.UserReadTheMessage(userId);
+                groupMessageServices.Update(lastMessage);
+                return Ok("Message marked as read");
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Failed to mark message as read");
+            }
 
+
+        }
     }
 }

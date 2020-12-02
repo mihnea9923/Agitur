@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { GroupService } from 'src/app/services/group.service';
-
+import jwt_decode from 'jwt-decode'
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
@@ -10,6 +10,7 @@ export class GroupsComponent implements OnInit {
   groups
   @Output() emitter = new EventEmitter()
   filteredGroups: any;
+  userId = jwt_decode(localStorage.getItem('token')).UserId;
   constructor(private groupService : GroupService) 
   {
     this.getGroups()
@@ -37,11 +38,11 @@ export class GroupsComponent implements OnInit {
   {
     this.groupService.getGroups().subscribe(data => {
       this.groups = data
-      this.filteredGroups = data
-      
+      this.filteredGroups = this.groups
+      this.setLastMessage()
     })
   }
-  updateGroupLastMessage(groupId , text , time)
+  updateGroupLastMessage(groupId , text , time , read : boolean)
   {
     for(let i = 0 ; i < this.groups.length ; i++)
     {
@@ -49,7 +50,21 @@ export class GroupsComponent implements OnInit {
       {
         this.groups[i].lastMessage = text
         this.groups[i].lastMessageTime = time
+        this.groups[i].read = read
         break;
+      }
+    }
+  }
+  setLastMessage()
+  {
+    for(let i = 0 ; i < this.groups.length ; i++)
+    {
+      for(let j = 0 ; j < this.groups[i].lastMessageRead.length ; j++)
+      {
+        if(this.groups[i].lastMessageRead[j].userId == this.userId)
+        {
+          this.groups[i].read = this.groups[i].lastMessageRead[j].read
+        }
       }
     }
   }
@@ -65,5 +80,23 @@ export class GroupsComponent implements OnInit {
       }
     }
   }
-
+  markGroupLastMessageAsRead(groupId)
+  {
+    if(this.getGroupById(groupId).read == false)
+    this.groupService.markGroupLastMessageAsRead(groupId).subscribe(data => {
+      this.getGroupById(groupId).read = true
+      // group.read = true
+    })
+  }
+  getGroupById(groupId)
+  {
+    for(let i = 0 ; i < this.groups.length ; i++)
+    {
+      if(this.groups[i].id == groupId)
+      {
+        console.log(this.groups[i])
+        return this.groups[i]
+      }
+    }
+  }
 }

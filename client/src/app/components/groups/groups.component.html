@@ -1,6 +1,6 @@
 <input type="text" class="group__input" placeholder="Search in conversations..."
                     (keyup)="filterGroups(searchConversations.value)" #searchConversations>
-<div *ngFor="let group of filteredGroups" class="group" (click)="sendGroupInfo(group)">
+<div *ngFor="let group of filteredGroups" class="group" (click)="sendGroupInfo(group);markGroupLastMessageAsRead(group.id)">
     <img *ngIf="group.photo" [src]="group.photo" class="group__info__photo">
     <svg *ngIf="!group.photo" class="group__info__photo group__info__photo-empty">
         <use xlink:href="../../../assets/icons/group.svg#icon-users"></use>
@@ -10,7 +10,7 @@
 
             {{ group.name }}
         </div>
-        <div class="group__info__message">
+        <div class="group__info__message" [class.unread]="!group.read">
             {{ group.lastMessage }}
         </div>
 

@@ -21,6 +21,8 @@ using Agitur.DataAccess.Abstractions;
 using Agitur.ApplicationLogic;
 using Microsoft.AspNetCore.Http.Features;
 using Agitur.SignalR;
+using Newtonsoft.Json.Serialization;
+using System.Text.Json;
 
 namespace Agitur
 {
@@ -47,7 +49,7 @@ namespace Agitur
             });
             string allowedChars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890 ";
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
             services.AddDbContext<AuthenticationDbContext>(options =>
                  options.UseSqlServer(
                      Configuration.GetConnectionString("Identity")));
@@ -57,7 +59,6 @@ namespace Agitur
                 AddEntityFrameworkStores<AuthenticationDbContext>();
             services.AddDbContext<AgiturDbContext>(options => options. UseSqlServer(Configuration.GetConnectionString("Agitur")));
 
-            
             services.AddSignalR().AddHubOptions<ChatHub>(options => options.EnableDetailedErrors = true)
                  .AddJsonProtocol(options =>
                  {

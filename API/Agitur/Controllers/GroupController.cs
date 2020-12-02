@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Agitur.APIModel.Contacts;
 using Agitur.APIModel.Groups;
 using Agitur.ApplicationLogic;
+using Agitur.Helpers;
 using Agitur.Model;
 using Agitur.SignalR;
 using Microsoft.AspNetCore.Authorization;
@@ -85,7 +86,9 @@ namespace Agitur.Controllers
                 foreach(var group in groups)
                 {
                     GroupMessage lastMessage = groupMessageServices.GetLastMessage(group.Id);
-                    GroupViewModel temp = new GroupViewModel(group.Name, group.ConvertPhotoToBase64() , lastMessage.Text , lastMessage.Time , group.Id);
+                    List<LastMessageRead> lastMessageRead = new List<LastMessageRead>();
+                    GroupViewModel.LastGroupMessageRead(lastMessage.MessageRead ,lastMessageRead);
+                    GroupViewModel temp = new GroupViewModel(group.Name, group.ConvertPhotoToBase64() , lastMessage.Text , lastMessage.Time , group.Id , lastMessageRead);
                     groupsWithPhoto.Add(temp);
                 }
             }
@@ -108,5 +111,6 @@ namespace Agitur.Controllers
                 return BadRequest("Failed to leave group with id " + groupId);
             }
         }
+       
     }
 }

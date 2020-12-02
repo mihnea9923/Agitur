@@ -16,5 +16,28 @@ namespace Agitur.Model
         {
             MessageRead = new List<GroupMessageRead>();
         }
+        public void SetMessageReaders(List<User> users , Guid userId)
+        {
+            foreach(var user in users)
+            {
+                var messageRead = new GroupMessageRead() { User = user };
+                if (user.Id == userId)
+                {
+                    messageRead.Read = true;
+                }
+                MessageRead.Add(messageRead);
+            }
+        }
+        public void UserReadTheMessage(Guid userId)
+        {
+            foreach(var iterator in MessageRead)
+            {
+                if(iterator.User.Id == userId)
+                {
+                    iterator.Read = true;
+                    break;
+                }
+            }
+        }
     }
 }
