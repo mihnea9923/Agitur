@@ -63,13 +63,13 @@ namespace Agitur.Controllers
                     Text = model.Text,
                     Time = DateTime.Now
                 };
-                message.SetMessageReaders(groupUsers , userId);
+                message.SetMessageReaders(groupUsers, userId);
                 groupMessageServices.Add(message);
                 IEnumerable<Guid> groupUsersId = groupUsers.Select(o => o.Id);
                 GroupMessagesGetViewModel groupMessagesGetViewModel = new GroupMessagesGetViewModel(message.Id,
                     message.Text, message.Time, userId, userServices.GetById(userId).ConvertPhotoToBase64());
-               await hub.Clients.All.SendAsync("putGroupFirst", group.Id, groupUsersId);
-                await hub.Clients.All.SendAsync("groupMessage", message.Group.Id, message.Text, message.Time, groupUsersId , groupMessagesGetViewModel);
+                await hub.Clients.All.SendAsync("putGroupFirst", group.Id, groupUsersId);
+                await hub.Clients.All.SendAsync("groupMessage", message.Group.Id, message.Text, message.Time, groupUsersId, groupMessagesGetViewModel);
                 groupServices.PutGroupFirst(message.Group.Id);
                 return Ok("Message created");
             }

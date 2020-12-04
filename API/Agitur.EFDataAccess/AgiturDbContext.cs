@@ -17,6 +17,7 @@ namespace Agitur.EFDataAccess
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<GroupMessage> GroupMessages { get; set; }
         public DbSet<GroupMessageRead> GroupMessagesRead { get; set; }
+        public DbSet<VocalMessage> VocalMessages { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();

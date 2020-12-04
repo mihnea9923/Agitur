@@ -49,7 +49,7 @@ namespace Agitur
             });
             string allowedChars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890 ";
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
-            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
+            services.AddControllers();
             services.AddDbContext<AuthenticationDbContext>(options =>
                  options.UseSqlServer(
                      Configuration.GetConnectionString("Identity")));
@@ -91,12 +91,14 @@ namespace Agitur
             services.AddScoped<IGroupRepository, EFGroupRepository>();
             services.AddScoped<IUserGroupRepository, EFUserGroupRepository>();
             services.AddScoped<IGroupMessageRepository, EFGroupMessageRepository>();
+            services.AddScoped<IVocalMessageRepository, EFVocalMessageRepository>();
             services.AddScoped<GroupMessageServices>();
             services.AddScoped<UserGroupServices>();
             services.AddScoped<GroupServices>();
             services.AddScoped<UserServices>();
             services.AddScoped<UserContactsServices>();
             services.AddScoped<UserMessageServices>();
+            services.AddScoped<VocalMessageServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

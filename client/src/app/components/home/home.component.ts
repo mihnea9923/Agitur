@@ -7,7 +7,10 @@ import jwt_decode from 'jwt-decode'
 import { HubService } from 'src/app/services/hub.service';
 import { GroupsComponent } from '../groups/groups.component';
 import { MatDialog } from '@angular/material/dialog';
+import * as RecordRTC from 'recordrtc';
 import { ContactOptionsComponent } from '../contact-options/contact-options.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { VocalMessageService } from 'src/app/services/vocal-message.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -16,11 +19,14 @@ import { ContactOptionsComponent } from '../contact-options/contact-options.comp
 export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(private userService: UserService, private userContactsService: UserContactsService, private messageService: MessageService
-    , private hubService: HubService , private renderer : Renderer2 , private matDialog : MatDialog) {
+    , private hubService: HubService, private renderer: Renderer2, private matDialog: MatDialog ,private domSanitizer: DomSanitizer 
+    ,private vocalMessageServices : VocalMessageService) {
     this.hubService.startConnection()
   }
   ngAfterViewInit(): void {
   }
+  recording = false
+  recorder
   isGroup: boolean = false;
   initial = true
   userContacts
@@ -36,8 +42,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.hubService.connection.on("refreshMessages", (recipientId, senderId, message) => {
       if (this.userId == recipientId) {
-        // if (this.interlocutor.id == senderId)
-        //   this.messagesComponent.getMessages(senderId)
         this.putContactFirst(senderId)
 
         this.userContacts[0].message = message
@@ -71,13 +75,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
       }
     })
 
-    this.hubService.connection.on("groupMessage", (groupId, text, time, groupUsersId , newGroupMessage) => {
+    this.hubService.connection.on("groupMessage", (groupId, text, time, groupUsersId, newGroupMessage) => {
       for (let i = 0; i < groupUsersId.length; i++) {
-        if (this.userId == groupUsersId[i])
-        {
-          this.groupsComponent.updateGroupLastMessage(groupId, text, time , this.interlocutor.id == groupId)
-          if(this.interlocutor.id == groupId)
-          {
+        if (this.userId == groupUsersId[i]) {
+          this.groupsComponent.updateGroupLastMessage(groupId, text, time, this.interlocutor.id == groupId)
+          if (this.interlocutor.id == groupId) {
             this.groupsComponent.markGroupLastMessageAsRead(groupId)
             this.messagesComponent.newGroupMessage(this.convertNewGroupMessageToJson(newGroupMessage))
           }
@@ -96,13 +98,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   }
   convertNewGroupMessageToJson(newGroupMessage: any): any {
-    return {
-      'id' : newGroupMessage.Id,
-      'text' : newGroupMessage.Text,
-      'date' : newGroupMessage.Date,
-      'senderId' : newGroupMessage.SenderId,
-      'senderPhoto' : newGroupMessage.SenderPhoto
+    var keys = Object.keys(newGroupMessage);
+    for (var i = 0; i < keys.length; i++) {
+      var upperCasePropertyName = keys[i];
+      keys[i] = keys[i].charAt(0).toLowerCase() + keys[i].slice(1)
+      newGroupMessage[keys[i]] = newGroupMessage[upperCasePropertyName];
+      delete newGroupMessage[upperCasePropertyName];
     }
+    return newGroupMessage
+
   }
   convertUserToJson(user: any): any {
     let userConverted = {
@@ -216,24 +220,65 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.isGroup = true
     this.focusMessageInput()
   }
-  removeContact(deleteContact)
-  {
+  removeContact(deleteContact) {
     var coordinates = deleteContact.getBoundingClientRect()
 
-    let dialog = this.matDialog.open(ContactOptionsComponent  , {position : {left : coordinates.x - 70 + 'px' , top : coordinates.y + 30 + 'px'} , 
-    data :{'id' : this.interlocutor.id , 'isGroup' : this.isGroup}})
+    let dialog = this.matDialog.open(ContactOptionsComponent, {
+      position: { left: coordinates.x - 70 + 'px', top: coordinates.y + 30 + 'px' },
+      data: { 'id': this.interlocutor.id, 'isGroup': this.isGroup }
+    })
     dialog.afterClosed().subscribe(data => {
-      if(data == 'contact')
-      this.userContactsService.getUserContacts().subscribe(data => {
-        this.filteredContacts = data
-        this.userContacts = data
-        this.interlocutor = this.filteredContacts[0]
-        this.messagesComponent.deleteMessages()
-      })
-      else if(data == 'group')
-      {
+      if (data == 'contact')
+        this.userContactsService.getUserContacts().subscribe(data => {
+          this.filteredContacts = data
+          this.userContacts = data
+          this.interlocutor = this.filteredContacts[0]
+          this.messagesComponent.deleteMessages()
+        })
+      else if (data == 'group') {
         this.groupsComponent.getGroups()
       }
     })
   }
+  record() {
+    this.recording = !this.recording
+    if (this.recording) {
+      let mediaConstraints = {
+        video: false,
+        audio: true
+      };
+      navigator.mediaDevices
+        .getUserMedia(mediaConstraints)
+        .then(this.successCallback.bind(this));
+    }
+    else {
+        this.recorder.stop(this.processRecording.bind(this));
+    }
+  }
+  successCallback(stream) {
+    var options = {
+        mimeType: "audio/wav",
+        numberOfAudioChannels: 1
+    };
+    //Start Actual Recording
+    var StereoAudioRecorder = RecordRTC.StereoAudioRecorder;
+    this.recorder = new StereoAudioRecorder(stream, options);
+    this.recorder.record();
+}
+
+processRecording(blob) {
+  
+  let file = this.blobToFile(blob , 'audio')
+  let formData = new FormData()
+  formData.append('audioFile' , file)
+  this.messagesComponent.addVocalMessage(blob , formData , this.interlocutor.id)
+
+}
+public blobToFile = (theBlob: Blob, fileName:string): File => {
+  var b: any = theBlob;
+  b.lastModifiedDate = new Date();
+  b.name = fileName;
+
+  return <File>theBlob;
+}
 }

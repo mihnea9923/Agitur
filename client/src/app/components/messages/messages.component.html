@@ -2,8 +2,7 @@
 
         <div *ngFor="let message of messages" [ngClass]="{'message__received' : message.senderId != userId ,
  'message_sent' : message.senderId == userId }">
-                <img *ngIf="message.senderPhoto"  [src]="message.senderPhoto" 
-                        class="profile__photo">
+                <img *ngIf="message.senderPhoto" [src]="message.senderPhoto" class="profile__photo">
                 <svg *ngIf="message.senderPhoto === null" class="profile__photo profile__photo-empty">
                         <use xlink:href="../../../assets/icons/symbol-defs.svg#icon-user"></use>
                 </svg>
@@ -12,5 +11,10 @@
                         class="message__received__time">{{ message.date | date : "shortTime" }}</span>
                 <span *ngIf="message.senderId == userId"
                         class="message__sent__time">{{ message.date | date : "shortTime" }}</span>
+                        
+                        <audio controls="" *ngIf="message.urlSource">
+                                <source [src]="sanitizeURL(message.urlSource)" type="audio/wav">
+                        </audio>
         </div>
 </div>
+        

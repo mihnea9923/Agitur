@@ -85,7 +85,6 @@ export class GroupsComponent implements OnInit {
     if(this.getGroupById(groupId).read == false)
     this.groupService.markGroupLastMessageAsRead(groupId).subscribe(data => {
       this.getGroupById(groupId).read = true
-      // group.read = true
     })
   }
   getGroupById(groupId)
@@ -94,7 +93,6 @@ export class GroupsComponent implements OnInit {
     {
       if(this.groups[i].id == groupId)
       {
-        console.log(this.groups[i])
         return this.groups[i]
       }
     }
