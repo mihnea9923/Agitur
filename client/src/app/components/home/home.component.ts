@@ -19,8 +19,8 @@ import { VocalMessageService } from 'src/app/services/vocal-message.service';
 export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(private userService: UserService, private userContactsService: UserContactsService, private messageService: MessageService
-    , private hubService: HubService, private renderer: Renderer2, private matDialog: MatDialog ,private domSanitizer: DomSanitizer 
-    ,private vocalMessageServices : VocalMessageService) {
+    , private hubService: HubService, private matDialog: MatDialog
+  ) {
     this.hubService.startConnection()
   }
   ngAfterViewInit(): void {
@@ -86,16 +86,22 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
       }
     })
+    this.hubService.connection.on("updateContactUponReceivingVocal", () => {
+      this.getContacts()
 
+    })
+    this.getContacts()
+    this.userService.getUserProfilePhoto().subscribe(data => {
+      this.profilePhoto = data
+    })
+
+  }
+  getContacts() {
     this.userContactsService.getUserContacts().subscribe(data => {
       this.interlocutor = data[0]
       this.userContacts = data
       this.filteredContacts = data
     })
-    this.userService.getUserProfilePhoto().subscribe(data => {
-      this.profilePhoto = data
-    })
-
   }
   convertNewGroupMessageToJson(newGroupMessage: any): any {
     var keys = Object.keys(newGroupMessage);
@@ -252,33 +258,33 @@ export class HomeComponent implements OnInit, AfterViewInit {
         .then(this.successCallback.bind(this));
     }
     else {
-        this.recorder.stop(this.processRecording.bind(this));
+      this.recorder.stop(this.processRecording.bind(this));
     }
   }
   successCallback(stream) {
     var options = {
-        mimeType: "audio/wav",
-        numberOfAudioChannels: 1
+      mimeType: "audio/wav",
+      numberOfAudioChannels: 1
     };
     //Start Actual Recording
     var StereoAudioRecorder = RecordRTC.StereoAudioRecorder;
     this.recorder = new StereoAudioRecorder(stream, options);
     this.recorder.record();
-}
+  }
 
-processRecording(blob) {
-  
-  let file = this.blobToFile(blob , 'audio')
-  let formData = new FormData()
-  formData.append('audioFile' , file)
-  this.messagesComponent.addVocalMessage(blob , formData , this.interlocutor.id)
+  processRecording(blob) {
 
-}
-public blobToFile = (theBlob: Blob, fileName:string): File => {
-  var b: any = theBlob;
-  b.lastModifiedDate = new Date();
-  b.name = fileName;
+    let file = this.blobToFile(blob, 'audio')
+    let formData = new FormData()
+    formData.append('audioFile', file)
+    this.messagesComponent.addVocalMessage(blob, formData, this.interlocutor.id)
 
-  return <File>theBlob;
-}
+  }
+  public blobToFile = (theBlob: Blob, fileName: string): File => {
+    var b: any = theBlob;
+    b.lastModifiedDate = new Date();
+    b.name = fileName;
+
+    return <File>theBlob;
+  }
 }

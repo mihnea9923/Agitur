@@ -38,5 +38,9 @@ namespace Agitur.ApplicationLogic
         {
             return vocalMessageRepository.GetById(vocalId);
         }
+        public VocalMessage GetLastMessage(Guid senderId , Guid recipientId)
+        {
+            return vocalMessageRepository.GetLastMessage(senderId, recipientId);
+        }
     }
 }

@@ -3,6 +3,7 @@ import { MessageService } from 'src/app/services/message.service';
 import jwt_decode from 'jwt-decode';
 import { DomSanitizer } from '@angular/platform-browser';
 import { VocalMessageService } from 'src/app/services/vocal-message.service';
+import { HubService } from 'src/app/services/hub.service';
 
 @Component({
   selector: 'app-messages',
@@ -15,7 +16,8 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
   messagesLoaded
   userId = jwt_decode(localStorage.getItem('token')).UserId
   @ViewChild('messagesContainer') messagesContainer
-  constructor(private messageServices: MessageService, private domSanitizer: DomSanitizer , private vocalMessageServices : VocalMessageService) {
+  constructor(private messageServices: MessageService, private domSanitizer: DomSanitizer, private vocalMessageServices: VocalMessageService
+    , private hubService: HubService) {
 
   }
   //this hook is called each time a change of component data is made  
@@ -28,12 +30,10 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
       this.messages = data;
       this.markMessageAsRead()
       this.vocalMessageServices.get(interlocutorId).subscribe(data => {
-        for(let i = 0 ; i < data.length ; i++)
-        {
+        for (let i = 0; i < data.length; i++) {
           this.vocalMessageServices.getUrlSource(data[i].id).subscribe(res => {
             data[i].urlSource = res
-            console.log(res)
-            
+
             this.putVocalMessageInCorectPosition(data[i])
           })
         }
@@ -42,6 +42,28 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    this.hubService.connection.on("newVocalMessage", (model) => {
+      if (model.RecipientId == this.userId) {
+        model = this.converToLowerCasePropertis(model)
+        console.log(model)
+        this.vocalMessageServices.getUrlSource(model.id).subscribe(res => {
+          model.urlSource = res
+          this.putVocalMessageInCorectPosition(model)
+        })
+      }
+    })
+  }
+
+  converToLowerCasePropertis(object: any): any {
+    var keys = Object.keys(object);
+    for (var i = 0; i < keys.length; i++) {
+      var upperCasePropertyName = keys[i];
+      keys[i] = keys[i].charAt(0).toLowerCase() + keys[i].slice(1)
+      object[keys[i]] = object[upperCasePropertyName];
+      delete object[upperCasePropertyName];
+    }
+    return object
+
   }
 
   scrollDown() {
@@ -75,24 +97,21 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
   newGroupMessage(message) {
     this.messages.push(message)
   }
-  addVocalMessage(blob , formData , interlocutorId) {
-    this.vocalMessageServices.add(formData , interlocutorId).subscribe(data => {
-      
+  addVocalMessage(blob, formData, interlocutorId) {
+    this.vocalMessageServices.add(formData, interlocutorId).subscribe(data => {
+
     })
-    let message = { 'urlSource': blob, 'senderId': this.userId }
+    let message = { 'urlSource': blob, 'senderId': this.userId , date : new Date() }
     this.messages.push(message)
     this.scrollDown()
   }
   sanitizeURL(url) {
     return this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(url))
   }
-  putVocalMessageInCorectPosition(vocalMessage)
-  {
-    for(let i = 0 ; i < this.messages.length ; i++)
-    {
-      if(vocalMessage.date < this.messages[i].date)
-      {
-        this.messages.splice(i , 0 , vocalMessage)
+  putVocalMessageInCorectPosition(vocalMessage) {
+    for (let i = 0; i < this.messages.length; i++) {
+      if (vocalMessage.date < this.messages[i].date) {
+        this.messages.splice(i, 0, vocalMessage)
         return
       }
     }

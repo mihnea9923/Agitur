@@ -139,6 +139,11 @@
         height : 3.5rem;
         cursor: pointer;
         fill: #555;
+
+        &--mic{
+            width: 3rem;
+            height: 2.75rem;
+        }
     }
 }
 
@@ -174,4 +179,7 @@
 
 .no-contacts{
     height: 92%;
+}
+.recording{
+    fill : #1671fa;
 }

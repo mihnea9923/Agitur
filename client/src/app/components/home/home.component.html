@@ -67,7 +67,9 @@
                 <svg class="comunicate__icon" (click)="sendMessage()">
                     <use xlink:href="../../../assets/icons/message.svg#icon-triangle-right"></use>
                 </svg>
-                <button (click)="record()">Vocal</button>
+                <svg *ngIf="!isGroup" class="comunicate__icon comunicate__icon--mic" (click)="record()" [class.recording]="recording">
+                    <use xlink:href="../../../assets/icons/message.svg#icon-mic"></use>
+                </svg>
             </div>
         </div>
     </div>

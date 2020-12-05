@@ -29,13 +29,23 @@ namespace Agitur.EFDataAccess
 
         public IEnumerable<VocalMessage> GetAll(Guid senderId, Guid recipientId)
         {
-            return context.VocalMessages.Where(o => o.SenderId == senderId && o.RecipientId == recipientId).
-                OrderBy(o => o.Date).Take(10);
+            return context.VocalMessages.Where(o => (o.SenderId == senderId && o.RecipientId == recipientId) || 
+            (o.SenderId == recipientId && o.RecipientId == senderId)).
+                OrderByDescending(o => o.Date).Take(10);
         }
 
         public VocalMessage GetById(Guid id)
         {
             return context.VocalMessages.Where(o => o.Id == id).FirstOrDefault();
+        }
+
+        public VocalMessage GetLastMessage(Guid senderId, Guid recipientId)
+        {
+            var messages = context.VocalMessages.Where(o => (o.SenderId == senderId && o.RecipientId == recipientId) ||
+           (o.SenderId == recipientId && o.RecipientId == senderId)).AsEnumerable();
+            if(messages != null && messages.Any())
+            return messages.Aggregate((agg, next) => next.Date > agg.Date ? next : agg);
+            return null;
         }
 
         public void Update(VocalMessage vocalMessage)

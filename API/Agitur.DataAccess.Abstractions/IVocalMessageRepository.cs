@@ -12,6 +12,7 @@ namespace Agitur.DataAccess.Abstractions
         void Delete(VocalMessage vocalMessage);
         VocalMessage GetById(Guid id);
         IEnumerable<VocalMessage> GetAll(Guid senderId, Guid recipientId);
+        VocalMessage GetLastMessage(Guid senderId, Guid recipientId);
 
     }
 }

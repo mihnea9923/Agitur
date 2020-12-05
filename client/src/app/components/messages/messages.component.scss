@@ -68,3 +68,20 @@
     }
   }
 }
+
+.vocal__message{
+  padding : 0;
+  position: relative;
+  &__audio{
+    height : 5rem;
+    outline : none;
+    border : none;
+  }
+
+  &__date{
+    position: absolute;
+    color : #999;
+    left : 12rem;
+    top : 3rem
+  }
+}

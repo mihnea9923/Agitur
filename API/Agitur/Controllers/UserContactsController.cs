@@ -22,14 +22,17 @@ namespace Agitur.Controllers
         private readonly UserServices userServices;
         private readonly UserManager<AgiturUser> userManager;
         private readonly UserMessageServices messageServices;
+        private readonly VocalMessageServices vocalMessageServices;
 
         public UserContactsController(UserContactsServices userContactsServices, UserServices userServices,
-            UserManager<AgiturUser> userManager, UserMessageServices messageServices)
+            UserManager<AgiturUser> userManager, UserMessageServices messageServices,
+            VocalMessageServices vocalMessageServices)
         {
             this.userContactsServices = userContactsServices;
             this.userServices = userServices;
             this.userManager = userManager;
             this.messageServices = messageServices;
+            this.vocalMessageServices = vocalMessageServices;
         }
 
         [HttpGet]
@@ -45,17 +48,14 @@ namespace Agitur.Controllers
             foreach (var userContact in userContacts)
             {
                 UserMessage lastMessage = messageServices.GetLastMessage(userIdGuid, userContact.Id);
-                UserContactViewModel temp = new UserContactViewModel()
-                {
-                    Id = userContact.Id,
-                    ProfilePhoto = userContact.ConvertPhotoToBase64(),
-                    Message = lastMessage.Text,
-                    MessageRead = lastMessage.Read,
-                    MessageTime = lastMessage.Date,
-                    Name = userContact.Name,
-                    Received = lastMessage.SenderId == userIdGuid ? false : true,
-                    Position = position
-                };
+                VocalMessage lastVocalMessage = vocalMessageServices.GetLastMessage(userIdGuid, userContact.Id);
+
+                UserContactViewModel temp = UserContactViewModel.Create(lastMessage, lastVocalMessage, userIdGuid);
+                temp.Id = userContact.Id;
+                temp.ProfilePhoto = userContact.ConvertPhotoToBase64();
+                temp.Name = userContact.Name;
+                temp.Position = position;
+
                 model.Add(temp);
                 position++;
             }
