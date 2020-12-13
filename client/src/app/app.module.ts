@@ -40,11 +40,11 @@ import { ContactOptionsComponent } from './components/contact-options/contact-op
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialsModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [UserService , UserContactsService],
   bootstrap: [AppComponent]
