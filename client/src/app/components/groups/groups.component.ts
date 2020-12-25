@@ -90,7 +90,7 @@ export class GroupsComponent implements OnInit {
   getGroupById(groupId)
   {
     for(let i = 0 ; i < this.groups.length ; i++)
-    {
+    { 
       if(this.groups[i].id == groupId)
       {
         return this.groups[i]

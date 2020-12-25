@@ -55,7 +55,7 @@
             </div>
 
 
-            <div class="message" [class.no-contacts]="userContacts != null && userContacts.length == 0">
+            <div class="message" [class.no-contacts]="userContacts != null && userContacts.length == 0 && interlocutor == null">
                 <app-messages #messages></app-messages>
 
 

@@ -43,12 +43,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.hubService.connection.on("refreshMessages", (recipientId, senderId, message) => {
       if (this.userId == recipientId) {
         this.putContactFirst(senderId)
-
+        
         this.userContacts[0].message = message
         if (this.interlocutor.id != senderId) {
-
+           
           this.userContacts[0].messageRead = false
           this.userContacts[0].received = true
+        }
+        else
+        {
+          this.messagesComponent.getMessages(this.interlocutor.id)
         }
 
       }

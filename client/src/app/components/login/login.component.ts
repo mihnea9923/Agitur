@@ -3,6 +3,7 @@ import {FormsModule} from '@angular/forms'
 import { UserService } from 'src/app/services/user.service';
 import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private userService : UserService , private router : Router) { }
+  constructor(private userService : UserService , private router : Router , private snackBar: MatSnackBar) { }
   formModel = {
     email : '',
     password : ''
@@ -24,18 +25,19 @@ export class LoginComponent implements OnInit {
 
   logIn(form)
   {
-    this.userService.login(this.formModel).subscribe(data => {
+    this.userService.login(this.formModel).subscribe(data=> {
       localStorage.setItem('token' , data.token)
       this.router.navigateByUrl('home')
-      // console.log(data)
       //console.log(jwt_decode(data.token))
       //console.log(jwt_decode(data.token).UserId)
       //console.log(jwt_decode(data.token).Email)
-    }),
+      
+    },
     error => {
-      //add snackBar
       //alert(error.status)
-      console.log(error)
-    }
+      this.snackBar.open('Email or password incorect' , "" , {duration : 3000 , panelClass : 'snackbar-danger'});
+    })
+    
+    
   }
 }

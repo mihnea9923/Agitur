@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig, _SnackBarContainer } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private snackBar: MatSnackBar) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private snackBar: MatSnackBar , private router : Router) { }
 
   //add regex for password  
   get userName() {
@@ -80,6 +81,10 @@ export class RegistrationComponent implements OnInit {
 
   )
   ngOnInit(): void {
+    if(localStorage.getItem('token'))
+    {
+      this.router.navigateByUrl('/home')
+    }
   }
 
 }
