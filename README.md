@@ -1,8 +1,8 @@
 <h1>Agitur</h3>
 
-<h3>This application is some sort of WhatsApp copy,its main goal is to let you comunicate with your friends in a simple and fast way.</h5>
+<h3>This application is some sort of WhatsApp copy,its main goal is to help you comunicate with your friends in a simple and fast way.</h5>
 
-<h3 style="color:red">It presents the following features:</h3></br>
+<h3 style="color:red">Some of the features it presents are:</h3></br>
 	&#11088;login/register using JWT tokens</br>
 	&#11088;uploading profile photo</br>
 	&#11088;add/remove friends</br>
